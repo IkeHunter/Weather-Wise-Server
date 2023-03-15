@@ -1,0 +1,47 @@
+version: "3.9"
+
+# app: name of service
+# build: use current directory as root, set as dev env
+# ports: access network server
+# volumes: map directory on local system to container, automatically sync
+  # this is important as it allows auto 2 way sync
+# command: command for default run
+# environment: sets env variables. db variables need to be the same. DB_HOST is same as db service name
+# depends_on: app can only run if db is running
+services:
+  app:
+    build:
+      context: .
+      args:
+        - DEV=true
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=devdb
+      - DB_USER=devuser
+      - DB_PASS=changeme
+    depends_on:
+      - db
+
+  # image: postgres: 13-alpine is a light weight version of postres provided by docker
+  # volumes: sets the volume to be used
+  # environment: sets environment variables, initializes db with those
+  db:
+    image: postgres:13-alpine
+    volumes:
+      - dev-db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=devdb
+      - POSTGRES_USER=devuser
+      - POSTGRES_PASSWORD=changeme
+
+volumes:
+  dev-db-data:
+
+
+
