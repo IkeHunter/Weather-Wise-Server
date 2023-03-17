@@ -1,3 +1,9 @@
+"""
+Serializers
+
+In order to convert a model into json, the models need to be serialized first
+
+"""
 from rest_framework import serializers
 from .models import Package
 

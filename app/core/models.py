@@ -1,3 +1,9 @@
+"""
+Models
+These determine the way data is stored in the database,
+and how they are presented in the JSON response
+"""
+
 from django.db import models
 
 

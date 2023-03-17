@@ -1,4 +1,7 @@
-# from django.shortcuts import render
+"""
+Views
+Views convert the serialized models into json data, this is passed to the urls
+"""
 
 from rest_framework import viewsets
 
