@@ -43,6 +43,24 @@ docker-compose up  # runs project on port 8000
 ```sh
 docker-compose run --rm app sh -c "python manage.py test"
 ```
+## Helpful Commands
+
+To run weather package in console:
+```sh
+docker-compose run --rm app sh -c "python logic/weather/main.py"
+```
+
+To run tests
+```sh
+docker-compose run --rm app sh -c "python manage.py test"
+```
+
+To start server
+
+```sh
+docker-compose up
+```
+
 
 ## WTF is Docker
 
