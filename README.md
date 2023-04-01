@@ -43,6 +43,13 @@ docker-compose up  # runs project on port 8000
 ```sh
 docker-compose run --rm app sh -c "python manage.py test"
 ```
+
+## Building API with Auto Documentation
+You can access a visual representation of the api at this link:
+```
+http://localhost:8000/api/docs
+```
+
 ## Helpful Commands
 
 To run weather package in console:
