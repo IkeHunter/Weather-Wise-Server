@@ -123,3 +123,12 @@ To run the server normally, you would run:
 python manage.py runserver 8000
 ```
 This would start the server on port 8000, though you technically could leave the port argument out.
+
+## Bug Fixes Log
+
+### `package drf_spectacular not found`
+This error occured in the console when trying to run the docker container for the first time. This error was resolved when activating a virtual env and running the following:
+```sh
+pip install drf-spectacular
+```
+A potential reason for this could be docker was trying to access a package from the local system, but it was not installed in the venv it was started in.
