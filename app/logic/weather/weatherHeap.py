@@ -1,14 +1,14 @@
-from enum import Enum
+from enum import Enum, auto
 
 
 # General enumerator class for types of parameter to be searched
 class Parameter(Enum):
-    RAIN = 0
-    HOT = 1
-    COLD = 2
-    HUMID = 3
-    SUNR = 4
-    SUNS = 5
+    RAIN = auto()
+    HOT = auto()
+    COLD = auto()
+    HUMID = auto()
+    SUNR = auto()
+    SUNS = auto()
 
 
 class Comp(Enum):
@@ -55,10 +55,10 @@ class WeatherHeap:
                                         index, 'humidity', Comp.GREATER)
             case Parameter.HOT:
                 index = self.comparator(float('-inf'), left_child, right_child,
-                                        index, 'temperature', Comp.GREATER)
+                                        index, 'temp', Comp.GREATER)
             case Parameter.COLD:
                 index = self.comparator(float('inf'), left_child, right_child,
-                                        index, 'temperature', Comp.LESSER)
+                                        index, 'temp', Comp.LESSER)
             case Parameter.SUNR:
                 index = self.comparator(0, left_child, right_child,
                                         index, 'sunrise', Comp.GREATER)
@@ -115,20 +115,20 @@ class WeatherHeap:
             result.append(self.days[i])
         return result
 
-    def getKLargest(k):
-        tempHeap = WeatherHeap()
-        for i in range(k):
-            pass
+    # def getKLargest(k):
+    #     tempHeap = WeatherHeap()
+    #     for i in range(k):
+    #         pass
 
-    def insert(self, day):
-        self.days.append(day)
-        self.size += 1
-        self.heapifyUp(self.size - 1)
+    # def insert(self, day):
+    #     self.days.append(day)
+    #     self.size += 1
+    #     self.heapifyUp(self.size - 1)
 
-    def heapifyUp(self, i):
-        if (i == 0):
-            return
-        parent = int((i - 1) / 2)
+    # def heapifyUp(self, i):
+    #     if (i == 0):
+    #         return
+    #     parent = int((i - 1) / 2)
 
     def print(self):
         for i in self.days:

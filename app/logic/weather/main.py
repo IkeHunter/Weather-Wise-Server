@@ -68,25 +68,27 @@ def main():
                        'weather': [{'id': 804, 'main': 'Clouds', 'description': 'overcast clouds', 'icon': '04n'}]}]}
             ]
 
-    for i in range(50):
-        # The next day is date + 86400
-        date += 86400
-        url = 'https://api.openweathermap.org/data/3.0/onecall/timemachine?lat=' + \
-            lat + '&lon=' + lon + '&dt=' + str(date) + '&appid=' + apiKey
-        payload = {}
-        headers = {}
-        response = requests.request("GET", url, headers=headers, data=payload)
-        weatherDict = json.loads(response.text)
-        sunrise = weatherDict['data'][0]['sunrise'] % 86400
-        sunset = weatherDict['data'][0]['sunset'] % 86400
-        weatherDict['data'][0]['sunrise'] = sunrise
-        weatherDict['data'][0]['sunset'] = sunset
-        days.append(weatherDict)
+    # TODO: Add local sunrise and sunset keys to dict
+
+    # for i in range(50):
+    #     # The next day is date + 86400
+    #     date += 86400
+    #     url = 'https://api.openweathermap.org/data/3.0/onecall/timemachine?lat=' + \
+    #         lat + '&lon=' + lon + '&dt=' + str(date) + '&appid=' + apiKey
+    #     payload = {}
+    #     headers = {}
+    #     response = requests.request("GET", url, headers=headers, data=payload)
+    #     weatherDict = json.loads(response.text)
+    #     sunrise = weatherDict['data'][0]['sunrise'] % 86400
+    #     sunset = weatherDict['data'][0]['sunset'] % 86400
+    #     weatherDict['data'][0]['sunrise'] = sunrise
+    #     weatherDict['data'][0]['sunset'] = sunset
+    #     days.append(weatherDict)
 
     heap = WeatherHeap(days)
     heap.print()
-    heap.buildHeap(Parameter.HUMID)
-    print("\nSORTED BY HUMIDITY\n")
+    heap.buildHeap(Parameter.HOT)
+    print("\nSORTED BY HOT\n")
     heap.print()
 
     print("\n Top 1 Day\n")
