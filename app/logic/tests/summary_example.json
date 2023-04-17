@@ -1,0 +1,96 @@
+{
+    "summary":{
+        "location": 32608,
+        "user": 1,
+        "current_conditions":  {
+            "title": "Current Conditions",
+            "average_temp": 0,
+            "feels_like": 0,
+            "pressure": 0,
+            "humidity": 0,
+            "wind_speed": 0,
+            "pop": 0,
+            "rain_level": 0
+        },
+        "last_year":  {
+            "title": "Last year",
+            "average_temp": 0,
+            "feels_like": 0,
+            "pressure": 0,
+            "humidity": 0,
+            "wind_speed": 0,
+            "pop": 0,
+            "rain_level": 0
+        },
+        "forecast": {
+          "sunrise": 0,
+          "sunset": 0,
+          "wind_speed": 0,
+          "wind_deg": 0,
+          "table": [
+            {
+              "type": "Temperature Forecast",
+              "range": "hourly",
+              "values": [
+                {
+                  "value": 0,
+                  "time": "1578384000"
+                },
+                {
+                  "value": 0,
+                  "time": "1578384000"
+                }
+              ]
+            },
+            {
+              "type": "Temperature Forecast",
+              "range": "daily",
+              "values": [
+                {
+                  "value": 0,
+                  "time": "1578384000"
+                },
+                {
+                  "value": 0,
+                  "time": "1578384000"
+                }
+              ]
+            }
+          ]
+        },
+        "radar": {},
+        "widgets": [
+          {
+            "title": "Hottest Day",
+            "day": "1578384000",
+            "value": 0,
+            "conditions": {
+                "title": "day",
+                "average_temp": 0,
+                "feels_like": 0,
+                "pressure": 0,
+                "humidity": 0,
+                "wind_speed": 0,
+                "pop": 0,
+                "rain_level": 0
+            }
+          },
+          {
+            "title": "Coldest Day",
+            "day": "2022-08-30 16:00:00",
+            "value": 0,
+            "conditions": {
+                "title": "day",
+                "average_temp": 0,
+                "feels_like": 0,
+                "pressure": 0,
+                "humidity": 0,
+                "wind_speed": 0,
+                "pop": 0,
+                "rain_level": 0
+            }
+          }
+        ]
+    }
+  }
+
