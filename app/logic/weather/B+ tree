@@ -1,8 +1,7 @@
+
 import requests
 
 # The Node class represents a single node in the B+ tree, containing keys and children.
-
-
 class Node:
     def __init__(self, order):
         self.order = order  # Order of the B+ tree
@@ -12,6 +11,7 @@ class Node:
     # Returns True if the node is a leaf, otherwise False
     def is_leaf(self):
         return not bool(self.children)
+          ###############---------------kevin part #############
 
 # The BPlusTree class represents the entire B+ tree structure.
 
@@ -27,20 +27,25 @@ class Node:
 # The b+ tree is one part of the overall search algorithm
 # When the search is done it should return a linked list
 
+      ###############---------------kevin part #############
 
+
+
+# The BPlusTree class represents the entire B+ tree structure.
 class BPlusTree:
     def __init__(self, order=3):
-        self.order = order  # Order of the B+ tree
-        self.root = Node(order)  # The root node of the tree
-
-    # Take in an array of day objects
-    def __init__(self, days):
+        self.order = order # Order of the B+ tree
+        self.root = Node(order) # The root node of the tree
+      # Take in an array of day objects
+      ###############---------------kevin part #############
+   # def __init__(self, days):
         # Create b+ trees from the array of day objects
         # store temp as key and dt as value, value pair within each node
         # for each day call insert
         pass
+          ###############---------------kevin part #############
 
-        # Inserts a key-value pair into the B+ tree.
+    # Inserts a key-value pair into the B+ tree.
     def insert(self, key, value):
         new_child = self._insert(self.root, key, value) # Create a new root node
         if new_child:
@@ -49,7 +54,6 @@ class BPlusTree:
             new_root.children = [self.root, new_child]
             self.root = new_root
     # Searches for a key in the B+ tree and returns the temperature of the city.
-
     def search(self, key, api_key):
         coordinates = self._search(self.root, key)
         if coordinates:
@@ -76,7 +80,8 @@ class BPlusTree:
                 return None
             return self._split_internal_node(node) # Call _split_internal_node method with node as parameter
 
-    def _split_leaf_node(self, node): #method to split a leaf node.
+    def _split_leaf_node(self, node):
+        # Create a new node with the same order as the original node
         new_node = Node(self.order)
 
         # Determine the midpoint of the node's keys
@@ -91,7 +96,9 @@ class BPlusTree:
         # Return the new node
         return new_node
 
-    def _split_internal_node(self, node): #method to split an internal node.
+
+    def _split_internal_node(self, node):
+        # Create a new node with the same order as the original node
         new_node = Node(self.order)
 
         # Determine the midpoint of the node's keys
@@ -108,7 +115,8 @@ class BPlusTree:
         # Return the new node
         return new_node
 
-    def _search(self, node, key): #method to search for a key in a node.
+    def _search(self, node, key):
+        # If the node is a leaf, search for the key in its keys
         if node.is_leaf():
             for k, v in node.keys:
                 if k == key:
@@ -141,7 +149,6 @@ class BPlusTree:
         temperature = data["main"]["temp"]
         return temperature
 
-
 def fetch_cities(search_term, api_key):
     url = f"http://api.openweathermap.org/geo/1.0/direct?q={search_term}&limit=5&appid={api_key}"
     response = requests.get(url)
@@ -151,10 +158,8 @@ def fetch_cities(search_term, api_key):
         print(f"No cities found with the search term: {search_term}")
         return []
 
-    cities = [{"name": city["name"], "coord": {
-        "lat": city["lat"], "lon": city["lon"]}} for city in data]
+    cities = [{"name": city["name"], "coord": {"lat": city["lat"], "lon": city["lon"]}} for city in data]
     return cities
-
 
 # Example usage
 bplus_tree = BPlusTree(order=5)
@@ -165,8 +170,7 @@ search_term = "Austin"
 cities = fetch_cities(search_term, api_key)
 
 for city in cities:
-    bplus_tree.insert(city["name"].lower(),
-                      (city["coord"]["lat"], city["coord"]["lon"]))
+    bplus_tree.insert(city["name"].lower(), (city["coord"]["lat"], city["coord"]["lon"]))
 
 # Search for a city and display its temperature
 city_name = "Austin"
@@ -176,3 +180,4 @@ if temperature:
     print(f"Temperature in {city_name}: {temperature} F")
 else:
     print(f"City '{city_name}' not found in the B+ tree.")
+
