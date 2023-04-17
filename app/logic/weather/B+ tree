@@ -1,3 +1,4 @@
+
 import requests
 
 # The Node class represents a single node in the B+ tree, containing keys and children.
@@ -12,6 +13,7 @@ class Node:
     # Returns True if the node is a leaf, otherwise False
     def is_leaf(self):
         return not bool(self.children)
+        ############### ---------------kevin part #############
 
 # The BPlusTree class represents the entire B+ tree structure.
 
@@ -29,21 +31,26 @@ class Node:
 
 # A simple search of the linked list with the correct humidity will return an array of days that match the precipitation
 
+      ############### ---------------kevin part #############
 
+
+# The BPlusTree class represents the entire B+ tree structure.
 class BPlusTree:
     def __init__(self, order=3):
         self.order = order  # Order of the B+ tree
         self.root = Node(order)  # The root node of the tree
-
-    # Take in an array of day objects
-    def __init__(self, days):
+      # Take in an array of day objects
+      ############### ---------------kevin part #############
+   # def __init__(self, days):
         # Create b+ trees from the array of day objects
         # store temp as key and dt as value, value pair within each node
         # for each day call insert
         pass
+        ############### ---------------kevin part #############
 
-        # Inserts a key-value pair into the B+ tree.
+    # Inserts a key-value pair into the B+ tree.
     def insert(self, key, value):
+        # Create a new root node
         new_child = self._insert(self.root, key, value)
         if new_child:
             new_root = Node(self.order)
@@ -60,54 +67,85 @@ class BPlusTree:
     # Helper method to insert a key-value pair into a node.
 
     def _insert(self, node, key, value):
-        if node.is_leaf():
-            node.keys.append((key, value))
+        if node.is_leaf():  # Check if node is a leaf
+            node.keys.append((key, value))  # Add key-value pair to node's keys
+            # Sort node's keys by the first element of each tuple
             node.keys.sort(key=lambda x: x[0])
-            if len(node.keys) < self.order:
+            if len(node.keys) < self.order:  # Check if node is not full
                 return None
+            # Call _split_leaf_node method with node as parameter
             return self._split_leaf_node(node)
         else:
+            # Call _select_child method with node and key as parameters
             child = self._select_child(node, key)
+            # Recursively call _insert method with child node, key, and value as parameters
             new_child = self._insert(child, key, value)
             if not new_child:
                 return None
+            # Get the index of the child node in the node's children list
             i = node.children.index(child)
+            # Insert the popped key from new_child at the i-th index of the node's keys list
             node.keys.insert(i, new_child.keys.pop(0))
+            # Insert new_child at the (i+1)th index of the node's children list
             node.children.insert(i + 1, new_child)
-            if len(node.keys) < self.order:
+            if len(node.keys) < self.order:  # Check if node is not full
                 return None
+            # Call _split_internal_node method with node as parameter
             return self._split_internal_node(node)
 
-    def _split_leaf_node(self, node):  # method to split a leaf node.
+    def _split_leaf_node(self, node):
+        # Create a new node with the same order as the original node
         new_node = Node(self.order)
+
+        # Determine the midpoint of the node's keys
         midpoint = len(node.keys) // 2
+
+        # Move the second half of the keys to the new node
         new_node.keys = node.keys[midpoint:]
+
+        # Remove the second half of the keys from the original node
         node.keys = node.keys[:midpoint]
+
+        # Return the new node
         return new_node
 
-    def _split_internal_node(self, node):  # method to split an internal node.
+    def _split_internal_node(self, node):
+        # Create a new node with the same order as the original node
         new_node = Node(self.order)
+
+        # Determine the midpoint of the node's keys
         midpoint = len(node.keys) // 2
+
+        # Move the second half of the keys and children to the new node
         new_node.keys = node.keys[midpoint + 1:]
         new_node.children = node.children[midpoint + 1:]
+
+        # Remove the second half of the keys and children from the original node
         node.keys = node.keys[:midpoint]
         node.children = node.children[:midpoint + 1]
+
+        # Return the new node
         return new_node
 
-    def _search(self, node, key):  # method to search for a key in a node.
+    def _search(self, node, key):
+        # If the node is a leaf, search for the key in its keys
         if node.is_leaf():
             for k, v in node.keys:
                 if k == key:
                     return v
+            # If the key is not found, return None
             return None
+        # If the node is not a leaf, recursively search for the key in the appropriate child node
         else:
             child = self._select_child(node, key)
             return self._search(child, key)
 
     def _select_child(self, node, key):
+        # Iterate through the node's keys to find the appropriate child node for the key
         for i, k in enumerate(node.keys):
             if key < k[0]:
                 return node.children[i]
+        # If the key is greater than all of the node's keys, return the last child node
         return node.children[-1]
 
     def _get_temperature(self, coordinates, api_key):
