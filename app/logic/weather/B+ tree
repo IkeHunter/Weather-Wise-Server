@@ -27,6 +27,8 @@ class Node:
 # The b+ tree is one part of the overall search algorithm
 # When the search is done it should return a linked list
 
+# A simple search of the linked list with the correct humidity will return an array of days that match the precipitation
+
 
 class BPlusTree:
     def __init__(self, order=3):
