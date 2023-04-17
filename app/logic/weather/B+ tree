@@ -81,7 +81,7 @@ class BPlusTree:
 
     def _get_temperature(self, coordinates, api_key):
         lat, lon = coordinates
-        url = f"http://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}"
+        url = f"http://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}&units=imperial"
         response = requests.get(url)
         data = response.json()
 
@@ -92,27 +92,35 @@ class BPlusTree:
         temperature = data["main"]["temp"]
         return temperature
 
+def fetch_cities(search_term, api_key):
+    url = f"http://api.openweathermap.org/geo/1.0/direct?q={search_term}&limit=5&appid={api_key}"
+    response = requests.get(url)
+    data = response.json()
+
+    if not data:
+        print(f"No cities found with the search term: {search_term}")
+        return []
+
+    cities = [{"name": city["name"], "coord": {"lat": city["lat"], "lon": city["lon"]}} for city in data]
+    return cities
+
 # Example usage
 bplus_tree = BPlusTree(order=5)
+api_key = "22a4a6b8c95cae3bd78f317a1094c245"
 
-# Insert city data into the B+ tree (in a real scenario, fetch this data from the OpenWeather
-cities = [
-    {"name": "New York", "coord": {"lat": 40.7128, "lon": -74.0060}},
-    {"name": "Los Angeles", "coord": {"lat": 34.0522, "lon": -118.2437}},
-    {"name": "Chicago", "coord": {"lat": 41.8781, "lon": -87.6298}},
-]
+# Fetch cities using a search term and insert them into the B+ tree
+search_term = "New York"
+cities = fetch_cities(search_term, api_key)
 
 for city in cities:
     bplus_tree.insert(city["name"].lower(), (city["coord"]["lat"], city["coord"]["lon"]))
 
 # Search for a city and display its temperature
 city_name = "New York"
-api_key = "22a4a6b8c95cae3bd78f317a1094c245"
 temperature = bplus_tree.search(city_name.lower(), api_key)
 
 if temperature:
-    print(f"Temperature in {city_name}: {temperature} K")
+    print(f"Temperature in {city_name}: {temperature} F")
 else:
     print(f"City '{city_name}' not found in the B+ tree.")
-
 
