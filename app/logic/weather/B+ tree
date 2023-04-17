@@ -1,19 +1,23 @@
 import requests
 
+# The Node class represents a single node in the B+ tree, containing keys and children.
 class Node:
     def __init__(self, order):
-        self.order = order
-        self.keys = []
-        self.children = []
+        self.order = order  # Order of the B+ tree
+        self.keys = []  # List of keys in the node
+        self.children = []  # List of child nodes
 
+    # Returns True if the node is a leaf, otherwise False
     def is_leaf(self):
         return not bool(self.children)
-
+    
+# The BPlusTree class represents the entire B+ tree structure.
 class BPlusTree:
     def __init__(self, order=3):
-        self.order = order
-        self.root = Node(order)
+        self.order = order # Order of the B+ tree
+        self.root = Node(order) # The root node of the tree
 
+    # Inserts a key-value pair into the B+ tree.
     def insert(self, key, value):
         new_child = self._insert(self.root, key, value)
         if new_child:
@@ -21,12 +25,13 @@ class BPlusTree:
             new_root.keys = [new_child.keys.pop(0)]
             new_root.children = [self.root, new_child]
             self.root = new_root
-
+    # Searches for a key in the B+ tree and returns the temperature of the city.
     def search(self, key, api_key):
         coordinates = self._search(self.root, key)
         if coordinates:
             return self._get_temperature(coordinates, api_key)
         return None
+    # Helper method to insert a key-value pair into a node.
 
     def _insert(self, node, key, value):
         if node.is_leaf():
@@ -47,14 +52,14 @@ class BPlusTree:
                 return None
             return self._split_internal_node(node)
 
-    def _split_leaf_node(self, node):
+    def _split_leaf_node(self, node): #method to split a leaf node.
         new_node = Node(self.order)
         midpoint = len(node.keys) // 2
         new_node.keys = node.keys[midpoint:]
         node.keys = node.keys[:midpoint]
         return new_node
 
-    def _split_internal_node(self, node):
+    def _split_internal_node(self, node): #method to split an internal node.
         new_node = Node(self.order)
         midpoint = len(node.keys) // 2
         new_node.keys = node.keys[midpoint + 1:]
@@ -63,7 +68,7 @@ class BPlusTree:
         node.children = node.children[:midpoint + 1]
         return new_node
 
-    def _search(self, node, key):
+    def _search(self, node, key): #method to search for a key in a node.
         if node.is_leaf():
             for k, v in node.keys:
                 if k == key:
@@ -109,14 +114,14 @@ bplus_tree = BPlusTree(order=5)
 api_key = "22a4a6b8c95cae3bd78f317a1094c245"
 
 # Fetch cities using a search term and insert them into the B+ tree
-search_term = "New York"
+search_term = "Austin"
 cities = fetch_cities(search_term, api_key)
 
 for city in cities:
     bplus_tree.insert(city["name"].lower(), (city["coord"]["lat"], city["coord"]["lon"]))
 
 # Search for a city and display its temperature
-city_name = "New York"
+city_name = "Austin"
 temperature = bplus_tree.search(city_name.lower(), api_key)
 
 if temperature:
