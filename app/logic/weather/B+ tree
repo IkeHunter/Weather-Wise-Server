@@ -19,7 +19,7 @@ class BPlusTree:
 
     # Inserts a key-value pair into the B+ tree.
     def insert(self, key, value):
-        new_child = self._insert(self.root, key, value)
+        new_child = self._insert(self.root, key, value) # Create a new root node
         if new_child:
             new_root = Node(self.order)
             new_root.keys = [new_child.keys.pop(0)]
@@ -34,54 +34,78 @@ class BPlusTree:
     # Helper method to insert a key-value pair into a node.
 
     def _insert(self, node, key, value):
-        if node.is_leaf():
-            node.keys.append((key, value))
-            node.keys.sort(key=lambda x: x[0])
-            if len(node.keys) < self.order:
+        if node.is_leaf(): # Check if node is a leaf
+            node.keys.append((key, value)) # Add key-value pair to node's keys
+            node.keys.sort(key=lambda x: x[0]) # Sort node's keys by the first element of each tuple
+            if len(node.keys) < self.order: # Check if node is not full
                 return None
-            return self._split_leaf_node(node)
+            return self._split_leaf_node(node) # Call _split_leaf_node method with node as parameter
         else:
-            child = self._select_child(node, key)
-            new_child = self._insert(child, key, value)
+            child = self._select_child(node, key) # Call _select_child method with node and key as parameters
+            new_child = self._insert(child, key, value) # Recursively call _insert method with child node, key, and value as parameters
             if not new_child:
                 return None
-            i = node.children.index(child)
-            node.keys.insert(i, new_child.keys.pop(0))
-            node.children.insert(i + 1, new_child)
-            if len(node.keys) < self.order:
+            i = node.children.index(child) # Get the index of the child node in the node's children list
+            node.keys.insert(i, new_child.keys.pop(0)) # Insert the popped key from new_child at the i-th index of the node's keys list
+            node.children.insert(i + 1, new_child) # Insert new_child at the (i+1)th index of the node's children list
+            if len(node.keys) < self.order: # Check if node is not full
                 return None
-            return self._split_internal_node(node)
+            return self._split_internal_node(node) # Call _split_internal_node method with node as parameter
 
-    def _split_leaf_node(self, node): #method to split a leaf node.
+    def _split_leaf_node(self, node):
+        # Create a new node with the same order as the original node
         new_node = Node(self.order)
+
+        # Determine the midpoint of the node's keys
         midpoint = len(node.keys) // 2
+
+        # Move the second half of the keys to the new node
         new_node.keys = node.keys[midpoint:]
+
+        # Remove the second half of the keys from the original node
         node.keys = node.keys[:midpoint]
+
+        # Return the new node
         return new_node
 
-    def _split_internal_node(self, node): #method to split an internal node.
+
+    def _split_internal_node(self, node):
+        # Create a new node with the same order as the original node
         new_node = Node(self.order)
+
+        # Determine the midpoint of the node's keys
         midpoint = len(node.keys) // 2
+
+        # Move the second half of the keys and children to the new node
         new_node.keys = node.keys[midpoint + 1:]
         new_node.children = node.children[midpoint + 1:]
+
+        # Remove the second half of the keys and children from the original node
         node.keys = node.keys[:midpoint]
         node.children = node.children[:midpoint + 1]
+
+        # Return the new node
         return new_node
 
-    def _search(self, node, key): #method to search for a key in a node.
+    def _search(self, node, key):
+        # If the node is a leaf, search for the key in its keys
         if node.is_leaf():
             for k, v in node.keys:
                 if k == key:
                     return v
+            # If the key is not found, return None
             return None
+        # If the node is not a leaf, recursively search for the key in the appropriate child node
         else:
             child = self._select_child(node, key)
             return self._search(child, key)
 
     def _select_child(self, node, key):
+        # Iterate through the node's keys to find the appropriate child node for the key
         for i, k in enumerate(node.keys):
             if key < k[0]:
                 return node.children[i]
+        # If the key is greater than all of the node's keys, return the last child node
         return node.children[-1]
 
     def _get_temperature(self, coordinates, api_key):
