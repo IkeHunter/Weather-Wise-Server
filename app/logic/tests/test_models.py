@@ -20,7 +20,9 @@ class SummaryConfigTests(TestCase):
         self.assertEqual(summary.user, user)
 
     def test_create_conditions_list(self):
-        title = "Current Conditions"
+        widget_title = "Current Conditions"
+        date = 1578384000
+        location = Summary()
         average_temp = 0
         feels_like = 1
         pressure = 2
@@ -29,18 +31,24 @@ class SummaryConfigTests(TestCase):
         pop = 5
         rain_level = 6
 
+        location.save()
+
         conditions = ConditionsList.objects.create(
-            title=title,
             average_temp=average_temp,
             feels_like=feels_like,
             pressure=pressure,
             humidity=humidity,
             wind_speed=wind_speed,
             pop=pop,
-            rain_level=rain_level
+            rain_level=rain_level,
+            date=date,
+            widget_title=widget_title,
+            location=location,
         )
 
-        self.assertEqual(conditions.title, title)
+        self.assertEqual(conditions.widget_title, widget_title)
+        self.assertEqual(conditions.date, date)
+        self.assertEqual(conditions.location.location, location.location)
         self.assertEqual(conditions.average_temp, average_temp)
         self.assertEqual(conditions.feels_like, feels_like)
         self.assertEqual(conditions.pressure, pressure)
@@ -51,8 +59,8 @@ class SummaryConfigTests(TestCase):
 
     def test_create_forecast(self):
         date = 1578384000
-        sunrise = 0
-        sunset = 1
+        sunrise = 1578384001
+        sunset = 1578384002
         wind_speed = 2
         wind_deg = 3
 
@@ -71,24 +79,33 @@ class SummaryConfigTests(TestCase):
         self.assertEqual(forecast.wind_deg, wind_deg)
 
     def test_create_forecast_table(self):
+        forecast = Forecast()
+        forecast.save()
         type = "Temperature Forecast"
         range = "h"
 
         forecastTable = ForecastTable.objects.create(
             type=type,
-            range=range
+            range=range,
+            forecast=forecast,
         )
 
+        self.assertEqual(forecastTable.forecast.date, forecast.date)
         self.assertEqual(forecastTable.type, type)
         self.assertEqual(forecastTable.range, range)
 
     def test_create_forecast_row(self):
         value = 0
         time = 1578384000
+        forecast=Forecast()
+        forecast.save()
+        forecastTable = ForecastTable(forecast=forecast)
+        forecastTable.save()
 
         forecastRow = ForecastRow.objects.create(
             value=value,
-            time=time
+            time=time,
+            forecastTable=forecastTable,
         )
 
         self.assertEqual(forecastRow.value, value)

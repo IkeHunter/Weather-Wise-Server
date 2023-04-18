@@ -4,3 +4,5 @@ from .models import Package
 
 # this is required to edit Package in admin view
 admin.site.register(Package)
+
+

@@ -23,6 +23,7 @@
             "rain_level": 0
         },
         "forecast": {
+          "date": 1578384000,
           "sunrise": 0,
           "sunset": 0,
           "wind_speed": 0,
