@@ -22,6 +22,11 @@ class Node:
 #       0 - 24, 25 - 49, 50 - 74, and 75 - 100 % humidity
 # In Node add temperature attribute as the key value to be compared
 
+
+class LeafNode:
+    def __init__(self):
+        pass
+
 # The website will ask to search for temperatures from a specific range of days that the user inputs
 # Isaac will call the api on his end and create an array of day objects from that range
 # The b+ tree will be instantiated with the array
@@ -33,12 +38,14 @@ class Node:
 
       ############### ---------------kevin part #############
 
+        # The BPlusTree class represents the entire B+ tree structure.
 
-# The BPlusTree class represents the entire B+ tree structure.
+
 class BPlusTree:
     def __init__(self, order=3):
         self.order = order  # Order of the B+ tree
         self.root = Node(order)  # The root node of the tree
+
       # Take in an array of day objects
       ############### ---------------kevin part #############
    # def __init__(self, days):
