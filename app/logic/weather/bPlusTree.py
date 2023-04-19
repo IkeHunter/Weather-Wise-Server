@@ -22,11 +22,6 @@ class Node:
 #       0 - 24, 25 - 49, 50 - 74, and 75 - 100 % humidity
 # In Node add temperature attribute as the key value to be compared
 
-
-class LeafNode:
-    def __init__(self):
-        pass
-
 # The website will ask to search for temperatures from a specific range of days that the user inputs
 # Isaac will call the api on his end and create an array of day objects from that range
 # The b+ tree will be instantiated with the array
@@ -38,21 +33,20 @@ class LeafNode:
 
       ############### ---------------kevin part #############
 
-        # The BPlusTree class represents the entire B+ tree structure.
+# The BPlusTree class represents the entire B+ tree structure.
 
 
 class BPlusTree:
-    def __init__(self, order=3):
+    def __init__(self, days=[], order=3):
         self.order = order  # Order of the B+ tree
         self.root = Node(order)  # The root node of the tree
 
-      # Take in an array of day objects
-      ############### ---------------kevin part #############
-   # def __init__(self, days):
-        # Create b+ trees from the array of day objects
-        # store temp as key and dt as value, value pair within each node
-        # for each day call insert
-        pass
+        # Initialize the b+ tree with an array of day objects if their are days
+        ############### ---------------kevin part #############
+      # TODO: test this addition
+        for i in range(len(days)):
+            # insert the temp as the key,           dict object as value
+            self.insert(days[i]['data'][0]['temp'], days[i])
         ############### ---------------kevin part #############
 
     # Inserts a key-value pair into the B+ tree.
@@ -61,18 +55,42 @@ class BPlusTree:
         new_child = self._insert(self.root, key, value)
         if new_child:
             new_root = Node(self.order)
-            new_root.keys = [new_child.keys.pop(0)]
+            # Changed this line to not pop the first element in the new node
+            new_root.keys = [new_child.keys[0]]
             new_root.children = [self.root, new_child]
             self.root = new_root
-    # Searches for a key in the B+ tree and returns the temperature of the city.
 
+    # Recursive insert
+        # Check if the tree is empty
+            # just make a new node and insert
+        # Check if the node is a child node
+            # traverse down the correct branch to child node
+        # else
+            # insert into the node
+
+        # Check if node requires splitting
+            # return false if not
+            # this false will prevent splitting in the rest of the recursion
+        # else
+            # split the node
+            # differentiate between leaf nodes and internal nodes
+            # leaf can maintain the middle value
+            # internal must delete middle value
+            # both will provide middle value to parent node
+            #
+
+    # FIXME: Make it so that whenever we split internal nodes we pop the middle value
+    # the middle node is copied to the node above it
+    # and we check to see if we need to split that new node
+
+    # Searches for a key in the B+ tree and returns the temperature of the city.
     def search(self, key, api_key):
         coordinates = self._search(self.root, key)
         if coordinates:
             return self._get_temperature(coordinates, api_key)
         return None
-    # Helper method to insert a key-value pair into a node.
 
+    # Helper method to insert a key-value pair into a node.
     def _insert(self, node, key, value):
         if node.is_leaf():  # Check if node is a leaf
             node.keys.append((key, value))  # Add key-value pair to node's keys
@@ -92,7 +110,8 @@ class BPlusTree:
             # Get the index of the child node in the node's children list
             i = node.children.index(child)
             # Insert the popped key from new_child at the i-th index of the node's keys list
-            node.keys.insert(i, new_child.keys.pop(0))
+            # Changed from popping key to just inserting it
+            node.keys.insert(i, new_child.keys[0])
             # Insert new_child at the (i+1)th index of the node's children list
             node.children.insert(i + 1, new_child)
             if len(node.keys) < self.order:  # Check if node is not full
@@ -124,10 +143,12 @@ class BPlusTree:
         midpoint = len(node.keys) // 2
 
         # Move the second half of the keys and children to the new node
-        new_node.keys = node.keys[midpoint + 1:]
+        # Changed the midpoint + 1 to just midpoint
+        new_node.keys = node.keys[midpoint:]
         new_node.children = node.children[midpoint + 1:]
 
         # Remove the second half of the keys and children from the original node
+        # Changed the midpoint + 1 to just midpoint
         node.keys = node.keys[:midpoint]
         node.children = node.children[:midpoint + 1]
 
@@ -149,6 +170,7 @@ class BPlusTree:
 
     def _select_child(self, node, key):
         # Iterate through the node's keys to find the appropriate child node for the key
+        # Bug here
         for i, k in enumerate(node.keys):
             if key < k[0]:
                 return node.children[i]
@@ -167,6 +189,14 @@ class BPlusTree:
 
         temperature = data["main"]["temp"]
         return temperature
+
+    def dbg_search(self, temp):
+        result_day = self._search(self.root, temp)
+        if result_day:
+            print(result_day)
+        else:
+            print("Temperature Not Found")
+            return None
 
 
 def fetch_cities(search_term, api_key):
