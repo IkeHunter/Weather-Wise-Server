@@ -8,6 +8,7 @@ class Node:
         self.values = {}
         self.children = []  # List of child nodes
         self.next = None    # Pointer to next leaf node
+        self.prev = None    # Pointer to prev lead node
 
     # def insert(self, key) -> None:
     #     self.keys.append(key)

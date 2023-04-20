@@ -1,11 +1,9 @@
 from node import Node
 
-# TODO: Test Insert Function
-
 
 class BPlusTree:
     # Constructor for B+ Tree
-    def __init__(self, order: int, days=[]) -> None:
+    def __init__(self, days=[], order=3) -> None:
         self.order = order
         self.root = Node()
         for day in days:
@@ -19,10 +17,13 @@ class BPlusTree:
     def _insert(self, parent, child: Node, key, value):
         # Base Case: At leaf node insert key value pair
         if child.is_leaf():
-            child.keys.append(key)
-            child.keys.sort()
 
-            # Add value into the dict
+            # Check if the temperature already exists in tree
+            if key not in child.keys:
+                child.keys.append(key)
+                child.keys.sort()
+
+            # Add day obj into the dict
             if key not in child.values:
                 child.values[key] = []
             child.values[key].append(value)
@@ -73,19 +74,21 @@ class BPlusTree:
         new_right_child.next = child.next       # Will maintain the linked list order
         child.next = new_right_child            # Connect split nodes
 
+        # TODO: Update doubly linked list
+        # 3 cases: At head, middle, at tail
+        # new_right_child = child.next.prev
+
         # Check if the leaf node is a root
         if parent is None:
             new_root = Node()
             new_root.children.extend([child, new_right_child])
             new_root.keys.append(new_right_child.keys[0])
-            print(len(new_root.children))
             return new_root
         else:
             # parent exists
             parent.children.extend([new_right_child])
             parent.keys.append(new_right_child.keys[0])
             parent.keys.sort()
-            print(len(parent.children))
             return parent
 
     # Returns the parent of split internal nodes
@@ -93,34 +96,35 @@ class BPlusTree:
 
         new_right_child = self._transferKeys(child)
 
-        # FIXME: After splitting make sure to update children nodes too
-        # Check the size of child first and find out max number of new connections needed
-        # Check size of right child and find out max number of new connections needed
+        # Change pointers for children node
+        midpoint = len(child.children) // 2
+        for _ in range(0, midpoint):
+            new_right_child.children.append(child.children.pop(midpoint))
 
         # Internal node is the root
         if parent is None:
             new_root = Node()
             new_root.children.extend([child, new_right_child])
             new_root.keys.append(new_right_child.keys.pop(0))
-            print(len(new_root.children))
             return new_root
         else:
             # parent exists
             parent.children.extend([child, new_right_child])
             parent.keys.append(new_right_child.keys.pop(0))
             parent.keys.sort()
-            print(len(parent.children))
             return parent
 
     # Copied from Khai, selects next child to be traversed
     def _select_child(self, parent: Node, key):
         # Iterate through the node's keys to find the appropriate child node for the key
-        # Bug here
         for i, k in enumerate(parent.keys):
             if key < k:
                 return parent.children[i]
         # If the key is greater than all of the node's keys, return the last child node
         return parent.children[-1]
+
+    def search(self, temp):
+        return self._search(self.root, temp)
 
     def _search(self, node: Node, key):
         # If the node is a leaf, search for the key in its keys
@@ -135,13 +139,10 @@ class BPlusTree:
             child = self._select_child(node, key)
             return self._search(child, key)
 
-    def dbg_search(self, temp):
-        result_temp = self._search(self.root, temp)
-        if result_temp:
-            print(result_temp[0]['data'][0]['temp'])
-        else:
-            print("Temperature Not Found")
-            return None
+    # TODO: Create functionality to recreate tree with new data
+    # When given a new array of days rebuild the tree
+    def _build(days=[]) -> None:
+        pass
 
 
 # Test
@@ -178,12 +179,12 @@ def testMain():
                        'wind_deg': 210,
                        'weather': [{'id': 804, 'main': 'Clouds', 'description': 'overcast clouds', 'icon': '04n'}]}]}
             ]
-    tree = BPlusTree(3, days)
-    tree.dbg_search(269.44)
-    tree.dbg_search(274.04)
-    tree.dbg_search(274.7)
-    tree.dbg_search(284.66)
-    tree.dbg_search(287.67)
+    tree = BPlusTree(days)
+    print(tree.search(269.44)[0]['data'][0]['temp'])
+    print(tree.search(274.04)[0]['data'][0]['temp'])
+    print(tree.search(274.7)[0]['data'][0]['temp'])
+    print(tree.search(284.66)[0]['data'][0]['temp'])
+    print(tree.search(287.67)[0]['data'][0]['temp'])
 
 
 testMain()

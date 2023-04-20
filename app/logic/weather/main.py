@@ -57,11 +57,11 @@ def main():
             ]
 
     tree = BPlusTree(days)
-    tree.dbg_search(269.44)
-    tree.dbg_search(274.04)
-    tree.dbg_search(274.7)
-    tree.dbg_search(284.66)
-    tree.dbg_search(287.67)
+    tree.search(269.44)
+    tree.search(274.04)
+    tree.search(274.7)
+    tree.search(284.66)
+    tree.search(287.67)
 
 
 if __name__ == "__main__":
