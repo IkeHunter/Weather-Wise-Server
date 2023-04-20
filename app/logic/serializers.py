@@ -2,51 +2,68 @@
 Weather API Serializers
 """
 from rest_framework import serializers
-# from django.db.models import QuerySet
+from django.db.models import QuerySet
 # from drf_queryfields import QueryFieldsMixin
 from .models import Summary, ConditionsList, Forecast, ForecastTable, ForecastRow
 
 
-# class ConditionsListSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = ConditionsList
-#         fields = ('__all__')
-#         # fields = ('title', 'average_temp', 'feels_like', 'pressure', \
-#         #           'humidity', 'wind_speed', 'pop', 'rain_level')
-# class ForecastRowSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = ForecastRow
-#         fields = ('value', 'time')
+class ForecastRowSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ForecastRow
+        fields = ('__all__')
 
-# class ForecastTableSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = ForecastTable
-#         fields = ('__all__')
+class ForecastTableSerializer(serializers.ModelSerializer):
+    values = serializers.SerializerMethodField()
+    class Meta:
+        model = ForecastTable
+        fields = ('__all__')
+        depth = 1
 
-#     values = ForecastRowSerializer(many=True)
+    def get_values(self, obj):
+        rows = ForecastRow.objects.filter(
+            forecastTable_id=obj['id']
+        ).values()
 
+        return rows
 
-# class ForecastSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Forecast
-#         fields = ('__all__')
+class ForecastSerializer(serializers.ModelSerializer):
+    table = serializers.SerializerMethodField()
 
-#     table = ForecastTableSerializer(many=False)
+    class Meta:
+        model = Forecast
+        fields = ('__all__')
 
-# class SummarySerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Summary
-#         fields = ('__all__')
-
-    # currentConditions = ConditionsListSerializer(many=False)
-    # lastYear = ConditionsListSerializer(many=False)
-    # forecast = ForecastSerializer(many=False)
-
-    # current_conditions = serializers.SerializerMethodField()
-    # last_year = serializers.SerializerMethodField()
-    # forecast = serializers.SerializerMethodField()
-
-    # def get_current_conditions(self, obj: Summary) -> QuerySet:
+    def get_table(self, obj):
+        forecast = Forecast.objects.get(location=obj.id)
+        table = ForecastTable.objects.filter(
+            forecast_id=forecast.id,
+        ).values()
+        tableSerial = ForecastTableSerializer(table, many=True, context={table: obj})
+        return tableSerial.data
 
 
+class SummarySerializer(serializers.ModelSerializer):
+    current_conditions = serializers.SerializerMethodField()
+    last_year = serializers.SerializerMethodField()
+    forecast = serializers.SerializerMethodField()
 
+    class Meta:
+        model = Summary
+        fields = ('__all__')
+        depth = 3
+
+    def get_forecast(self, obj: Summary):
+        return ForecastSerializer(obj, many=False).data
+
+    def get_current_conditions(self, obj: Summary) -> QuerySet:
+        current_conditions: QuerySet = ConditionsList.objects.filter(
+            location_id=obj.id,
+            widget_title="Current Conditions"
+        ).values()
+        return current_conditions[0]
+    def get_last_year(self, obj: Summary) -> QuerySet:
+        last_year: QuerySet = ConditionsList.objects.filter(
+            location_id=obj.id,
+            widget_title="Last Year"
+        ).values()
+        return last_year[0]

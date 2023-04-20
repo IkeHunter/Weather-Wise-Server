@@ -12,6 +12,18 @@ class Summary(models.Model):
     def __str__(self):
         return "Summary for " + str(self.location)
 
+class Forecast(models.Model):
+    """Main forecast data for summary endpoint"""
+    date = models.BigIntegerField(default=1578384000)
+    sunrise = models.BigIntegerField(default=1578384000)
+    sunset = models.BigIntegerField(default=1578384000)
+    wind_speed = models.IntegerField(default=0)
+    wind_deg = models.IntegerField(default=1)
+    location = models.ForeignKey(Summary, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "Forecast for " + str(self.date)
+
 class SearchResults(models.Model):
     """Primary model for search endpoint"""
     pass
@@ -35,16 +47,7 @@ class ConditionsList(models.Model):
         return "Conditions for " + str(self.widget_title)
 
 
-class Forecast(models.Model):
-    """Main forecast data for summary endpoint"""
-    date = models.BigIntegerField(default=1578384000)
-    sunrise = models.BigIntegerField(default=1578384000)
-    sunset = models.BigIntegerField(default=1578384000)
-    wind_speed = models.IntegerField(default=0)
-    wind_deg = models.IntegerField(default=1)
 
-    def __str__(self):
-        return "Forecast for " + str(self.date)
 
 
 class ForecastTable(models.Model):
@@ -70,5 +73,7 @@ class ForecastRow(models.Model):
 
     def __str__(self):
         return str(self.time) + " : " + str(self.value)
+
+
 
 

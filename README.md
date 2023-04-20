@@ -132,3 +132,11 @@ This error occured in the console when trying to run the docker container for th
 pip install drf-spectacular
 ```
 A potential reason for this could be docker was trying to access a package from the local system, but it was not installed in the venv it was started in.
+
+## Resources
+- https://docs.djangoproject.com/en/2.2/ref/contrib/admin/#inlinemodeladmin-objects
+- https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Admin_site
+- https://www.geeksforgeeks.org/django-models/
+- https://dev.to/tieje/how-to-create-nested-json-in-django-rest-apis-430c
+- https://docs.djangoproject.com/en/4.2/ref/models/fields/#integerfield
+
