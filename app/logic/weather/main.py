@@ -24,7 +24,7 @@ def get_date(element):
 def main():
     # main.py works
     print("weather works")
-    print("testing git flow")
+#    print("testing git flow")
 #     days = [{'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
 #              'data': [{'dt': 1644062400, 'sunrise': 1644066553, 'sunset': 1644105068, 'temp': 269.44, 'feels_like': 267.09,
 #                        'pressure': 1035, 'humidity': 83, 'dew_point': 267.26, 'clouds': 0, 'visibility': 10000, 'wind_speed': 1.54,
