@@ -70,7 +70,8 @@ class BPlusTree:
         new_right_child = self._transferKeys(child)
 
         # Connect leaf nodes in linked list
-        child.next = new_right_child
+        new_right_child.next = child.next       # Will maintain the linked list order
+        child.next = new_right_child            # Connect split nodes
 
         # Check if the leaf node is a root
         if parent is None:
