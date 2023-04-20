@@ -25,24 +25,41 @@ class Comp(Enum):
 class WeatherHeap:
     # Initialize an empty array
     days = []
-    size = 0
 
-    def __init__(self, weather):
+    def __init__(self, weather, param: Parameter):
         self.size = len(weather)
-        self.days = weather
+        self.param = param
+
+        # This ensures we are actually maintaining a copy of the value
+        # and not the original
+        for i in range(self.size):
+            self.days.append(weather[i])
 
         # Add in local_sunrise and local_sunset attributes
         for i in range(self.size):
-            local_sunrise = weather[i]['data'][0]['sunrise'] % 86400
-            local_sunset = weather[i]['data'][0]['sunset'] % 86400
+            local_sunrise = self.days[i]['data'][0]['sunrise'] % 86400
+            local_sunset = self.days[i]['data'][0]['sunset'] % 86400
             self.days[i]['data'][0]['local_sunrise'] = local_sunrise
             self.days[i]['data'][0]['local_sunset'] = local_sunset
 
+        self.buildHeap(param)
+
     def buildHeap(self, parameter):
+        self.size = len(self.days)
         for i in range(int(self.size / 2), -1, -1):
             self.heapifyDown(parameter, i)
 
-    # Values will be 1-indexed
+    # Returns the top value and removes it
+    def pop(self):
+        top = self.days[0]
+        # Switch the first and last elements of the list
+        self.days[0], self.days[-1] = self.days[-1], self.days[0]
+        self.size - 1
+        self.heapifyDown(self.param, 0)
+
+        return top
+
+    # Values will be 0-indexed
     def heapifyDown(self, parameter, i):
         # left and right child
         left_child = 2 * i + 1
@@ -79,9 +96,7 @@ class WeatherHeap:
         if index == i:
             return
 
-        temp = self.days[i]
-        self.days[i] = self.days[index]
-        self.days[index] = temp
+        self.days[i], self.days[index] = self.days[index], self.days[i]
 
         self.heapifyDown(parameter, i)
 
@@ -94,6 +109,7 @@ class WeatherHeap:
 
         # Create left and right child to be used later
         left_data = self.days[left]['data'][0]
+        right_data = {}
         if right < self.size:
             right_data = self.days[right]['data'][0]
 
@@ -122,7 +138,9 @@ class WeatherHeap:
     def top(self, number):
         result = []
         for i in range(number):
-            result.append(self.days[i])
+            result.append(self.pop())
+
+        self.buildHeap(self.param)
         return result
 
     # def getKLargest(k):
@@ -141,8 +159,8 @@ class WeatherHeap:
     #     parent = int((i - 1) / 2)
 
     def print(self):
-        for i in self.days:
-            print(i)
+        for i in range(self.size):
+            print(self.days[i])
 
 
 # Testing Purposes
@@ -204,11 +222,13 @@ lon = '-94.04'
 #     weatherDict['data'][0]['sunset'] = sunset
 #     days.append(weatherDict)
 
-heap = WeatherHeap(days)
-heap.print()
-heap.buildHeap(Parameter.SUNR)
+heap = WeatherHeap(days, Parameter.SUNR)
 print("\nSORTED BY LOCAL SUNRISE\n")
 heap.print()
 
-print("\n Top 1 Day\n")
-print(heap.top(1))
+print("\n Top 5 Day\n")
+print(heap.top(5))
+
+print("\n Reset Heap \n")
+heap.buildHeap(Parameter.SUNR)
+heap.print()
