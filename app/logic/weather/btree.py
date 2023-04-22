@@ -48,7 +48,7 @@ class BPlusTree:
             # Return unmodified node if order satisfied
             if len(child.keys) < self.order:
                 # Check if the lead node has a parent
-                if not parent:
+                if parent is None:
                     return child
                 else:   # Return the parent
                     return parent
