@@ -1,0 +1,575 @@
+[
+  {
+    "model": "logic.summary",
+    "pk": 1,
+    "fields": { "location": 32608, "user": 0 }
+  },
+  {
+    "model": "logic.forecast",
+    "pk": 1,
+    "fields": {
+      "date": 1684414800,
+      "sunrise": 1684404000,
+      "sunset": 1684450800,
+      "wind_speed": 10,
+      "wind_deg": 36,
+      "location": 1
+    }
+  },
+  {
+    "model": "logic.conditions",
+    "pk": 1,
+    "fields": {
+      "widget_title": "current_conditions",
+      "date": 1578384000,
+      "location": 1,
+      "average_temp": 93,
+      "feels_like": 98,
+      "pressure": 30,
+      "humidity": 42,
+      "wind_speed": 4,
+      "pop": 22,
+      "rain_levels": 0,
+      "weather_name": "Sun",
+      "icon": "10n"
+    }
+  },
+  {
+    "model": "logic.conditions",
+    "pk": 2,
+    "fields": {
+      "widget_title": "last_year",
+      "date": 1578384000,
+      "location": 1,
+      "average_temp": 91,
+      "feels_like": 95,
+      "pressure": 29,
+      "humidity": 35,
+      "wind_speed": 1,
+      "pop": 10,
+      "rain_levels": 1,
+      "weather_name": "Cloudy",
+      "icon": "10n"
+    }
+  },
+  {
+    "model": "logic.forecasttable",
+    "pk": 1,
+    "fields": { "type": "Temperature Forecast", "range": "d", "forecast": 1 }
+  },
+  {
+    "model": "logic.forecasttable",
+    "pk": 2,
+    "fields": { "type": "Temperature Forecast", "range": "h", "forecast": 1 }
+  },
+  {
+    "model": "logic.forecasttable",
+    "pk": 3,
+    "fields": { "type": "Humidity Forecast", "range": "h", "forecast": 1 }
+  },
+  {
+    "model": "logic.forecasttable",
+    "pk": 5,
+    "fields": { "type": "Humidity Forecast", "range": "d", "forecast": 1 }
+  },
+  {
+    "model": "logic.forecasttable",
+    "pk": 6,
+    "fields": { "type": "Precipitation Forecast", "range": "h", "forecast": 1 }
+  },
+  {
+    "model": "logic.forecasttable",
+    "pk": 7,
+    "fields": { "type": "Precipitation Forecast", "range": "d", "forecast": 1 }
+  },
+  {
+    "model": "logic.forecasttable",
+    "pk": 8,
+    "fields": { "type": "Wind Forecast", "range": "h", "forecast": 1 }
+  },
+  {
+    "model": "logic.forecasttable",
+    "pk": 9,
+    "fields": { "type": "Wind Forecast", "range": "d", "forecast": 1 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 1,
+    "fields": { "value": 65, "time": 1684414800, "forecastTable": 2 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 2,
+    "fields": { "value": 67, "time": 1684418400, "forecastTable": 2 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 3,
+    "fields": { "value": 75, "time": 1684422000, "forecastTable": 2 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 4,
+    "fields": { "value": 77, "time": 1684425600, "forecastTable": 2 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 5,
+    "fields": { "value": 80, "time": 1684429200, "forecastTable": 2 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 6,
+    "fields": { "value": 85, "time": 1684432800, "forecastTable": 2 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 7,
+    "fields": { "value": 85, "time": 1684436400, "forecastTable": 2 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 8,
+    "fields": { "value": 82, "time": 1684440000, "forecastTable": 2 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 9,
+    "fields": { "value": 75, "time": 1684443600, "forecastTable": 2 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 10,
+    "fields": { "value": 71, "time": 1684447200, "forecastTable": 2 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 11,
+    "fields": { "value": 68, "time": 1684450800, "forecastTable": 2 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 12,
+    "fields": { "value": 66, "time": 1684454400, "forecastTable": 2 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 13,
+    "fields": { "value": 83, "time": 1684382400, "forecastTable": 1 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 14,
+    "fields": { "value": 88, "time": 1684468800, "forecastTable": 1 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 15,
+    "fields": { "value": 85, "time": 1684555200, "forecastTable": 1 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 16,
+    "fields": { "value": 79, "time": 1684641600, "forecastTable": 1 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 17,
+    "fields": { "value": 80, "time": 1684728000, "forecastTable": 1 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 18,
+    "fields": { "value": 88, "time": 1684814400, "forecastTable": 1 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 19,
+    "fields": { "value": 87, "time": 1684900800, "forecastTable": 1 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 20,
+    "fields": { "value": 89, "time": 1684987200, "forecastTable": 1 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 21,
+    "fields": { "value": 92, "time": 1685073600, "forecastTable": 1 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 22,
+    "fields": { "value": 83, "time": 1685160000, "forecastTable": 1 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 23,
+    "fields": { "value": 80, "time": 1685246400, "forecastTable": 1 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 24,
+    "fields": { "value": 83, "time": 1685332800, "forecastTable": 1 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 25,
+    "fields": { "value": 30, "time": 1684414800, "forecastTable": 3 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 26,
+    "fields": { "value": 45, "time": 1684418400, "forecastTable": 3 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 27,
+    "fields": { "value": 32, "time": 1684422000, "forecastTable": 3 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 28,
+    "fields": { "value": 55, "time": 1684425600, "forecastTable": 3 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 29,
+    "fields": { "value": 44, "time": 1684429200, "forecastTable": 3 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 30,
+    "fields": { "value": 44, "time": 1684432800, "forecastTable": 3 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 31,
+    "fields": { "value": 46, "time": 1684436400, "forecastTable": 3 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 32,
+    "fields": { "value": 87, "time": 1684440000, "forecastTable": 3 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 33,
+    "fields": { "value": 62, "time": 1684443600, "forecastTable": 3 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 34,
+    "fields": { "value": 49, "time": 1684447200, "forecastTable": 3 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 35,
+    "fields": { "value": 40, "time": 1684450800, "forecastTable": 3 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 36,
+    "fields": { "value": 38, "time": 1684454400, "forecastTable": 3 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 49,
+    "fields": { "value": 28, "time": 1684414800, "forecastTable": 5 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 50,
+    "fields": { "value": 47, "time": 1684418400, "forecastTable": 5 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 51,
+    "fields": { "value": 33, "time": 1684422000, "forecastTable": 5 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 52,
+    "fields": { "value": 52, "time": 1684425600, "forecastTable": 5 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 53,
+    "fields": { "value": 50, "time": 1684429200, "forecastTable": 5 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 54,
+    "fields": { "value": 65, "time": 1684432800, "forecastTable": 5 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 55,
+    "fields": { "value": 47, "time": 1684436400, "forecastTable": 5 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 56,
+    "fields": { "value": 55, "time": 1684440000, "forecastTable": 5 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 57,
+    "fields": { "value": 63, "time": 1684443600, "forecastTable": 5 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 58,
+    "fields": { "value": 52, "time": 1684447200, "forecastTable": 5 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 59,
+    "fields": { "value": 39, "time": 1684450800, "forecastTable": 5 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 60,
+    "fields": { "value": 40, "time": 1684454400, "forecastTable": 5 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 61,
+    "fields": { "value": 30, "time": 1684414800, "forecastTable": 6 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 62,
+    "fields": { "value": 10, "time": 1684418400, "forecastTable": 6 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 63,
+    "fields": { "value": 12, "time": 1684422000, "forecastTable": 6 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 64,
+    "fields": { "value": 10, "time": 1684425600, "forecastTable": 6 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 65,
+    "fields": { "value": 85, "time": 1684429200, "forecastTable": 6 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 66,
+    "fields": { "value": 100, "time": 1684432800, "forecastTable": 6 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 67,
+    "fields": { "value": 63, "time": 1684436400, "forecastTable": 6 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 68,
+    "fields": { "value": 0, "time": 1684440000, "forecastTable": 6 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 69,
+    "fields": { "value": 0, "time": 1684443600, "forecastTable": 6 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 70,
+    "fields": { "value": 20, "time": 1684447200, "forecastTable": 6 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 71,
+    "fields": { "value": 10, "time": 1684450800, "forecastTable": 6 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 72,
+    "fields": { "value": 12, "time": 1684454400, "forecastTable": 6 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 73,
+    "fields": { "value": 30, "time": 1684414800, "forecastTable": 7 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 74,
+    "fields": { "value": 80, "time": 1684418400, "forecastTable": 7 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 75,
+    "fields": { "value": 90, "time": 1684422000, "forecastTable": 7 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 76,
+    "fields": { "value": 10, "time": 1684425600, "forecastTable": 7 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 77,
+    "fields": { "value": 85, "time": 1684429200, "forecastTable": 7 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 78,
+    "fields": { "value": 10, "time": 1684432800, "forecastTable": 7 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 79,
+    "fields": { "value": 63, "time": 1684436400, "forecastTable": 7 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 80,
+    "fields": { "value": 5, "time": 1684440000, "forecastTable": 7 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 81,
+    "fields": { "value": 8, "time": 1684443600, "forecastTable": 7 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 82,
+    "fields": { "value": 15, "time": 1684447200, "forecastTable": 7 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 83,
+    "fields": { "value": 80, "time": 1684450800, "forecastTable": 7 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 84,
+    "fields": { "value": 12, "time": 1684454400, "forecastTable": 7 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 85,
+    "fields": { "value": 10, "time": 1684414800, "forecastTable": 8 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 86,
+    "fields": { "value": 5, "time": 1684418400, "forecastTable": 8 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 87,
+    "fields": { "value": 5, "time": 1684422000, "forecastTable": 8 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 88,
+    "fields": { "value": 2, "time": 1684425600, "forecastTable": 8 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 89,
+    "fields": { "value": 20, "time": 1684429200, "forecastTable": 8 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 90,
+    "fields": { "value": 15, "time": 1684432800, "forecastTable": 8 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 91,
+    "fields": { "value": 30, "time": 1684436400, "forecastTable": 8 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 92,
+    "fields": { "value": 15, "time": 1684440000, "forecastTable": 8 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 93,
+    "fields": { "value": 10, "time": 1684443600, "forecastTable": 8 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 94,
+    "fields": { "value": 5, "time": 1684447200, "forecastTable": 8 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 95,
+    "fields": { "value": 2, "time": 1684450800, "forecastTable": 8 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 96,
+    "fields": { "value": 5, "time": 1684454400, "forecastTable": 8 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 97,
+    "fields": { "value": 15, "time": 1684414800, "forecastTable": 9 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 98,
+    "fields": { "value": 13, "time": 1684418400, "forecastTable": 9 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 99,
+    "fields": { "value": 23, "time": 1684422000, "forecastTable": 9 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 100,
+    "fields": { "value": 30, "time": 1684425600, "forecastTable": 9 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 101,
+    "fields": { "value": 25, "time": 1684429200, "forecastTable": 9 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 102,
+    "fields": { "value": 15, "time": 1684432800, "forecastTable": 9 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 103,
+    "fields": { "value": 12, "time": 1684436400, "forecastTable": 9 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 104,
+    "fields": { "value": 15, "time": 1684440000, "forecastTable": 9 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 105,
+    "fields": { "value": 2, "time": 1684443600, "forecastTable": 9 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 106,
+    "fields": { "value": 2, "time": 1684447200, "forecastTable": 9 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 107,
+    "fields": { "value": 4, "time": 1684450800, "forecastTable": 9 }
+  },
+  {
+    "model": "logic.forecastrow",
+    "pk": 108,
+    "fields": { "value": 3, "time": 1684454400, "forecastTable": 9 }
+  }
+]

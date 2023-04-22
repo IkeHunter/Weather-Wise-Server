@@ -4,7 +4,8 @@ Weather API Serializers
 from rest_framework import serializers
 from django.db.models import QuerySet
 # from drf_queryfields import QueryFieldsMixin
-from .models import Summary, ConditionsList, Forecast, ForecastTable, ForecastRow
+from .models import Page, Conditions, Forecast, ForecastTable, ForecastRow
+from django.db.models import Q
 
 
 class ForecastRowSerializer(serializers.ModelSerializer):
@@ -42,28 +43,42 @@ class ForecastSerializer(serializers.ModelSerializer):
         return tableSerial.data
 
 
-class SummarySerializer(serializers.ModelSerializer):
+class PageSerializer(serializers.ModelSerializer):
     current_conditions = serializers.SerializerMethodField()
     last_year = serializers.SerializerMethodField()
     forecast = serializers.SerializerMethodField()
 
     class Meta:
-        model = Summary
+        model = Page
         fields = ('__all__')
         depth = 3
 
-    def get_forecast(self, obj: Summary):
+    def get_forecast(self, obj: Page):
         return ForecastSerializer(obj, many=False).data
 
-    def get_current_conditions(self, obj: Summary) -> QuerySet:
-        current_conditions: QuerySet = ConditionsList.objects.filter(
+    def get_current_conditions(self, obj: Page) -> QuerySet:
+        current_conditions: QuerySet = Conditions.objects.filter(
             location_id=obj.id,
-            widget_title="Current Conditions"
+            widget_title="current_conditions"
         ).values()
         return current_conditions[0]
-    def get_last_year(self, obj: Summary) -> QuerySet:
-        last_year: QuerySet = ConditionsList.objects.filter(
+    def get_last_year(self, obj: Page) -> QuerySet:
+        last_year: QuerySet = Conditions.objects.filter(
             location_id=obj.id,
-            widget_title="Last Year"
+            widget_title="last_year"
         ).values()
         return last_year[0]
+
+class SearchResultsSerializer(serializers.ModelSerializer):
+    data = serializers.SerializerMethodField()
+    class Meta:
+        model = Page
+        fields = ('__all__')
+        depth = 1
+
+    def get_data(self, obj):
+        results: QuerySet = Conditions.objects.filter(
+            # Q(widget_title="search_results") | Q(widget_title="top_result"),
+            location_id=obj.id,
+        ).values()
+        return results
