@@ -83,27 +83,29 @@ class BPlusTree:
     # the middle node is copied to the node above it
     # and we check to see if we need to split that new node
     ######################### possible solution ##################
-    #why is not working?
-            def _split_internal_node(self, node):
-            # Create a new node with the same order as the original node
-            new_node = Node(self.order)
+    # why is not working?
+    def _split_internal_node(self, node):
+        # Create a new node with the same order as the original node
+        new_node = Node(self.order)
 
-            # Determine the midpoint of the node's keys
-            midpoint = len(node.keys) // 2
+        # Determine the midpoint of the node's keys
+        midpoint = len(node.keys) // 2
 
-            # Move the second half of the keys and children to the new node
-            new_node.keys = node.keys[midpoint + 1:] # Move the keys excluding the middle key
-            new_node.children = node.children[midpoint + 1:]
+        # Move the second half of the keys and children to the new node
+        # Move the keys excluding the middle key
+        new_node.keys = node.keys[midpoint + 1:]
+        new_node.children = node.children[midpoint + 1:]
 
-            # Remove the second half of the keys and children from the original node
-            node.keys = node.keys[:midpoint] # Keep the keys up to the midpoint (excluding the middle key)
-            node.children = node.children[:midpoint + 1]
+        # Remove the second half of the keys and children from the original node
+        # Keep the keys up to the midpoint (excluding the middle key)
+        node.keys = node.keys[:midpoint]
+        node.children = node.children[:midpoint + 1]
 
-            # Copy the middle key to the new_node
-            new_node.keys.insert(0, node.keys[midpoint]) 
+        # Copy the middle key to the new_node
+        new_node.keys.insert(0, node.keys[midpoint])
 
-            # Return the new node
-            return new_node
+        # Return the new node
+        return new_node
 
 ###########################################################################
 
@@ -155,26 +157,6 @@ class BPlusTree:
 
         # Remove the second half of the keys from the original node
         node.keys = node.keys[:midpoint]
-
-        # Return the new node
-        return new_node
-
-    def _split_internal_node(self, node):
-        # Create a new node with the same order as the original node
-        new_node = Node(self.order)
-
-        # Determine the midpoint of the node's keys
-        midpoint = len(node.keys) // 2
-
-        # Move the second half of the keys and children to the new node
-        # Changed the midpoint + 1 to just midpoint
-        new_node.keys = node.keys[midpoint:]
-        new_node.children = node.children[midpoint + 1:]
-
-        # Remove the second half of the keys and children from the original node
-        # Changed the midpoint + 1 to just midpoint
-        node.keys = node.keys[:midpoint]
-        node.children = node.children[:midpoint + 1]
 
         # Return the new node
         return new_node
