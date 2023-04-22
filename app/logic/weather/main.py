@@ -56,13 +56,6 @@ def main():
                       'weather': [{'id': 804, 'main': 'Clouds', 'description': 'overcast clouds', 'icon': '04n'}]}]}
             ]
 
-    tree = BPlusTree(days)
-    tree.dbg_search(269.44)
-    tree.dbg_search(274.04)
-    tree.dbg_search(274.7)
-    tree.dbg_search(284.66)
-    tree.dbg_search(287.67)
-
 
 if __name__ == "__main__":
     main()
