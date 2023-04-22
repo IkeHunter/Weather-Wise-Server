@@ -10,11 +10,15 @@ class Node:
         self.next = None    # Pointer to next leaf node
         self.prev = None    # Pointer to prev lead node
 
-    # def insert(self, key) -> None:
-    #     self.keys.append(key)
-    #     self.keys.sort(key=lambda x: x[0])
+    def reset(self) -> None:
+        self.keys.clear
+        self.values.clear
+        self.children.clear
+
+        # This might cause a bug
+        del self.next
+        del self.prev
 
     # Returns True if the node is a leaf, otherwise False
-
     def is_leaf(self):
         return len(self.children) == 0

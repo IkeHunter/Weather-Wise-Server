@@ -1,3 +1,5 @@
+import requests
+import json
 from node import Node
 
 
@@ -5,7 +7,9 @@ class BPlusTree:
     # Constructor for B+ Tree
     def __init__(self, days=[], order=3) -> None:
         self.order = order
-        self.root = Node()
+        self.root = None
+        self.head: Node
+        self.tail: Node
         for day in days:
             self.insert(day['data'][0]['temp'], day)
 
@@ -14,10 +18,23 @@ class BPlusTree:
         self.root = self._insert(None, self.root, key, value)
 
     # Recursively call insert until we find a leaf node
-    def _insert(self, parent, child: Node, key, value):
+    def _insert(self, parent, child: Node, key, value) -> Node:
+        # Base Case: Empty tree
+        if child is None:
+            # Create a new node and populate it with key and value
+            child = Node()
+            child.keys.append(key)
+            child.values[key] = []
+            child.values[key].append(value)
+
+            # Initialize head and tail pointers to child
+            self.head = child
+            self.tail = child
+
+            # Return child as the root
+            return child
         # Base Case: At leaf node insert key value pair
         if child.is_leaf():
-
             # Check if the temperature already exists in tree
             if key not in child.keys:
                 child.keys.append(key)
@@ -48,10 +65,10 @@ class BPlusTree:
                 return p_node
 
             # Order is violated
-            return self._split_internal(parent, child)
+            return self._split_internal(p_node, child)
 
     # Transfers the keys between split nodes and returns new_right_child
-    def _transferKeys(self, node: Node):
+    def _transferKeys(self, node: Node) -> Node:
         new_right_child = Node()
         midpoint = len(node.keys) // 2
 
@@ -62,21 +79,15 @@ class BPlusTree:
         return new_right_child
 
     # Returns the parent of the split leaf nodes
-    def _split_leaf(self, parent: Node, child: Node):
-
-        new_right_child = self._transferKeys(child)
+    def _split_leaf(self, parent: Node, child: Node) -> Node:
+        new_right_child: Node = self._transferKeys(child)
 
         # Transfer values
         for key in new_right_child.keys:
             new_right_child.values[key] = child.values.pop(key)
 
         # Connect leaf nodes in linked list
-        new_right_child.next = child.next       # Will maintain the linked list order
-        child.next = new_right_child            # Connect split nodes
-
-        # TODO: Update doubly linked list
-        # 3 cases: At head, middle, at tail
-        # new_right_child = child.next.prev
+        self._connectLeafNode(child, new_right_child)
 
         # Check if the leaf node is a root
         if parent is None:
@@ -91,8 +102,25 @@ class BPlusTree:
             parent.keys.sort()
             return parent
 
+    # Connect the leaf child to the right child
+    def _connectLeafNode(self, left_child: Node, right_child: Node) -> None:
+        # Only two general cases, since we will never add a new head
+
+        # Insert new tail
+        if left_child is self.tail:
+            right_child.prev = left_child
+            right_child.next = left_child.next
+            left_child.next = right_child
+            self.tail = right_child
+        else:  # Insert in middle
+            right_child.prev = left_child
+            right_child.next = left_child.next
+            left_child.next.prev = right_child
+            left_child.next = right_child
+
     # Returns the parent of split internal nodes
-    def _split_internal(self, parent: Node, child: Node):
+    # FIXME: Parent is never none from _insert
+    def _split_internal(self, parent: Node, child: Node) -> Node:
 
         new_right_child = self._transferKeys(child)
 
@@ -132,7 +160,7 @@ class BPlusTree:
             for k in node.keys:
                 if k is key:
                     return node.values.get(key)
-            # If the key is not found, return None
+            # Return None
             return None
         # If the node is not a leaf, recursively search for the key in the appropriate child node
         else:
@@ -141,25 +169,60 @@ class BPlusTree:
 
     # TODO: Create functionality to recreate tree with new data
     # When given a new array of days rebuild the tree
-    def _build(days=[]) -> None:
-        pass
+    def rebuild(self, days=[], order=3) -> None:
+        self._reset
+        self.__init__(days, order)
+
+    def _reset(self) -> None:
+        # Delete tree via automatic garbage collection
+        self.root = None
+
+        # Delete the linked list
+        while self.head.next is not None:
+            self.head = self.head.next
+            self.head.prev = None
+        self.head = None
+        self.tail = None
+
+    def forward_traverse_leafs(self) -> None:
+        curr_node = self.head
+        while curr_node is not None:
+            print(curr_node.keys)
+            curr_node = curr_node.next
+
+    def backward_traverse_leafs(self) -> None:
+        curr_node = self.tail
+        while curr_node is not None:
+            print(curr_node.keys)
+            curr_node = curr_node.prev
 
 
-# Test
+# ============= Test =========== #
 
 
 def testMain():
+    apiKey = '11d1d9e83f342ffd3863eec2bdabe3a8'
+    # date = 1618525688
+    date = 1572687311
+    lat = '33.44'
+    lon = '-94.04'
+
+    # Checking if API call works
+    # url = 'https://api.openweathermap.org/data/3.0/onecall?lat=' + \
+    #    lat + '&lon=' + lon + '&appid=' + apiKey
+    # https: // api.openweathermap.org/data/3.0/onecall/timemachine?lat = 39.099724 & lon = -94.578331 & dt = 1643803200 & appid = {API key}
+
     days = [{'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
-            'data': [{'dt': 1644062400, 'sunrise': 1644066553, 'sunset': 1644105068, 'temp': 269.44, 'feels_like': 267.09,
-                      'pressure': 1035, 'humidity': 83, 'dew_point': 267.26, 'clouds': 0, 'visibility': 10000, 'wind_speed': 1.54,
-                      'wind_deg': 240,
-                      'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01n'}]}]},
+             'data': [{'dt': 1644062400, 'sunrise': 1644066553, 'sunset': 1644105068, 'temp': 269.44, 'feels_like': 267.09,
+                       'pressure': 1035, 'humidity': 83, 'dew_point': 267.26, 'clouds': 0, 'visibility': 10000, 'wind_speed': 1.54,
+                       'wind_deg': 240,
+                           'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01n'}]}]},
 
             {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
              'data': [{'dt': 1644321600, 'sunrise': 1644325606, 'sunset': 1644364441, 'temp': 274.04, 'feels_like': 272.35,
                        'pressure': 1025, 'humidity': 75, 'dew_point': 270.47, 'clouds': 0, 'visibility': 10000, 'wind_speed': 1.54,
                        'wind_deg': 200,
-                       'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01n'}]}]},
+                           'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01n'}]}]},
 
             {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
              'data': [{'dt': 1643889600, 'sunrise': 1643893845, 'sunset': 1643932152, 'temp': 274.7, 'feels_like': 270.1,
@@ -179,12 +242,39 @@ def testMain():
                        'wind_deg': 210,
                        'weather': [{'id': 804, 'main': 'Clouds', 'description': 'overcast clouds', 'icon': '04n'}]}]}
             ]
-    tree = BPlusTree(days)
-    print(tree.search(269.44)[0]['data'][0]['temp'])
-    print(tree.search(274.04)[0]['data'][0]['temp'])
-    print(tree.search(274.7)[0]['data'][0]['temp'])
-    print(tree.search(284.66)[0]['data'][0]['temp'])
-    print(tree.search(287.67)[0]['data'][0]['temp'])
+
+    days2 = []
+    for i in range(10):
+        # The next day is date + 86400
+        date += 86400
+        url = 'https://api.openweathermap.org/data/3.0/onecall/timemachine?lat=' + \
+            lat + '&lon=' + lon + '&dt=' + str(date) + '&appid=' + apiKey
+        payload = {}
+        headers = {}
+        response = requests.request("GET", url, headers=headers, data=payload)
+        weatherDict = json.loads(response.text)
+        sunrise = weatherDict['data'][0]['sunrise'] % 86400
+        sunset = weatherDict['data'][0]['sunset'] % 86400
+        weatherDict['data'][0]['sunrise'] = sunrise
+        weatherDict['data'][0]['sunset'] = sunset
+        days2.append(weatherDict)
+
+    for days in days2:
+        print(days['data'][0]['temp'])
+
+        print("")
+# Bug here: leaf layer not in order
+    tree = BPlusTree(days2)
+    tree.forward_traverse_leafs()
+    # print("")
+    # tree.rebuild(days)
+    # tree.forward_traverse_leafs()
+#     # print(tree.search(269.44)[0]['data'][0]['temp'])
+#     # print(tree.search(274.04)[0]['data'][0]['temp'])
+#     # print(tree.search(274.7)[0]['data'][0]['temp'])
+#     # print(tree.search(284.66)[0]['data'][0]['temp'])
+#     # print(tree.search(287.67)[0]['data'][0]['temp'])
+#     tree.backward_traverse_leafs()
 
 
 testMain()
