@@ -82,6 +82,30 @@ class BPlusTree:
     # FIXME: Make it so that whenever we split internal nodes we pop the middle value
     # the middle node is copied to the node above it
     # and we check to see if we need to split that new node
+    ######################### possible solution ##################
+    #why is not working?
+            def _split_internal_node(self, node):
+            # Create a new node with the same order as the original node
+            new_node = Node(self.order)
+
+            # Determine the midpoint of the node's keys
+            midpoint = len(node.keys) // 2
+
+            # Move the second half of the keys and children to the new node
+            new_node.keys = node.keys[midpoint + 1:] # Move the keys excluding the middle key
+            new_node.children = node.children[midpoint + 1:]
+
+            # Remove the second half of the keys and children from the original node
+            node.keys = node.keys[:midpoint] # Keep the keys up to the midpoint (excluding the middle key)
+            node.children = node.children[:midpoint + 1]
+
+            # Copy the middle key to the new_node
+            new_node.keys.insert(0, node.keys[midpoint]) 
+
+            # Return the new node
+            return new_node
+
+###########################################################################
 
     # Searches for a key in the B+ tree and returns the temperature of the city.
     def search(self, key, api_key):
