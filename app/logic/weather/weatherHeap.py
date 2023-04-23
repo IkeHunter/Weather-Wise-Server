@@ -143,20 +143,23 @@ class WeatherHeap:
         self.buildHeap(self.param)
         return result
 
-    # def getKLargest(k):
-    #     tempHeap = WeatherHeap()
-    #     for i in range(k):
-    #         pass
+    # Change the ordering of the current heap
+    def orderby(self, comp: Parameter) -> None:
 
-    # def insert(self, day):
-    #     self.days.append(day)
-    #     self.size += 1
-    #     self.heapifyUp(self.size - 1)
+        # def getKLargest(k):
+        #     tempHeap = WeatherHeap()
+        #     for i in range(k):
+        #         pass
 
-    # def heapifyUp(self, i):
-    #     if (i == 0):
-    #         return
-    #     parent = int((i - 1) / 2)
+        # def insert(self, day):
+        #     self.days.append(day)
+        #     self.size += 1
+        #     self.heapifyUp(self.size - 1)
+
+        # def heapifyUp(self, i):
+        #     if (i == 0):
+        #         return
+        #     parent = int((i - 1) / 2)
 
     def print(self):
         for i in range(self.size):
