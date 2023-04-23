@@ -25,8 +25,10 @@ class Comp(Enum):
 class WeatherHeap:
     # Initialize an empty array
     days = []
+    param: Parameter
+    size: int
 
-    def __init__(self, weather, param: Parameter):
+    def __init__(self, weather, param: Parameter) -> None:
         self.size = len(weather)
         self.param = param
 
@@ -42,9 +44,15 @@ class WeatherHeap:
             self.days[i]['data'][0]['local_sunrise'] = local_sunrise
             self.days[i]['data'][0]['local_sunset'] = local_sunset
 
-        self.buildHeap(param)
+        self.orderHeap(param)
 
-    def buildHeap(self, parameter):
+    def _reset(self) -> None:
+        self.days.clear()
+        self.size = None
+        self.param = None
+
+    # Order the heap by specified parameter
+    def orderHeap(self, parameter: Parameter) -> None:
         self.size = len(self.days)
         for i in range(int(self.size / 2), -1, -1):
             self.heapifyDown(parameter, i)
@@ -59,8 +67,8 @@ class WeatherHeap:
 
         return top
 
-    # Values will be 0-indexed
-    def heapifyDown(self, parameter, i):
+    # Values will be 0-indexed, organizes the element at index i by the parameter type
+    def heapifyDown(self, parameter: Parameter, i: int) -> None:
         # left and right child
         left_child = 2 * i + 1
         right_child = 2 * i + 2
@@ -100,9 +108,9 @@ class WeatherHeap:
 
         self.heapifyDown(parameter, i)
 
-    # comparator will compare values and return an index of the element that satisfies the conditions given
+    # Compare values and returns an index of the element that satisfies the conditions given
     # comp will determine if we are checking for a max or min value
-    def comparator(self, start, left, right, index, param, comp):
+    def comparator(self, start: int, left: int, right: int, index: int, param: Parameter, comp: Comp) -> int:
 
         if param in self.days[index]['data'][0]:
             start = self.days[index]['data'][0][param]
@@ -135,74 +143,77 @@ class WeatherHeap:
 
         return index
 
-    def top(self, number):
+    def top(self, number: int) -> list:
         result = []
         for i in range(number):
             result.append(self.pop())
 
-        self.buildHeap(self.param)
+        self.orderHeap(self.param)
         return result
 
-    # Change the ordering of the current heap
-    def orderby(self, comp: Parameter) -> None:
-
-        # def getKLargest(k):
-        #     tempHeap = WeatherHeap()
-        #     for i in range(k):
-        #         pass
-
-        # def insert(self, day):
-        #     self.days.append(day)
-        #     self.size += 1
-        #     self.heapifyUp(self.size - 1)
-
-        # def heapifyUp(self, i):
-        #     if (i == 0):
-        #         return
-        #     parent = int((i - 1) / 2)
-
-    def print(self):
+    def print(self) -> None:
         for i in range(self.size):
             print(self.days[i])
 
+    # Only use if the location has changed
+    # Destroys current heap and creates new heap
+    def rebuildHeap(self, weather, param: Parameter) -> None:
+        self._reset()
+        self.__init__(weather, param)
 
-# Testing Purposes
-days = [{'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
-         'data': [{'dt': 1644062400, 'sunrise': 1644066553, 'sunset': 1644105068, 'temp': 269.44, 'feels_like': 267.09,
-                   'pressure': 1035, 'humidity': 83, 'dew_point': 267.26, 'clouds': 0, 'visibility': 10000, 'wind_speed': 1.54,
-                   'wind_deg': 240,
-                   'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01n'}]}]},
+    # def getKLargest(k):
+    #     tempHeap = WeatherHeap()
+    #     for i in range(k):
+    #         pass
 
-        {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
-            'data': [{'dt': 1644321600, 'sunrise': 1644325606, 'sunset': 1644364441, 'temp': 274.04, 'feels_like': 272.35,
-                      'pressure': 1025, 'humidity': 75, 'dew_point': 270.47, 'clouds': 0, 'visibility': 10000, 'wind_speed': 1.54,
-                      'wind_deg': 200,
-                      'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01n'}]}]},
+    # def insert(self, day):
+    #     self.days.append(day)
+    #     self.size += 1
+    #     self.heapifyUp(self.size - 1)
 
-        {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
-            'data': [{'dt': 1643889600, 'sunrise': 1643893845, 'sunset': 1643932152, 'temp': 274.7, 'feels_like': 270.1,
-                      'pressure': 1014, 'humidity': 95, 'dew_point': 273.99, 'clouds': 100, 'visibility': 10000, 'wind_speed': 5.14,
-                      'wind_deg': 30,
-                      'weather': [{'id': 501, 'main': 'Rain', 'description': 'moderate rain', 'icon': '10n'}], 'rain': {'1h': 1.98}}]},
-
-        {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
-            'data': [{'dt': 1644667200, 'sunrise': 1644670990, 'sunset': 1644710268, 'temp': 284.66, 'feels_like': 283.15,
-                      'pressure': 1022, 'humidity': 49, 'dew_point': 274.33, 'clouds': 100, 'visibility': 10000, 'wind_speed': 4.63,
-                      'wind_deg': 20, 'wind_gust': 7.72,
-                      'weather': [{'id': 500, 'main': 'Rain', 'description': 'light rain', 'icon': '10n'}], 'rain': {'1h': 0.21}}]},
-
-        {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
-            'data': [{'dt': 1643803200, 'sunrise': 1643807488, 'sunset': 1643845693, 'temp': 287.67, 'feels_like': 287.63,
-                      'pressure': 1009, 'humidity': 94, 'dew_point': 286.72, 'clouds': 100, 'visibility': 10000, 'wind_speed': 4.12,
-                      'wind_deg': 210,
-                      'weather': [{'id': 804, 'main': 'Clouds', 'description': 'overcast clouds', 'icon': '04n'}]}]}
-        ]
+    # def heapifyUp(self, i):
+    #     if (i == 0):
+    #         return
+    #     parent = int((i - 1) / 2)
 
 
-apiKey = '11d1d9e83f342ffd3863eec2bdabe3a8'
-date = 1618525688
-lat = '33.44'
-lon = '-94.04'
+# # Testing Purposes
+# days = [{'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+#          'data': [{'dt': 1644062400, 'sunrise': 1644066553, 'sunset': 1644105068, 'temp': 269.44, 'feels_like': 267.09,
+#                    'pressure': 1035, 'humidity': 83, 'dew_point': 267.26, 'clouds': 0, 'visibility': 10000, 'wind_speed': 1.54,
+#                    'wind_deg': 240,
+#                    'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01n'}]}]},
+#
+#         {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+#             'data': [{'dt': 1644321600, 'sunrise': 1644325606, 'sunset': 1644364441, 'temp': 274.04, 'feels_like': 272.35,
+#                       'pressure': 1025, 'humidity': 75, 'dew_point': 270.47, 'clouds': 0, 'visibility': 10000, 'wind_speed': 1.54,
+#                       'wind_deg': 200,
+#                       'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01n'}]}]},
+#
+#         {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+#             'data': [{'dt': 1643889600, 'sunrise': 1643893845, 'sunset': 1643932152, 'temp': 274.7, 'feels_like': 270.1,
+#                       'pressure': 1014, 'humidity': 95, 'dew_point': 273.99, 'clouds': 100, 'visibility': 10000, 'wind_speed': 5.14,
+#                       'wind_deg': 30,
+#                       'weather': [{'id': 501, 'main': 'Rain', 'description': 'moderate rain', 'icon': '10n'}], 'rain': {'1h': 1.98}}]},
+#
+#         {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+#             'data': [{'dt': 1644667200, 'sunrise': 1644670990, 'sunset': 1644710268, 'temp': 284.66, 'feels_like': 283.15,
+#                       'pressure': 1022, 'humidity': 49, 'dew_point': 274.33, 'clouds': 100, 'visibility': 10000, 'wind_speed': 4.63,
+#                       'wind_deg': 20, 'wind_gust': 7.72,
+#                       'weather': [{'id': 500, 'main': 'Rain', 'description': 'light rain', 'icon': '10n'}], 'rain': {'1h': 0.21}}]},
+#
+#         {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+#             'data': [{'dt': 1643803200, 'sunrise': 1643807488, 'sunset': 1643845693, 'temp': 287.67, 'feels_like': 287.63,
+#                       'pressure': 1009, 'humidity': 94, 'dew_point': 286.72, 'clouds': 100, 'visibility': 10000, 'wind_speed': 4.12,
+#                       'wind_deg': 210,
+#                       'weather': [{'id': 804, 'main': 'Clouds', 'description': 'overcast clouds', 'icon': '04n'}]}]}
+#         ]
+#
+#
+# apiKey = '11d1d9e83f342ffd3863eec2bdabe3a8'
+# date = 1618525688
+# lat = '33.44'
+# lon = '-94.04'
 
 # Checking if API call works
 # url = 'https://api.openweathermap.org/data/3.0/onecall?lat=' + \
@@ -225,13 +236,13 @@ lon = '-94.04'
 #     weatherDict['data'][0]['sunset'] = sunset
 #     days.append(weatherDict)
 
-heap = WeatherHeap(days, Parameter.SUNR)
-print("\nSORTED BY LOCAL SUNRISE\n")
-heap.print()
-
-print("\n Top 5 Day\n")
-print(heap.top(5))
-
-print("\n Reset Heap \n")
-heap.buildHeap(Parameter.SUNR)
-heap.print()
+# heap = WeatherHeap(days, Parameter.SUNR)
+# print("\nSORTED BY LOCAL SUNRISE\n")
+# heap.print()
+#
+# print("\n Top 5 Day\n")
+# print(heap.top(5))
+#
+# print("\n Reset Heap \n")
+# heap.buildHeap(Parameter.SUNR)
+# heap.print()
