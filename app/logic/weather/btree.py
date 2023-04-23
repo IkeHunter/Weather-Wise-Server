@@ -18,32 +18,14 @@ class BPlusTree:
         self.root = self._insert(None, self.root, key, value)
 
     # Recursively call insert until we find a leaf node
-    def _insert(self, parent, child: Node, key, value) -> Node:
+    def _insert(self, parent: Node, child: Node, key, value) -> Node:
         # Base Case: Empty tree
         if child is None:
-            # Create a new node and populate it with key and value
-            child = Node()
-            child.keys.append(key)
-            child.values[key] = []
-            child.values[key].append(value)
-
-            # Initialize head and tail pointers to child
-            self.head = child
-            self.tail = child
-
-            # Return child as the root
-            return child
+            return self._insert_new_root(child, key, value)
         # Base Case: At leaf node insert key value pair
         if child.is_leaf():
             # Check if the temperature already exists in tree
-            if key not in child.keys:
-                child.keys.append(key)
-                child.keys.sort()
-
-            # Add day obj into the dict
-            if key not in child.values:
-                child.values[key] = []
-            child.values[key].append(value)
+            self._insert_at_leaf(child, key, value)
 
             # Return unmodified node if order satisfied
             if len(child.keys) < self.order:
@@ -52,9 +34,9 @@ class BPlusTree:
                     return child
                 else:   # Return the parent
                     return parent
-
-            # Order is violated
-            return self._split_leaf(parent, child)
+            else:
+                # Order is violated
+                return self._split_leaf(parent, child)
         else:
             # Choose the next child node to traverse down
             next_child = self._select_child(child, key)
@@ -66,6 +48,31 @@ class BPlusTree:
 
             # Order is violated
             return self._split_internal(p_node, child)
+
+    def _insert_new_root(self, child: Node, key, value) -> Node:
+        # Create a new node and populate it with key and value
+        child = Node()
+        child.keys.append(key)
+        child.values[key] = []
+        child.values[key].append(value)
+
+        # Initialize head and tail pointers to child
+        self.head = child
+        self.tail = child
+
+        # Return child as the root
+        return child
+
+    def _insert_at_leaf(self, child: Node, key, value) -> Node:
+        # Check if the temperature already exists in tree
+        if key not in child.keys:
+            child.keys.append(key)
+            child.keys.sort()
+
+        # Add day obj into the dict
+        if key not in child.values:
+            child.values[key] = []
+            child.values[key].append(value)
 
     # Transfers the keys between split nodes and returns new_right_child
     def _transferKeys(self, node: Node) -> Node:
@@ -151,17 +158,20 @@ class BPlusTree:
         # If the key is greater than all of the node's keys, return the last child node
         return parent.children[-1]
 
-    def search(self, temp):
+    def search(self, temp) -> list[Node]:
         return self._search(self.root, temp)
 
-    def _search(self, node: Node, key):
+    def _search(self, node: Node, key) -> list[Node]:
         # If the node is a leaf, search for the key in its keys
         if node.is_leaf():
-            for k in node.keys:
-                if k is key:
-                    return node.values.get(key)
-            # Return None
-            return None
+            if node is self.head and node is self.tail:
+                return [None, node.values, None]
+            if node is self.head:
+                return [None, node.values, node.next.values]
+            if node is self.tail:
+                return [node.prev.values, node.values, None]
+            return [node.prev.values, node.values, node.next.values]
+
         # If the node is not a leaf, recursively search for the key in the appropriate child node
         else:
             child = self._select_child(node, key)
@@ -243,29 +253,30 @@ def testMain():
                        'weather': [{'id': 804, 'main': 'Clouds', 'description': 'overcast clouds', 'icon': '04n'}]}]}
             ]
 
-    days2 = []
-    for i in range(10):
-        # The next day is date + 86400
-        date += 86400
-        url = 'https://api.openweathermap.org/data/3.0/onecall/timemachine?lat=' + \
-            lat + '&lon=' + lon + '&dt=' + str(date) + '&appid=' + apiKey
-        payload = {}
-        headers = {}
-        response = requests.request("GET", url, headers=headers, data=payload)
-        weatherDict = json.loads(response.text)
-        sunrise = weatherDict['data'][0]['sunrise'] % 86400
-        sunset = weatherDict['data'][0]['sunset'] % 86400
-        weatherDict['data'][0]['sunrise'] = sunrise
-        weatherDict['data'][0]['sunset'] = sunset
-        days2.append(weatherDict)
+#     days2 = []
+#     for i in range(10):
+#         # The next day is date + 86400
+#         date += 86400
+#         url = 'https://api.openweathermap.org/data/3.0/onecall/timemachine?lat=' + \
+#             lat + '&lon=' + lon + '&dt=' + str(date) + '&appid=' + apiKey
+#         payload = {}
+#         headers = {}
+#         response = requests.request("GET", url, headers=headers, data=payload)
+#         weatherDict = json.loads(response.text)
+#         sunrise = weatherDict['data'][0]['sunrise'] % 86400
+#         sunset = weatherDict['data'][0]['sunset'] % 86400
+#         weatherDict['data'][0]['sunrise'] = sunrise
+#         weatherDict['data'][0]['sunset'] = sunset
+#         days2.append(weatherDict)
+#
+#     for days in days2:
+#         print(days['data'][0]['temp'])
 
-    for days in days2:
-        print(days['data'][0]['temp'])
-
-        print("")
+    print("")
 # Bug here: leaf layer not in order
-    tree = BPlusTree(days2)
+    tree = BPlusTree(days)
     tree.forward_traverse_leafs()
+    print(tree.search(269.44))
     # print("")
     # tree.rebuild(days)
     # tree.forward_traverse_leafs()
