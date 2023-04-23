@@ -7,18 +7,17 @@ class Node:
         # Dict of keys values will be a list of days corresponding to specific key # , only filled if node is a leaf
         self.values = {}
         self.children = []  # List of child nodes
-        self.next = None    # Pointer to next leaf node
-        self.prev = None    # Pointer to prev lead node
+        self.next: Node = None    # Pointer to next leaf node
+        self.prev: Node = None    # Pointer to prev lead node
 
     def reset(self) -> None:
         self.keys.clear
         self.values.clear
         self.children.clear
 
-        # This might cause a bug
         del self.next
         del self.prev
 
     # Returns True if the node is a leaf, otherwise False
-    def is_leaf(self):
+    def is_leaf(self) -> bool:
         return len(self.children) == 0
