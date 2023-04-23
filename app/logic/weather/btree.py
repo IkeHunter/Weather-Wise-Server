@@ -316,27 +316,17 @@ def testMain():
     #     weatherDict['data'][0]['sunset'] = sunset
     #     days3.append(weatherDict)
 
-    tree = BPlusTree(days)
+    tree = BPlusTree(days, 4)
     tree.forward_traverse_leafs()
     print("")
     print(tree.root.keys)
     print("")
 
-    tree.rebuild(days2)
+    tree.rebuild(days2, 4)
     tree.forward_traverse_leafs()
 
     print("")
     print(tree.root.keys)
-    # print(tree.search(269.44))
-    # print("")
-    # tree.rebuild(days)
-    # tree.forward_traverse_leafs()
-#     # print(tree.search(269.44)[0]['data'][0]['temp'])
-#     # print(tree.search(274.04)[0]['data'][0]['temp'])
-#     # print(tree.search(274.7)[0]['data'][0]['temp'])
-#     # print(tree.search(284.66)[0]['data'][0]['temp'])
-#     # print(tree.search(287.67)[0]['data'][0]['temp'])
-#     tree.backward_traverse_leafs()
 
 
 testMain()
