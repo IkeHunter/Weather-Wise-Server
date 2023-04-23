@@ -24,7 +24,6 @@ class ForecastTableSerializer(serializers.ModelSerializer):
         rows = ForecastRow.objects.filter(
             forecastTable_id=obj['id']
         ).values()
-
         return rows
 
 class ForecastSerializer(serializers.ModelSerializer):
@@ -33,20 +32,21 @@ class ForecastSerializer(serializers.ModelSerializer):
     class Meta:
         model = Forecast
         fields = ('__all__')
+        depth = 2
 
-    def get_table(self, obj):
-        forecast = Forecast.objects.get(location=obj.id)
+    def get_table(self, obj: Forecast):
         table = ForecastTable.objects.filter(
-            forecast_id=forecast.id,
+            forecast_id=obj["id"],
         ).values()
-        tableSerial = ForecastTableSerializer(table, many=True, context={table: obj})
-        return tableSerial.data
 
+        tableSerial = ForecastTableSerializer(table, many=True)
+        return tableSerial.data
 
 class PageSerializer(serializers.ModelSerializer):
     current_conditions = serializers.SerializerMethodField()
     last_year = serializers.SerializerMethodField()
     forecast = serializers.SerializerMethodField()
+    widgets = serializers.SerializerMethodField()
 
     class Meta:
         model = Page
@@ -54,7 +54,11 @@ class PageSerializer(serializers.ModelSerializer):
         depth = 3
 
     def get_forecast(self, obj: Page):
-        return ForecastSerializer(obj, many=False).data
+        forecast: QuerySet = Forecast.objects.filter(
+            location_id=obj.id,
+        ).values()[0]
+
+        return ForecastSerializer(instance=forecast, many=False).data
 
     def get_current_conditions(self, obj: Page) -> QuerySet:
         current_conditions: QuerySet = Conditions.objects.filter(
@@ -68,6 +72,13 @@ class PageSerializer(serializers.ModelSerializer):
             widget_title="last_year"
         ).values()
         return last_year[0]
+    def get_widgets(self, obj: Page) -> QuerySet:
+        widgets: QuerySet = Conditions.objects.filter(
+            ~Q(widget_title="current_conditions") & ~Q(widget_title="last_year"),
+            location_id=obj.id,
+
+        ).values()
+        return widgets
 
 class SearchResultsSerializer(serializers.ModelSerializer):
     data = serializers.SerializerMethodField()
@@ -78,7 +89,6 @@ class SearchResultsSerializer(serializers.ModelSerializer):
 
     def get_data(self, obj):
         results: QuerySet = Conditions.objects.filter(
-            # Q(widget_title="search_results") | Q(widget_title="top_result"),
             location_id=obj.id,
         ).values()
         return results
