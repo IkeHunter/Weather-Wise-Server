@@ -3,6 +3,7 @@ from .models import Page, Conditions, Forecast, ForecastRow, ForecastTable
 
 class ConditionsInline(admin.StackedInline):
     model = Conditions
+    save_as = True
 
 class ForecastRowInline(admin.TabularInline):
     model = ForecastRow
