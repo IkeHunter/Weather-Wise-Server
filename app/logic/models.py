@@ -39,6 +39,9 @@ class Conditions(models.Model):
     pop = models.IntegerField(default=5)
     rain_levels = models.IntegerField(default=6)
 
+    sunrise = models.BigIntegerField(default=1684059299)
+    sunset = models.BigIntegerField(default=1684106099)
+
     weather_name = models.CharField(max_length=64, default="Rain")
     icon = models.CharField(max_length=32, default="10n")
 

@@ -18,10 +18,13 @@ from django.db.models import Q
 
 class SummaryViewSet(viewsets.ModelViewSet):
     # queryset = Page.objects.all().order_by('location')
+    # yearDays = loadApi()  // Isaac
+    # allDays = loadAllDays()  // Isaac
+
+    # convetModels(yearDays, allDays) // Isaac
 
     # make api call to get data
-    # heap.create(data)
-    # tree.create(data)
+    # heap.create(yearDays) // Kevin
 
     queryset = Page.objects.filter(
         page_title="summary"
@@ -41,16 +44,25 @@ class ResultsViewSet(viewsets.ModelViewSet):
         return Response(serializer_class.data)
 
     def create(self, request, *args, **kwargs):
+        # test: http://localhost:8000/api/docs - POST - /weather/results/
         print("POST")
         print(request.data)
         # request.data: todate, fromdate, temperature, precipitation, humidity, location
         # function(request.data) -> list of days
         # functino(list of day) -> create models
+
+        # selectedDays: json = filterDays(todate, fromdate) // Isaac
+        # tree.create(selectedDays) // Kevin
+        # filteredDays: json = tree.find(temperature, precipitation, humidity) // Kevin
+        # return Response(filteredDays) // Kevin + Isaac
+
         queryset = Conditions.objects.filter(
             Q(widget_title="top_result") | Q(widget_title="search_results"),
-        ).order_by('location')
+        ).order_by('location').values()  # returns json
+        print("queryset: ")
+        print(queryset)
         serializer_class = SearchResultsSerializer
-        return Response(queryset.values())
+        return Response(queryset)
 
 # @csrf_exempt
 # def post_search(request, Pk=None):
