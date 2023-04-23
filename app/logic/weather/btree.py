@@ -1,5 +1,6 @@
 import requests
 import json
+
 from node import Node
 
 
@@ -40,15 +41,16 @@ class BPlusTree:
         else:
             # Choose the next child node to traverse down
             next_child = self._select_child(child, key)
-            p_node = self._insert(child, next_child, key, value)
+            self._insert(child, next_child, key, value)
 
             # internal nodes may only have up to order
-            if len(p_node.keys) < self.order:
-                return p_node
+            if len(child.keys) < self.order:
+                return child
 
             # Order is violated
-            return self._split_internal(p_node, child)
+            return self._split_internal(parent, child)
 
+    # Insert a new root node
     def _insert_new_root(self, child: Node, key, value) -> Node:
         # Create a new node and populate it with key and value
         child = Node()
@@ -72,7 +74,9 @@ class BPlusTree:
         # Add day obj into the dict
         if key not in child.values:
             child.values[key] = []
-            child.values[key].append(value)
+
+        # Duplicates will be added into the list
+        child.values[key].append(value)
 
     # Transfers the keys between split nodes and returns new_right_child
     def _transferKeys(self, node: Node) -> Node:
@@ -105,6 +109,9 @@ class BPlusTree:
         else:
             # parent exists
             parent.children.extend([new_right_child])
+
+            # # Sort the children by the first key value that the have
+            parent.children.sort(key=lambda child: child.keys[0])
             parent.keys.append(new_right_child.keys[0])
             parent.keys.sort()
             return parent
@@ -126,7 +133,6 @@ class BPlusTree:
             left_child.next = right_child
 
     # Returns the parent of split internal nodes
-    # FIXME: Parent is never none from _insert
     def _split_internal(self, parent: Node, child: Node) -> Node:
 
         new_right_child = self._transferKeys(child)
@@ -144,13 +150,16 @@ class BPlusTree:
             return new_root
         else:
             # parent exists
-            parent.children.extend([child, new_right_child])
+            parent.children.extend([new_right_child])
+
+            # Sort children by the first key that they have
+            parent.children.sort(key=lambda child: child.keys[0])
             parent.keys.append(new_right_child.keys.pop(0))
             parent.keys.sort()
             return parent
 
     # Copied from Khai, selects next child to be traversed
-    def _select_child(self, parent: Node, key):
+    def _select_child(self, parent: Node, key) -> Node:
         # Iterate through the node's keys to find the appropriate child node for the key
         for i, k in enumerate(parent.keys):
             if key < k:
@@ -177,7 +186,6 @@ class BPlusTree:
             child = self._select_child(node, key)
             return self._search(child, key)
 
-    # TODO: Create functionality to recreate tree with new data
     # When given a new array of days rebuild the tree
     def rebuild(self, days=[], order=3) -> None:
         self._reset
@@ -253,30 +261,73 @@ def testMain():
                        'weather': [{'id': 804, 'main': 'Clouds', 'description': 'overcast clouds', 'icon': '04n'}]}]}
             ]
 
-#     days2 = []
-#     for i in range(10):
-#         # The next day is date + 86400
-#         date += 86400
-#         url = 'https://api.openweathermap.org/data/3.0/onecall/timemachine?lat=' + \
-#             lat + '&lon=' + lon + '&dt=' + str(date) + '&appid=' + apiKey
-#         payload = {}
-#         headers = {}
-#         response = requests.request("GET", url, headers=headers, data=payload)
-#         weatherDict = json.loads(response.text)
-#         sunrise = weatherDict['data'][0]['sunrise'] % 86400
-#         sunset = weatherDict['data'][0]['sunset'] % 86400
-#         weatherDict['data'][0]['sunrise'] = sunrise
-#         weatherDict['data'][0]['sunset'] = sunset
-#         days2.append(weatherDict)
-#
-#     for days in days2:
-#         print(days['data'][0]['temp'])
+    days2 = [{'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+              'data': [{'dt': 1572773711, 'sunrise': 45385, 'sunset': 84177, 'temp': 275.88, 'feels_like': 274.75,
+                        'pressure': 1026, 'humidity': 89, 'dew_point': 274.25, 'clouds': 0, 'visibility': 10000,
+                        'wind_speed': 1.34, 'wind_deg': 60, 'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky',
+                                                                         'icon': '01n'}]}]},
+             {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+             'data': [{'dt': 1572860111, 'sunrise': 45439, 'sunset': 84125, 'temp': 283.26, 'feels_like': 282.05, 'pressure': 1019,
+                       'humidity': 66, 'dew_point': 277.2, 'clouds': 0, 'visibility': 10000, 'wind_speed': 3.58,
+                       'wind_deg': 180, 'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01n'}]}]},
+             {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+             'data': [{'dt': 1572946511, 'sunrise': 45494, 'sunset': 84074, 'temp': 288.17, 'feels_like': 288.05, 'pressure': 1020,
+                       'humidity': 89, 'dew_point': 286.37, 'clouds': 100, 'visibility': 10000, 'wind_speed': 0.89,
+                       'wind_deg': 45, 'wind_gust': 0, 'weather': [{'id': 500, 'main': 'Rain', 'description': 'light rain', 'icon': '10n'}],
+                       'rain': {'1h': 0.11}}]},
+             {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+             'data': [{'dt': 1573032911, 'sunrise': 45549, 'sunset': 84025, 'temp': 285.82, 'feels_like': 285.47,
+                       'pressure': 1025, 'humidity': 89, 'dew_point': 284.06, 'clouds': 75, 'visibility': 10000,
+                       'wind_speed': 2.1, 'wind_deg': 80,
+                       'weather': [{'id': 803, 'main': 'Clouds', 'description': 'broken clouds', 'icon': '04n'}]}]},
+             {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+             'data': [{'dt': 1573119311, 'sunrise': 45604, 'sunset': 83977, 'temp': 289.46, 'feels_like': 289.24,
+                       'pressure': 1019, 'humidity': 80, 'dew_point': 286.01, 'clouds': 40, 'visibility': 10000,
+                       'wind_speed': 1.34, 'wind_deg': 180,
+                       'weather': [{'id': 802, 'main': 'Clouds', 'description': 'scattered clouds', 'icon': '03n'}]}]},
+             {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+             'data': [{'dt': 1573205711, 'sunrise': 45660, 'sunset': 83931, 'temp': 276.94, 'feels_like': 272.43, 'pressure': 1030,
+                       'humidity': 75, 'dew_point': 272.95, 'clouds': 0, 'visibility': 10000, 'wind_speed': 6.2,
+                       'wind_deg': 50, 'wind_gust': 9.3,
+                       'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01n'}]}]},
+             {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+             'data': [{'dt': 1573292111, 'sunrise': 45715, 'sunset': 83886, 'temp': 273.08, 'feels_like': 273.08,
+                       'pressure': 1026, 'humidity': 93, 'dew_point': 272.2, 'clouds': 0, 'visibility': 10000, 'wind_speed': 0,
+                       'wind_deg': 0,
+                       'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01n'}]}]},
+             {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+             'data': [{'dt': 1573378511, 'sunrise': 45771, 'sunset': 83843, 'temp': 280.14, 'feels_like': 277.67, 'pressure': 1021,
+                       'humidity': 83, 'dew_point': 277.45, 'clouds': 0, 'visibility': 10000, 'wind_speed': 3.6, 'wind_deg': 200,
+                       'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01n'}]}]}]
 
-    print("")
-# Bug here: leaf layer not in order
+    # days3 = []
+    # for i in range(10):
+    #     # The next day is date + 86400
+    #     date += 86400
+    #     url = 'https://api.openweathermap.org/data/3.0/onecall/timemachine?lat=' + \
+    #         lat + '&lon=' + lon + '&dt=' + str(date) + '&appid=' + apiKey
+    #     payload = {}
+    #     headers = {}
+    #     response = requests.request("GET", url, headers=headers, data=payload)
+    #     weatherDict = json.loads(response.text)
+    #     sunrise = weatherDict['data'][0]['sunrise'] % 86400
+    #     sunset = weatherDict['data'][0]['sunset'] % 86400
+    #     weatherDict['data'][0]['sunrise'] = sunrise
+    #     weatherDict['data'][0]['sunset'] = sunset
+    #     days3.append(weatherDict)
+
     tree = BPlusTree(days)
     tree.forward_traverse_leafs()
-    print(tree.search(269.44))
+    print("")
+    print(tree.root.keys)
+    print("")
+
+    tree.rebuild(days2)
+    tree.forward_traverse_leafs()
+
+    print("")
+    print(tree.root.keys)
+    # print(tree.search(269.44))
     # print("")
     # tree.rebuild(days)
     # tree.forward_traverse_leafs()
