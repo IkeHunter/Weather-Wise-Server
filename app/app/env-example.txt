@@ -1,0 +1,3 @@
+# Input both keys to interact with the front end
+API_KEY={Open Weather Map API Key}
+MAPS_KEY={Google Maps API Key}
