@@ -62,8 +62,11 @@ def main():
     tree.dbg_search(274.7)
     tree.dbg_search(284.66)
     tree.dbg_search(287.67)
+
     heap = WeatherHeap()
     tree = BPlusTree()
+
+
 
 
 if __name__ == "__main__":

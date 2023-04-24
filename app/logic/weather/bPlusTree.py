@@ -16,14 +16,51 @@ class BPlusTree:
     # Called by frontend, given a list of day objects create a tree structure
     def create(self, yearDays=[], order=3) -> None:
         self.rebuild(yearDays, order)
-
+#############################################################################
     # Called by frontend, given parameters, return a list of days that best matches the search terms
     def find(self, average_temp, humidity, precipitation) -> json:
-        results = self.search(average_temp)
-        # Use Khai's algorithm to reduce/reorganize the results
-        # search(results, humidity, precipitation)
-        # return json.dumps(results)
+        # Search the tree for days with matching average temperatures
+        matching_days = self.search(average_temp)
 
+        # Filter and rank days based on input parameters
+        ranked_days = self.search_by_parameters(matching_days, average_temp, humidity, precipitation)
+
+        # Return the ranked results as a JSON object
+        return json.dumps(ranked_days)
+
+    def search_by_parameters(self, matching_days, average_temp, humidity, precipitation) -> list:
+        ranked_days = []  # Initialize an empty list to store ranked days
+
+        # Iterate through the matching_days
+        for day in matching_days:
+            if day is None:  # Skip if the day is None
+                continue
+
+            # Iterate through the day values
+            for day_data in day.values():
+                # Iterate through each day_data (dictionary)
+                for d in day_data:
+                    # Calculate the squared difference for average temperature
+                    temp_diff = (d['average_temp'] - average_temp) ** 2
+                    # Calculate the squared difference for humidity
+                    humidity_diff = (d['humidity'] - humidity) ** 2
+                    # Calculate the squared difference for precipitation
+                    precipitation_diff = (d['precipitation'] - precipitation) ** 2
+                    # Calculate the total difference by summing up the individual squared differences
+                    total_diff = temp_diff + humidity_diff + precipitation_diff
+
+                    # Append the total difference and day_data (dictionary) as a tuple to ranked_days
+                    ranked_days.append((total_diff, d))
+
+        # Sort days based on total difference (ranking)
+        ranked_days.sort(key=lambda x: x[0])
+
+        # Return the ranked list of days (dictionaries)
+        return [day_data[1] for day_data in ranked_days]
+
+    
+   ################################################################################################## 
+   
     # Insert a key, value pair into the B+ Tree
     def insert(self, key, value) -> None:
         self.root = self._insert(None, self.root, key, value)
@@ -38,33 +75,7 @@ class BPlusTree:
             # Check if the temperature already exists in tree
             self._insert_at_leaf(child, key, value)
 
-    # FIXME: Make it so that whenever we split internal nodes we pop the middle value
-    # the middle node is copied to the node above it
-    # and we check to see if we need to split that new node
-    ######################### possible solution ##################
-    #why is not working?
-            def _split_internal_node(self, node):
-            # Create a new node with the same order as the original node
-            new_node = Node(self.order)
-
-            # Determine the midpoint of the node's keys
-            midpoint = len(node.keys) // 2
-
-            # Move the second half of the keys and children to the new node
-            new_node.keys = node.keys[midpoint + 1:] # Move the keys excluding the middle key
-            new_node.children = node.children[midpoint + 1:]
-
-            # Remove the second half of the keys and children from the original node
-            node.keys = node.keys[:midpoint] # Keep the keys up to the midpoint (excluding the middle key)
-            node.children = node.children[:midpoint + 1]
-
-            # Copy the middle key to the new_node
-            new_node.keys.insert(0, node.keys[midpoint]) 
-
-            # Return the new node
-            return new_node
-
-###########################################################################
+    
 
     # Searches for a key in the B+ tree and returns the temperature of the city.
     def search(self, key, api_key):
@@ -230,24 +241,10 @@ class BPlusTree:
         else:
             child = self._select_child(node, key)
             return self._search(child, key)
+        
+        ## serach by temp will return an array of values (which is temp), create 2 differnt functions that takes in that array, and return an array of the humidity and precipitation. [[][][]] dictionary 
 ##---------------------------------------------------------------------##
-    def search_by_humidity(self, target_humidity: int) -> list:   #that takes a specific humidity value (integer) as an input:
-        result = []
-        for day in self.get_all_data():
-            if 'humidity' in day:
-                result.append((day, (target_humidity - day['humidity']) ** 2))
-
-        result.sort(key=lambda x: x[1])
-        return [day for day, _ in result]
-
-    def search_by_precipitation(self, target_precipitation: float) -> list: #that takes a specific precipitation value (float) as an input:
-        result = []
-        for day in self.get_all_data():
-            if 'precipitation' in day:
-                result.append((day, (target_precipitation - day['precipitation']) ** 2))
-
-        result.sort(key=lambda x: x[1])
-        return [day for day, _ in result]
+ 
 ##################################################
     # When given a new array of days rebuild the tree
     def rebuild(self, days=[], order=3) -> None:
@@ -278,124 +275,124 @@ class BPlusTree:
             curr_node = curr_node.prev
   
 
-# ============= Test =========== #
+    # ============= Test =========== #
 
 
-def testMain():
-    #     apiKey = '11d1d9e83f342ffd3863eec2bdabe3a8'
-    #     # date = 1618525688
-    #     date = 1572687311
-    #     lat = '33.44'
-    #     lon = '-94.04'
-    #
-    #     # Checking if API call works
-    #     # url = 'https://api.openweathermap.org/data/3.0/onecall?lat=' + \
-    #     #    lat + '&lon=' + lon + '&appid=' + apiKey
-    #     # https: // api.openweathermap.org/data/3.0/onecall/timemachine?lat = 39.099724 & lon = -94.578331 & dt = 1643803200 & appid = {API key}
-    #
-    #     days = [{'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
-    #              'data': [{'dt': 1644062400, 'sunrise': 1644066553, 'sunset': 1644105068, 'temp': 269.44, 'feels_like': 267.09,
-    #                        'pressure': 1035, 'humidity': 83, 'dew_point': 267.26, 'clouds': 0, 'visibility': 10000, 'wind_speed': 1.54,
-    #                        'wind_deg': 240,
-    #                            'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01n'}]}]},
-    #
-    #             {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
-    #              'data': [{'dt': 1644321600, 'sunrise': 1644325606, 'sunset': 1644364441, 'temp': 274.04, 'feels_like': 272.35,
-    #                        'pressure': 1025, 'humidity': 75, 'dew_point': 270.47, 'clouds': 0, 'visibility': 10000, 'wind_speed': 1.54,
-    #                        'wind_deg': 200,
-    #                            'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01n'}]}]},
-    #
-    #             {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
-    #              'data': [{'dt': 1643889600, 'sunrise': 1643893845, 'sunset': 1643932152, 'temp': 274.7, 'feels_like': 270.1,
-    #                        'pressure': 1014, 'humidity': 95, 'dew_point': 273.99, 'clouds': 100, 'visibility': 10000, 'wind_speed': 5.14,
-    #                        'wind_deg': 30,
-    #                        'weather': [{'id': 501, 'main': 'Rain', 'description': 'moderate rain', 'icon': '10n'}], 'rain': {'1h': 1.98}}]},
-    #
-    #             {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
-    #              'data': [{'dt': 1644667200, 'sunrise': 1644670990, 'sunset': 1644710268, 'temp': 284.66, 'feels_like': 283.15,
-    #                        'pressure': 1022, 'humidity': 49, 'dew_point': 274.33, 'clouds': 100, 'visibility': 10000, 'wind_speed': 4.63,
-    #                        'wind_deg': 20, 'wind_gust': 7.72,
-    #                        'weather': [{'id': 500, 'main': 'Rain', 'description': 'light rain', 'icon': '10n'}], 'rain': {'1h': 0.21}}]},
-    #
-    #             {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
-    #              'data': [{'dt': 1643803200, 'sunrise': 1643807488, 'sunset': 1643845693, 'temp': 287.67, 'feels_like': 287.63,
-    #                        'pressure': 1009, 'humidity': 94, 'dew_point': 286.72, 'clouds': 100, 'visibility': 10000, 'wind_speed': 4.12,
-    #                        'wind_deg': 210,
-    #                        'weather': [{'id': 804, 'main': 'Clouds', 'description': 'overcast clouds', 'icon': '04n'}]}]}
-    #             ]
-    #
-    #     days2 = [{'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
-    #               'data': [{'dt': 1572773711, 'sunrise': 45385, 'sunset': 84177, 'temp': 275.88, 'feels_like': 274.75,
-    #                         'pressure': 1026, 'humidity': 89, 'dew_point': 274.25, 'clouds': 0, 'visibility': 10000,
-    #                         'wind_speed': 1.34, 'wind_deg': 60, 'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky',
-    #                                                                          'icon': '01n'}]}]},
-    #              {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
-    #              'data': [{'dt': 1572860111, 'sunrise': 45439, 'sunset': 84125, 'temp': 283.26, 'feels_like': 282.05, 'pressure': 1019,
-    #                        'humidity': 66, 'dew_point': 277.2, 'clouds': 0, 'visibility': 10000, 'wind_speed': 3.58,
-    #                        'wind_deg': 180, 'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01n'}]}]},
-    #              {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
-    #              'data': [{'dt': 1572946511, 'sunrise': 45494, 'sunset': 84074, 'temp': 288.17, 'feels_like': 288.05, 'pressure': 1020,
-    #                        'humidity': 89, 'dew_point': 286.37, 'clouds': 100, 'visibility': 10000, 'wind_speed': 0.89,
-    #                        'wind_deg': 45, 'wind_gust': 0, 'weather': [{'id': 500, 'main': 'Rain', 'description': 'light rain', 'icon': '10n'}],
-    #                        'rain': {'1h': 0.11}}]},
-    #              {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
-    #              'data': [{'dt': 1573032911, 'sunrise': 45549, 'sunset': 84025, 'temp': 285.82, 'feels_like': 285.47,
-    #                        'pressure': 1025, 'humidity': 89, 'dew_point': 284.06, 'clouds': 75, 'visibility': 10000,
-    #                        'wind_speed': 2.1, 'wind_deg': 80,
-    #                        'weather': [{'id': 803, 'main': 'Clouds', 'description': 'broken clouds', 'icon': '04n'}]}]},
-    #              {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
-    #              'data': [{'dt': 1573119311, 'sunrise': 45604, 'sunset': 83977, 'temp': 289.46, 'feels_like': 289.24,
-    #                        'pressure': 1019, 'humidity': 80, 'dew_point': 286.01, 'clouds': 40, 'visibility': 10000,
-    #                        'wind_speed': 1.34, 'wind_deg': 180,
-    #                        'weather': [{'id': 802, 'main': 'Clouds', 'description': 'scattered clouds', 'icon': '03n'}]}]},
-    #              {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
-    #              'data': [{'dt': 1573205711, 'sunrise': 45660, 'sunset': 83931, 'temp': 276.94, 'feels_like': 272.43, 'pressure': 1030,
-    #                        'humidity': 75, 'dew_point': 272.95, 'clouds': 0, 'visibility': 10000, 'wind_speed': 6.2,
-    #                        'wind_deg': 50, 'wind_gust': 9.3,
-    #                        'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01n'}]}]},
-    #              {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
-    #              'data': [{'dt': 1573292111, 'sunrise': 45715, 'sunset': 83886, 'temp': 273.08, 'feels_like': 273.08,
-    #                        'pressure': 1026, 'humidity': 93, 'dew_point': 272.2, 'clouds': 0, 'visibility': 10000, 'wind_speed': 0,
-    #                        'wind_deg': 0,
-    #                        'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01n'}]}]},
-    #              {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
-    #              'data': [{'dt': 1573378511, 'sunrise': 45771, 'sunset': 83843, 'temp': 280.14, 'feels_like': 277.67, 'pressure': 1021,
-    #                        'humidity': 83, 'dew_point': 277.45, 'clouds': 0, 'visibility': 10000, 'wind_speed': 3.6, 'wind_deg': 200,
-    #                        'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01n'}]}]}]
-    #
-    #     # days3 = []
-    #     # for i in range(10):
-    #     #     # The next day is date + 86400
-    #     #     date += 86400
-    #     #     url = 'https://api.openweathermap.org/data/3.0/onecall/timemachine?lat=' + \
-    #     #         lat + '&lon=' + lon + '&dt=' + str(date) + '&appid=' + apiKey
-    #     #     payload = {}
-    #     #     headers = {}
-    #     #     response = requests.request("GET", url, headers=headers, data=payload)
-    #     #     weatherDict = json.loads(response.text)
-    #     #     sunrise = weatherDict['data'][0]['sunrise'] % 86400
-    #     #     sunset = weatherDict['data'][0]['sunset'] % 86400
-    #     #     weatherDict['data'][0]['sunrise'] = sunrise
-    #     #     weatherDict['data'][0]['sunset'] = sunset
-    #     #     days3.append(weatherDict)
-    #
-    #     tree = BPlusTree(days, 4)
-    #     tree.forward_traverse_leafs()
-    #     print("")
-    #     print(tree.root.keys)
-    #     print("")
-    #
-    #     tree.rebuild(days2, 4)
-    #     tree.forward_traverse_leafs()
-    #
-    #     print("")
-    #     print(tree.root.keys)
-    #
-    days = [{'id': 3, 'widget_title': 'top_result', 'date': 1578384000, 'location_id': 2, 'average_temp': 10, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 4, 'widget_title': 'top_result', 'date': 1578384000, 'location_id': 2, 'average_temp': 10, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 40, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 13, 'widget_title': 'top_result', 'date': 1679609699, 'location_id': 2, 'average_temp': 10, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 14, 'widget_title': 'search_results', 'date': 1677194099, 'location_id': 2, 'average_temp': 10, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 15, 'widget_title': 'search_results', 'date': 1674515699, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 16, 'widget_title': 'search_results', 'date': 1697494499, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {
-        'id': 17, 'widget_title': 'search_results', 'date': 1697321699, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 18, 'widget_title': 'search_results', 'date': 1694729699, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 19, 'widget_title': 'search_results', 'date': 1692051299, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 20, 'widget_title': 'search_results', 'date': 1689372899, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 21, 'widget_title': 'search_results', 'date': 1686780899, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 22, 'widget_title': 'search_results', 'date': 1684102499, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}]
-    tree = BPlusTree(days)
-    tree.forward_traverse_leafs()
-    tree.backward_traverse_leafs()
+    def testMain():
+        #     apiKey = '11d1d9e83f342ffd3863eec2bdabe3a8'
+        #     # date = 1618525688
+        #     date = 1572687311
+        #     lat = '33.44'
+        #     lon = '-94.04'
+        #
+        #     # Checking if API call works
+        #     # url = 'https://api.openweathermap.org/data/3.0/onecall?lat=' + \
+        #     #    lat + '&lon=' + lon + '&appid=' + apiKey
+        #     # https: // api.openweathermap.org/data/3.0/onecall/timemachine?lat = 39.099724 & lon = -94.578331 & dt = 1643803200 & appid = {API key}
+        #
+        #     days = [{'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+        #              'data': [{'dt': 1644062400, 'sunrise': 1644066553, 'sunset': 1644105068, 'temp': 269.44, 'feels_like': 267.09,
+        #                        'pressure': 1035, 'humidity': 83, 'dew_point': 267.26, 'clouds': 0, 'visibility': 10000, 'wind_speed': 1.54,
+        #                        'wind_deg': 240,
+        #                            'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01n'}]}]},
+        #
+        #             {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+        #              'data': [{'dt': 1644321600, 'sunrise': 1644325606, 'sunset': 1644364441, 'temp': 274.04, 'feels_like': 272.35,
+        #                        'pressure': 1025, 'humidity': 75, 'dew_point': 270.47, 'clouds': 0, 'visibility': 10000, 'wind_speed': 1.54,
+        #                        'wind_deg': 200,
+        #                            'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01n'}]}]},
+        #
+        #             {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+        #              'data': [{'dt': 1643889600, 'sunrise': 1643893845, 'sunset': 1643932152, 'temp': 274.7, 'feels_like': 270.1,
+        #                        'pressure': 1014, 'humidity': 95, 'dew_point': 273.99, 'clouds': 100, 'visibility': 10000, 'wind_speed': 5.14,
+        #                        'wind_deg': 30,
+        #                        'weather': [{'id': 501, 'main': 'Rain', 'description': 'moderate rain', 'icon': '10n'}], 'rain': {'1h': 1.98}}]},
+        #
+        #             {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+        #              'data': [{'dt': 1644667200, 'sunrise': 1644670990, 'sunset': 1644710268, 'temp': 284.66, 'feels_like': 283.15,
+        #                        'pressure': 1022, 'humidity': 49, 'dew_point': 274.33, 'clouds': 100, 'visibility': 10000, 'wind_speed': 4.63,
+        #                        'wind_deg': 20, 'wind_gust': 7.72,
+        #                        'weather': [{'id': 500, 'main': 'Rain', 'description': 'light rain', 'icon': '10n'}], 'rain': {'1h': 0.21}}]},
+        #
+        #             {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+        #              'data': [{'dt': 1643803200, 'sunrise': 1643807488, 'sunset': 1643845693, 'temp': 287.67, 'feels_like': 287.63,
+        #                        'pressure': 1009, 'humidity': 94, 'dew_point': 286.72, 'clouds': 100, 'visibility': 10000, 'wind_speed': 4.12,
+        #                        'wind_deg': 210,
+        #                        'weather': [{'id': 804, 'main': 'Clouds', 'description': 'overcast clouds', 'icon': '04n'}]}]}
+        #             ]
+        #
+        #     days2 = [{'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+        #               'data': [{'dt': 1572773711, 'sunrise': 45385, 'sunset': 84177, 'temp': 275.88, 'feels_like': 274.75,
+        #                         'pressure': 1026, 'humidity': 89, 'dew_point': 274.25, 'clouds': 0, 'visibility': 10000,
+        #                         'wind_speed': 1.34, 'wind_deg': 60, 'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky',
+        #                                                                          'icon': '01n'}]}]},
+        #              {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+        #              'data': [{'dt': 1572860111, 'sunrise': 45439, 'sunset': 84125, 'temp': 283.26, 'feels_like': 282.05, 'pressure': 1019,
+        #                        'humidity': 66, 'dew_point': 277.2, 'clouds': 0, 'visibility': 10000, 'wind_speed': 3.58,
+        #                        'wind_deg': 180, 'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01n'}]}]},
+        #              {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+        #              'data': [{'dt': 1572946511, 'sunrise': 45494, 'sunset': 84074, 'temp': 288.17, 'feels_like': 288.05, 'pressure': 1020,
+        #                        'humidity': 89, 'dew_point': 286.37, 'clouds': 100, 'visibility': 10000, 'wind_speed': 0.89,
+        #                        'wind_deg': 45, 'wind_gust': 0, 'weather': [{'id': 500, 'main': 'Rain', 'description': 'light rain', 'icon': '10n'}],
+        #                        'rain': {'1h': 0.11}}]},
+        #              {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+        #              'data': [{'dt': 1573032911, 'sunrise': 45549, 'sunset': 84025, 'temp': 285.82, 'feels_like': 285.47,
+        #                        'pressure': 1025, 'humidity': 89, 'dew_point': 284.06, 'clouds': 75, 'visibility': 10000,
+        #                        'wind_speed': 2.1, 'wind_deg': 80,
+        #                        'weather': [{'id': 803, 'main': 'Clouds', 'description': 'broken clouds', 'icon': '04n'}]}]},
+        #              {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+        #              'data': [{'dt': 1573119311, 'sunrise': 45604, 'sunset': 83977, 'temp': 289.46, 'feels_like': 289.24,
+        #                        'pressure': 1019, 'humidity': 80, 'dew_point': 286.01, 'clouds': 40, 'visibility': 10000,
+        #                        'wind_speed': 1.34, 'wind_deg': 180,
+        #                        'weather': [{'id': 802, 'main': 'Clouds', 'description': 'scattered clouds', 'icon': '03n'}]}]},
+        #              {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+        #              'data': [{'dt': 1573205711, 'sunrise': 45660, 'sunset': 83931, 'temp': 276.94, 'feels_like': 272.43, 'pressure': 1030,
+        #                        'humidity': 75, 'dew_point': 272.95, 'clouds': 0, 'visibility': 10000, 'wind_speed': 6.2,
+        #                        'wind_deg': 50, 'wind_gust': 9.3,
+        #                        'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01n'}]}]},
+        #              {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+        #              'data': [{'dt': 1573292111, 'sunrise': 45715, 'sunset': 83886, 'temp': 273.08, 'feels_like': 273.08,
+        #                        'pressure': 1026, 'humidity': 93, 'dew_point': 272.2, 'clouds': 0, 'visibility': 10000, 'wind_speed': 0,
+        #                        'wind_deg': 0,
+        #                        'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01n'}]}]},
+        #              {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+        #              'data': [{'dt': 1573378511, 'sunrise': 45771, 'sunset': 83843, 'temp': 280.14, 'feels_like': 277.67, 'pressure': 1021,
+        #                        'humidity': 83, 'dew_point': 277.45, 'clouds': 0, 'visibility': 10000, 'wind_speed': 3.6, 'wind_deg': 200,
+        #                        'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01n'}]}]}]
+        #
+        #     # days3 = []
+        #     # for i in range(10):
+        #     #     # The next day is date + 86400
+        #     #     date += 86400
+        #     #     url = 'https://api.openweathermap.org/data/3.0/onecall/timemachine?lat=' + \
+        #     #         lat + '&lon=' + lon + '&dt=' + str(date) + '&appid=' + apiKey
+        #     #     payload = {}
+        #     #     headers = {}
+        #     #     response = requests.request("GET", url, headers=headers, data=payload)
+        #     #     weatherDict = json.loads(response.text)
+        #     #     sunrise = weatherDict['data'][0]['sunrise'] % 86400
+        #     #     sunset = weatherDict['data'][0]['sunset'] % 86400
+        #     #     weatherDict['data'][0]['sunrise'] = sunrise
+        #     #     weatherDict['data'][0]['sunset'] = sunset
+        #     #     days3.append(weatherDict)
+        #
+        #     tree = BPlusTree(days, 4)
+        #     tree.forward_traverse_leafs()
+        #     print("")
+        #     print(tree.root.keys)
+        #     print("")
+        #
+        #     tree.rebuild(days2, 4)
+        #     tree.forward_traverse_leafs()
+        #
+        #     print("")
+        #     print(tree.root.keys)
+        #
+        days = [{'id': 3, 'widget_title': 'top_result', 'date': 1578384000, 'location_id': 2, 'average_temp': 10, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 4, 'widget_title': 'top_result', 'date': 1578384000, 'location_id': 2, 'average_temp': 10, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 40, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 13, 'widget_title': 'top_result', 'date': 1679609699, 'location_id': 2, 'average_temp': 10, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 14, 'widget_title': 'search_results', 'date': 1677194099, 'location_id': 2, 'average_temp': 10, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 15, 'widget_title': 'search_results', 'date': 1674515699, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 16, 'widget_title': 'search_results', 'date': 1697494499, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {
+            'id': 17, 'widget_title': 'search_results', 'date': 1697321699, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 18, 'widget_title': 'search_results', 'date': 1694729699, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 19, 'widget_title': 'search_results', 'date': 1692051299, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 20, 'widget_title': 'search_results', 'date': 1689372899, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 21, 'widget_title': 'search_results', 'date': 1686780899, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 22, 'widget_title': 'search_results', 'date': 1684102499, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}]
+        tree = BPlusTree(days)
+        tree.forward_traverse_leafs()
+        tree.backward_traverse_leafs()
 
 
-testMain()
+    testMain()

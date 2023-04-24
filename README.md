@@ -9,6 +9,11 @@
 | SQL Database | [Postgres](https://node-postgres.com/) |
 
 
+## Helpful Links
+http://localhost:8000/admin/logic/page/2/change/
+http://localhost:8000/api/docs#/weather/weather_results_create
+http://localhost:8000/weather/summary/
+
 
 ## Project Prerequisites
 
