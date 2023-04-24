@@ -3,7 +3,8 @@ import json
 import environ
 import time
 import datetime
-from logic.models import Page, Conditions, Forecast, ForecastTable, ForecastRow
+from django.contrib.postgres.search import SearchQuery
+from logic.models import Page, Conditions, Forecast, ForecastTable, ForecastRow, SearchLog
 
 env = environ.Env()
 environ.Env.read_env()
@@ -53,9 +54,24 @@ class Summary:
     def _fetch_past_year(self) -> json:
         url = "https://history.openweathermap.org/data/2.5/aggregated/year"
         data = self._request(url)
+        result = []
+        for day in data["result"]:
+            result.append({
+                "date": day["dt"],
+                "average_temp": day["temp"],
+                "feels_like": day["feels_like"],
+                "pressure": day["pressure"],
+                "humidity": day["humidity"],
+                "wind_speed": day["wind_speed"],
+                "pop": day["pop"],
+                "rain_levels": day["rain_levels"],
+                "sunrise": day["sunrise"],
+                "sunset": day["sunset"],
+                "weather_name": day["weather_name"],
+                "icon": day["icon"],
+            })
 
-        return data["result"]
-
+        return result
 
 
     def _fetch_forecast(self):
@@ -186,7 +202,10 @@ class Summary:
 
 
     def _save_to_db(self):
-        pass
+        log = SearchLog(
+            location = self._get_postal_code(),
+        )
+        log.save()
 
     def _get_postal_code(self) -> str:
         url = f"https://maps.googleapis.com/maps/api/geocode/json?latlng={self.lat},{self.long}&key={self.maps_key}"
@@ -205,7 +224,15 @@ class Summary:
         self.summary.save()
 
     def create_summary(self):
+        # check if summary with same location exists
+        # if Page.objects.filter(location=self._get_postal_code(), page_title="summary").exists():
+        #     return
+        if SearchLog.objects.filter(location=self._get_postal_code()).exists():
+            return
         self._fetch_current_conditions()
+        self._fetch_forecast()
+        self._save_to_db()
+
 
     def change_location(self, lat, long):
         pass

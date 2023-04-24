@@ -1,0 +1,17 @@
+{
+    "id": 1,
+    "widget_title": "current_conditions",
+    "date": 1578384000,
+    "location_id": 1,
+    "average_temp": 93,
+    "feels_like": 98,
+    "pressure": 30,
+    "humidity": 42,
+    "wind_speed": 4,
+    "pop": 22,
+    "rain_levels": 0,
+    "sunrise": 1684059299,
+    "sunset": 1684106099,
+    "weather_name": "Sun",
+    "icon": "10d"
+}

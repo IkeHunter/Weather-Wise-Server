@@ -27,21 +27,20 @@ def Initialize(request):
     latitude = request.GET.get('lat')
     longitude = request.GET.get('long')
     summary.set_location(latitude, longitude)
-    
+
     summary.create_summary()
     archive.create_archive()
     return HttpResponse("Initialized")
 
 
 class SummaryViewSet(viewsets.ModelViewSet):
-    # queryset = Page.objects.all().order_by('location')
-    # allDays = loadAllDays()  # Isaac
+    """
+    TODO: create current_conditions, last_year, forecast data in db
+    TODO: get past year days as json in Conditions format
+    TODO: send past year json to heap, return results
+    TODO: create model for widgets from json result
+    """
     yearDays = summary.get_past_year()
-
-    # convetModels(yearDays, allDays) # Isaac
-
-    # make api call to get data
-    # heap.create(yearDays) # Kevin
 
     queryset = Page.objects.filter(
         page_title="summary"
@@ -54,19 +53,18 @@ class ResultsViewSet(viewsets.ModelViewSet):
         ).order_by('location')
     serializer_class = SearchResultsSerializer
 
+
     def create(self, request, *args, **kwargs):
-        # test: http://localhost:8000/api/docs - POST - /weather/results/
-        print("POST")
-        print(request.data)
-        # request.data: todate, fromdate, temperature, precipitation, humidity, location
-        # function(request.data) -> list of days
-        # functino(list of day) -> create models
+        """
+        TODO: get search parameters
+        TODO: Create b+ tree
+        TODO: get filtered days by date
+        TODO: b+ tree search with prameters
+        TODO: return json results without creating model
 
-        # selectedDays: json = filterDays(todate, fromdate) // Isaac
-        # tree.create(selectedDays) // Kevin
-        # filteredDays: json = tree.find(temperature, precipitation, humidity) // Kevin
-        # return Response(filteredDays) // Kevin + Isaac
-
+        @param request: todate, fromdate, temperature, precipitation, humidity, location
+        @return: list of days
+        """
         queryset = Conditions.objects.filter(
             Q(widget_title="top_result") | Q(widget_title="search_results"),
         ).order_by('location').values()  # returns json
