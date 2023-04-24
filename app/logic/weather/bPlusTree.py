@@ -3,14 +3,14 @@ from node import Node
 
 
 class BPlusTree:
+    order: int
+    root: Node = None
+    head: Node = None
+    tail: Node = None
+
     # Constructor for B+ Tree
-    def __init__(self, days=[], order=3) -> None:
-        self.order = order
-        self.root = None
-        self.head: Node
-        self.tail: Node
-        for day in days:
-            self.insert(day['average_temp'], day)
+    def __init__(self) -> None:
+        pass
 
     # Called by frontend, given a list of day objects create a tree structure
     def create(self, yearDays=[], order=3) -> None:
@@ -215,12 +215,19 @@ class BPlusTree:
     # When given a new array of days rebuild the tree
     def rebuild(self, days=[], order=3) -> None:
         self._reset()
-        self.__init__(days, order)
+        self.order = order
+        self.root = None
+        self.head: Node
+        self.tail: Node
+        for day in days:
+            self.insert(day['average_temp'], day)
 
     def _reset(self) -> None:
         # Delete tree via automatic garbage collection
         self.root = None
         # Delete the linked list
+        if self.head is None:
+            return
         while self.head.next is not None:
             self.head = self.head.next
             self.head.prev = None
@@ -240,7 +247,7 @@ class BPlusTree:
             curr_node = curr_node.prev
 
 
-def testMain():
+# def testMain():
     #     apiKey = '11d1d9e83f342ffd3863eec2bdabe3a8'
     #     # date = 1618525688
     #     date = 1572687311
@@ -350,11 +357,10 @@ def testMain():
     #     print("")
     #     print(tree.root.keys)
     #
-    days = [{'id': 3, 'widget_title': 'top_result', 'date': 1578384000, 'location_id': 2, 'average_temp': 10, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 4, 'widget_title': 'top_result', 'date': 1578384000, 'location_id': 2, 'average_temp': 10, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 40, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 13, 'widget_title': 'top_result', 'date': 1679609699, 'location_id': 2, 'average_temp': 10, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 14, 'widget_title': 'search_results', 'date': 1677194099, 'location_id': 2, 'average_temp': 10, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 15, 'widget_title': 'search_results', 'date': 1674515699, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 16, 'widget_title': 'search_results', 'date': 1697494499, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {
-        'id': 17, 'widget_title': 'search_results', 'date': 1697321699, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 18, 'widget_title': 'search_results', 'date': 1694729699, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 19, 'widget_title': 'search_results', 'date': 1692051299, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 20, 'widget_title': 'search_results', 'date': 1689372899, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 21, 'widget_title': 'search_results', 'date': 1686780899, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 22, 'widget_title': 'search_results', 'date': 1684102499, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}]
-    tree = BPlusTree(days)
-    tree.forward_traverse_leafs()
-    tree.backward_traverse_leafs()
+    # days = [{'id': 3, 'widget_title': 'top_result', 'date': 1578384000, 'location_id': 2, 'average_temp': 10, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 4, 'widget_title': 'top_result', 'date': 1578384000, 'location_id': 2, 'average_temp': 10, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 40, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 13, 'widget_title': 'top_result', 'date': 1679609699, 'location_id': 2, 'average_temp': 10, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 14, 'widget_title': 'search_results', 'date': 1677194099, 'location_id': 2, 'average_temp': 10, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 15, 'widget_title': 'search_results', 'date': 1674515699, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 16, 'widget_title': 'search_results', 'date': 1697494499, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {
+    #     'id': 17, 'widget_title': 'search_results', 'date': 1697321699, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 18, 'widget_title': 'search_results', 'date': 1694729699, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 19, 'widget_title': 'search_results', 'date': 1692051299, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 20, 'widget_title': 'search_results', 'date': 1689372899, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 21, 'widget_title': 'search_results', 'date': 1686780899, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 22, 'widget_title': 'search_results', 'date': 1684102499, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}]
+    # tree = BPlusTree(days)
+    # tree.forward_traverse_leafs()
+    # tree.backward_traverse_leafs()
 
-
-testMain()
+    # testMain()
