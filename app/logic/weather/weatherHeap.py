@@ -1,25 +1,26 @@
 import json
-import requests
 from enum import Enum, auto
 
 # General enumerator class for types of parameter to be searched
 
 
 class Parameter(Enum):
-    RAIN = auto()
+    POP = auto()
+    RAIN_LEVEL = auto()
     HOT = auto()
     COLD = auto()
     HUMID = auto()
     SUNR = auto()
     SUNS = auto()
+    PRESS = auto()
+    W_SPEED = auto()
 
 
 class Comp(Enum):
     GREATER = 0
     LESSER = 1
 
-# days[0]['data'][0]['dt'] This is the syntax to access the dt of the first
-#  element in the array
+# days[i] This is the syntax to access the data of the first
 
 
 class WeatherHeap:
@@ -37,13 +38,6 @@ class WeatherHeap:
         for i in range(self.size):
             self.days.append(weather[i])
 
-        # Add in local_sunrise and local_sunset attributes
-        for i in range(self.size):
-            local_sunrise = self.days[i]['data'][0]['sunrise'] % 86400
-            local_sunset = self.days[i]['data'][0]['sunset'] % 86400
-            self.days[i]['data'][0]['local_sunrise'] = local_sunrise
-            self.days[i]['data'][0]['local_sunset'] = local_sunset
-
         self.orderHeap(param)
 
     def _reset(self) -> None:
@@ -51,7 +45,15 @@ class WeatherHeap:
         self.size = None
         self.param = None
 
-    # Order the heap by specified parameter
+    # Called by frontend, given a list of days create a heap
+    def create(self, param: Parameter, yearDays=[]) -> None:
+        self.rebuildHeap(param, yearDays)
+
+    # Called by frontend, returns the top value at current heap
+    def find(self) -> json:
+        return json.dumps(self.top())
+
+        # Order the heap by specified parameter
     def orderHeap(self, parameter: Parameter) -> None:
         self.size = len(self.days)
         for i in range(int(self.size / 2), -1, -1):
@@ -62,7 +64,7 @@ class WeatherHeap:
         top = self.days[0]
         # Switch the first and last elements of the list
         self.days[0], self.days[-1] = self.days[-1], self.days[0]
-        self.size - 1
+        self.size = self.size - 1
         self.heapifyDown(self.param, 0)
 
         return top
@@ -78,28 +80,28 @@ class WeatherHeap:
             return
 
         index = i
-        curr_data = self.days[index]['data'][0]
+        curr_data = self.days[index]
 
         # Find node with smallest value within context
         match parameter:
-            case Parameter.RAIN:
+            case Parameter.RAIN_LEVEL:
                 index = self.comparator(0, left_child, right_child,
-                                        index, 'rain', Comp.GREATER)
+                                        index, 'rain_level', Comp.GREATER)
             case Parameter.HUMID:
                 index = self.comparator(0, left_child, right_child,
                                         index, 'humidity', Comp.GREATER)
             case Parameter.HOT:
                 index = self.comparator(float('-inf'), left_child, right_child,
-                                        index, 'temp', Comp.GREATER)
+                                        index, 'average_temp', Comp.GREATER)
             case Parameter.COLD:
                 index = self.comparator(float('inf'), left_child, right_child,
-                                        index, 'temp', Comp.LESSER)
+                                        index, 'average_temp', Comp.LESSER)
             case Parameter.SUNR:
                 index = self.comparator(0, left_child, right_child,
-                                        index, 'local_sunrise', Comp.GREATER)
+                                        index, 'sunrise', Comp.GREATER)
             case Parameter.SUNS:
                 index = self.comparator(86400, left_child, right_child,
-                                        index, 'local_sunset', Comp.LESSER)
+                                        index, 'sunset', Comp.LESSER)
 
         if index == i:
             return
@@ -110,35 +112,51 @@ class WeatherHeap:
 
     # Compare values and returns an index of the element that satisfies the conditions given
     # comp will determine if we are checking for a max or min value
-    def comparator(self, start: int, left: int, right: int, index: int, param: Parameter, comp: Comp) -> int:
+    def comparator(self, start, left: int, right: int, index: int, param: str, comp: Comp) -> int:
 
-        if param in self.days[index]['data'][0]:
-            start = self.days[index]['data'][0][param]
+        if param in self.days[index]:
+            start = self.days[index][param]
 
         # Create left and right child to be used later
-        left_data = self.days[left]['data'][0]
+        left_data = self.days[left]
         right_data = {}
         if right < self.size:
-            right_data = self.days[right]['data'][0]
+            right_data = self.days[right]
 
         match comp:
             case Comp.GREATER:
                 if param in left_data:
-                    if start < left_data[param]:
+                    if param is Parameter.SUNR:
+                        if start < left_data[param] % 86400:
+                            start = left_data[param] % 86400
+                            index = left
+                    elif start < left_data[param]:
                         start = left_data[param]
                         index = left
 
                 if param in right_data:
-                    if start < right_data[param]:
+                    if param is Parameter.SUNR:
+                        if start < right_data[param] % 86400:
+                            start = right_data[param] % 86400
+                            index = right
+                    elif start < right_data[param]:
                         index = right
             case Comp.LESSER:
                 if param in left_data:
-                    if start > left_data[param]:
+                    if param is Parameter.SUNS:
+                        if start > left_data[param] % 86400:
+                            start = left_data[param] % 86400
+                            index = left
+                    elif start > left_data[param]:
                         start = left_data[param]
                         index = left
 
                 if param in right_data:
-                    if start > right_data[param]:
+                    if param is Parameter.SUNS:
+                        if start > right_data[param] % 86400:
+                            start = right_data[param] % 86400
+                            index = right
+                    elif start > right_data[param]:
                         index = right
 
         return index
@@ -153,7 +171,7 @@ class WeatherHeap:
 
     def print(self) -> None:
         for i in range(self.size):
-            print(self.days[i])
+            print(self.days[i]['date'])
 
     # Only use if the location has changed
     # Destroys current heap and creates new heap
@@ -178,36 +196,9 @@ class WeatherHeap:
 
 
 # # Testing Purposes
-# days = [{'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
-#          'data': [{'dt': 1644062400, 'sunrise': 1644066553, 'sunset': 1644105068, 'temp': 269.44, 'feels_like': 267.09,
-#                    'pressure': 1035, 'humidity': 83, 'dew_point': 267.26, 'clouds': 0, 'visibility': 10000, 'wind_speed': 1.54,
-#                    'wind_deg': 240,
-#                    'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01n'}]}]},
-#
-#         {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
-#             'data': [{'dt': 1644321600, 'sunrise': 1644325606, 'sunset': 1644364441, 'temp': 274.04, 'feels_like': 272.35,
-#                       'pressure': 1025, 'humidity': 75, 'dew_point': 270.47, 'clouds': 0, 'visibility': 10000, 'wind_speed': 1.54,
-#                       'wind_deg': 200,
-#                       'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01n'}]}]},
-#
-#         {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
-#             'data': [{'dt': 1643889600, 'sunrise': 1643893845, 'sunset': 1643932152, 'temp': 274.7, 'feels_like': 270.1,
-#                       'pressure': 1014, 'humidity': 95, 'dew_point': 273.99, 'clouds': 100, 'visibility': 10000, 'wind_speed': 5.14,
-#                       'wind_deg': 30,
-#                       'weather': [{'id': 501, 'main': 'Rain', 'description': 'moderate rain', 'icon': '10n'}], 'rain': {'1h': 1.98}}]},
-#
-#         {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
-#             'data': [{'dt': 1644667200, 'sunrise': 1644670990, 'sunset': 1644710268, 'temp': 284.66, 'feels_like': 283.15,
-#                       'pressure': 1022, 'humidity': 49, 'dew_point': 274.33, 'clouds': 100, 'visibility': 10000, 'wind_speed': 4.63,
-#                       'wind_deg': 20, 'wind_gust': 7.72,
-#                       'weather': [{'id': 500, 'main': 'Rain', 'description': 'light rain', 'icon': '10n'}], 'rain': {'1h': 0.21}}]},
-#
-#         {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
-#             'data': [{'dt': 1643803200, 'sunrise': 1643807488, 'sunset': 1643845693, 'temp': 287.67, 'feels_like': 287.63,
-#                       'pressure': 1009, 'humidity': 94, 'dew_point': 286.72, 'clouds': 100, 'visibility': 10000, 'wind_speed': 4.12,
-#                       'wind_deg': 210,
-#                       'weather': [{'id': 804, 'main': 'Clouds', 'description': 'overcast clouds', 'icon': '04n'}]}]}
-#         ]
+
+days = [{'id': 3, 'widget_title': 'top_result', 'date': 1578384000, 'location_id': 2, 'average_temp': 10, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 4, 'widget_title': 'top_result', 'date': 1578384000, 'location_id': 2, 'average_temp': 10, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 40, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 13, 'widget_title': 'top_result', 'date': 1679609699, 'location_id': 2, 'average_temp': 10, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 14, 'widget_title': 'search_results', 'date': 1677194099, 'location_id': 2, 'average_temp': 10, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 15, 'widget_title': 'search_results', 'date': 1674515699, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 16, 'widget_title': 'search_results', 'date': 1697494499, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {
+    'id': 17, 'widget_title': 'search_results', 'date': 1697321699, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 18, 'widget_title': 'search_results', 'date': 1694729699, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 19, 'widget_title': 'search_results', 'date': 1692051299, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 20, 'widget_title': 'search_results', 'date': 1689372899, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 21, 'widget_title': 'search_results', 'date': 1686780899, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 22, 'widget_title': 'search_results', 'date': 1684102499, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}]
 #
 #
 # apiKey = '11d1d9e83f342ffd3863eec2bdabe3a8'
@@ -236,13 +227,13 @@ class WeatherHeap:
 #     weatherDict['data'][0]['sunset'] = sunset
 #     days.append(weatherDict)
 
-# heap = WeatherHeap(days, Parameter.SUNR)
-# print("\nSORTED BY LOCAL SUNRISE\n")
-# heap.print()
-#
-# print("\n Top 5 Day\n")
-# print(heap.top(5))
-#
-# print("\n Reset Heap \n")
-# heap.buildHeap(Parameter.SUNR)
-# heap.print()
+heap = WeatherHeap(days, Parameter.SUNR)
+print("\nSORTED BY LOCAL SUNRISE\n")
+heap.print()
+
+print("\n Top 5 Day\n")
+print(heap.top(5))
+
+print("\n Reset Heap \n")
+heap.orderHeap(Parameter.HOT)
+heap.print()

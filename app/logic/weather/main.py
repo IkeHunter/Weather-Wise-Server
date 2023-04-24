@@ -17,7 +17,8 @@ class mainTest:
 
 # Connect API
 
-# fromDate, toDate, temp, prec, humid
+# list of days within range, temp, prec, humid
+# list of days, Paramater enum
 
 
 def main():
