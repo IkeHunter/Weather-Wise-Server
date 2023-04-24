@@ -17,6 +17,7 @@ class Summary:
         self.maps_key = env('MAPS_KEY')
         self.summary: Page
         self.forecast_limit = 12
+        self.postal_code = 0
         # self.widget_period = 28944000
 
     def _request(self, url, params="") -> json:
@@ -50,6 +51,8 @@ class Summary:
         current_conditions.save()
         print(data)
 
+    def _fetch_last_year(self):
+        pass
 
     def _fetch_past_year(self) -> json:
         url = "https://history.openweathermap.org/data/2.5/aggregated/year"
@@ -212,7 +215,8 @@ class Summary:
         payload={}
         headers = {}
         response = requests.request("GET", url, headers=headers, data=payload)
-        return response.json()["results"][0]["address_components"][6]["long_name"]
+        self.postal_code = response.json()["results"][0]["address_components"][6]["long_name"]
+        return self.postal_code
 
     def set_location(self, lat, long):
         self.lat = lat
@@ -236,7 +240,11 @@ class Summary:
 
     def change_location(self, lat, long):
         pass
+    def get_location(self):
+        return self.summary
     def get_past_year(self):
         pass
+    def get_postal_code(self):
+        return self.postal_code
 
 

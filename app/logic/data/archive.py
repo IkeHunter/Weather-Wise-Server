@@ -15,6 +15,9 @@ class Archive:
     def get_all_days(self):
         pass
 
-    def register_results(self, results: json):
+    def get_time_period(self, start: int, end: int):
         pass
+
+    # def register_results(self, results: json):
+    #     pass
 

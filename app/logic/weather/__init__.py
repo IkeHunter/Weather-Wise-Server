@@ -1,2 +1,2 @@
-from weatherHeap import WeatherHeap
-from bPlusTree import BPlusTree
+from .weatherHeap import WeatherHeap, Parameter
+from .bPlusTree import BPlusTree
