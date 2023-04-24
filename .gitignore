@@ -4,11 +4,15 @@ __pycache__/
 *$py.class
 
 # Json data
-Gainesville.json
-Vero_Beach.json
+*/Gainesville.json
+*/Vero_Beach.json
 app/logic/data/gainesville.json
 app/logic/data/vero_beach.json
 
+*.DS_Store
+# app/.DS_Store
+# app/logic/.DS_Store
+# app/logic/data/.DS_Store
 
 # C extensions
 *.so
