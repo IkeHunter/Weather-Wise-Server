@@ -9,6 +9,9 @@ __pycache__/
 app/logic/data/gainesville.json
 app/logic/data/vero_beach.json
 
+# Test
+app/logic/weather/test.py
+
 *.DS_Store
 # app/.DS_Store
 # app/logic/.DS_Store

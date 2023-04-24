@@ -29,16 +29,8 @@ class WeatherHeap:
     param: Parameter
     size: int
 
-    def __init__(self, weather, param: Parameter) -> None:
-        self.size = len(weather)
-        self.param = param
-
-        # This ensures we are actually maintaining a copy of the value
-        # and not the original
-        for i in range(self.size):
-            self.days.append(weather[i])
-
-        self.orderHeap(param)
+    def __init__(self) -> None:
+        pass
 
     def _reset(self) -> None:
         self.days.clear()
@@ -46,14 +38,14 @@ class WeatherHeap:
         self.param = None
 
     # Called by frontend, given a list of days create a heap
-    def create(self, param: Parameter, yearDays=[]) -> None:
-        self.rebuildHeap(param, yearDays)
+    def create(self, yearDays, param: Parameter) -> None:
+        self.rebuildHeap(yearDays, param)
 
     # Called by frontend, returns the top value at current heap
-    def find(self) -> json:
-        return json.dumps(self.top())
+    def find(self, number: int) -> json:
+        return json.dumps(self.top(number))
 
-        # Order the heap by specified parameter
+    # Order the heap by specified parameter
     def orderHeap(self, parameter: Parameter) -> None:
         self.size = len(self.days)
         for i in range(int(self.size / 2), -1, -1):
@@ -163,7 +155,7 @@ class WeatherHeap:
 
     def top(self, number: int) -> list:
         result = []
-        for i in range(number):
+        for _ in range(number):
             result.append(self.pop())
 
         self.orderHeap(self.param)
@@ -177,7 +169,15 @@ class WeatherHeap:
     # Destroys current heap and creates new heap
     def rebuildHeap(self, weather, param: Parameter) -> None:
         self._reset()
-        self.__init__(weather, param)
+        self.size = len(weather)
+        self.param = param
+
+        # This ensures we are actually maintaining a copy of the value
+        # and not the original
+        for i in range(self.size):
+            self.days.append(weather[i])
+
+        self.orderHeap(param)
 
 
 # # Testing Purposes
@@ -212,13 +212,13 @@ days = [{'id': 3, 'widget_title': 'top_result', 'date': 1578384000, 'location_id
 #     weatherDict['data'][0]['sunset'] = sunset
 #     days.append(weatherDict)
 
-heap = WeatherHeap(days, Parameter.SUNR)
-print("\nSORTED BY LOCAL SUNRISE\n")
-heap.print()
-
-print("\n Top 5 Day\n")
-print(heap.top(5))
-
-print("\n Reset Heap \n")
-heap.orderHeap(Parameter.HOT)
-heap.print()
+# heap = WeatherHeap(days, Parameter.SUNR)
+# print("\nSORTED BY LOCAL SUNRISE\n")
+# heap.print()
+#
+# print("\n Top 5 Day\n")
+# print(heap.top(5))
+#
+# print("\n Reset Heap \n")
+# heap.orderHeap(Parameter.HOT)
+# heap.print()
