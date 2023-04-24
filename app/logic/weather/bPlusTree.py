@@ -1,90 +1,49 @@
+import json
 
-import requests
-
-# The Node class represents a single node in the B+ tree, containing keys and children.
-
-
-class Node:
-    def __init__(self, order):
-        self.order = order  # Order of the B+ tree
-        self.keys = []  # List of keys in the node
-        self.children = []  # List of child nodes
-
-    # Returns True if the node is a leaf, otherwise False
-    def is_leaf(self):
-        return not bool(self.children)
-        ############### ---------------kevin part #############
-
-# The BPlusTree class represents the entire B+ tree structure.
-
-# Make a new leaf node class that stores temp key and a linked list of day objects
-#   The linked list will be cut into 4 arrays
-#       0 - 24, 25 - 49, 50 - 74, and 75 - 100 % humidity
-# In Node add temperature attribute as the key value to be compared
-
-# The website will ask to search for temperatures from a specific range of days that the user inputs
-# Isaac will call the api on his end and create an array of day objects from that range
-# The b+ tree will be instantiated with the array
-# Taking in the temperature value that the user wants to look for we will search the tree for the set of values that matches
-# The b+ tree is one part of the overall search algorithm
-# When the search is done it should return a linked list
-
-# A simple search of the linked list with the correct humidity will return an array of days that match the precipitation
-
-      ############### ---------------kevin part #############
-
-# The BPlusTree class represents the entire B+ tree structure.
+from node import Node
 
 
 class BPlusTree:
-    def __init__(self, days=[], order=3):
-        self.order = order  # Order of the B+ tree
-        self.root = Node(order)  # The root node of the tree
+    # Constructor for B+ Tree
+    def __init__(self, days=[], order=3) -> None:
+        self.order = order
+        self.root = None
+        self.head: Node
+        self.tail: Node
+        for day in days:
+            self.insert(day['average_temp'], day)
 
-        # Initialize the b+ tree with an array of day objects if their are days
-        ############### ---------------kevin part #############
-      # TODO: test this addition
-        for i in range(len(days)):
-            # insert the temp as the key,           dict object as value
-            self.insert(days[i]['data'][0]['temp'], days[i])
-        ############### ---------------kevin part #############
+    # Called by frontend, given a list of day objects create a tree structure
+    def create(self, yearDays=[], order=3) -> None:
+        self.rebuild(yearDays, order)
 
-    # Inserts a key-value pair into the B+ tree.
-    def insert(self, key, value):
-        # Create a new root node
-        new_child = self._insert(self.root, key, value)
-        if new_child:
-            new_root = Node(self.order)
-            # Changed this line to not pop the first element in the new node
-            new_root.keys = [new_child.keys[0]]
-            new_root.children = [self.root, new_child]
-            self.root = new_root
+    # Called by frontend, given parameters, return a list of days that best matches the search terms
+    def find(self, average_temp, humidity, precipitation) -> json:
+        results = self.search(average_temp)
+        # Use Khai's algorithm to reduce/reorganize the results
+        # search(results, humidity, precipitation)
+        # return json.dumps(results)
 
-    # Recursive insert
-        # Check if the tree is empty
-            # just make a new node and insert
-        # Check if the node is a child node
-            # traverse down the correct branch to child node
-        # else
-            # insert into the node
+    # Insert a key, value pair into the B+ Tree
+    def insert(self, key, value) -> None:
+        self.root = self._insert(None, self.root, key, value)
 
-        # Check if node requires splitting
-            # return false if not
-            # this false will prevent splitting in the rest of the recursion
-        # else
-            # split the node
-            # differentiate between leaf nodes and internal nodes
-            # leaf can maintain the middle value
-            # internal must delete middle value
-            # both will provide middle value to parent node
-            #
+    # Recursively call insert until we find a leaf node
+    def _insert(self, parent: Node, child: Node, key, value) -> Node:
+        # Base Case: Empty tree
+        if child is None:
+            return self._insert_new_root(child, key, value)
+        # Base Case: At leaf node insert key value pair
+        if child.is_leaf():
+            # Check if the temperature already exists in tree
+            self._insert_at_leaf(child, key, value)
 
     # FIXME: Make it so that whenever we split internal nodes we pop the middle value
     # the middle node is copied to the node above it
     # and we check to see if we need to split that new node
     ######################### possible solution ##################
     #why is not working?
-        def _split_internal_node(self, node):
+            def _split_internal_node(self, node):
             # Create a new node with the same order as the original node
             new_node = Node(self.order)
 
@@ -125,135 +84,300 @@ class BPlusTree:
             # Call _split_leaf_node method with node as parameter
             return self._split_leaf_node(node)
         else:
-            # Call _select_child method with node and key as parameters
-            child = self._select_child(node, key)
-            # Recursively call _insert method with child node, key, and value as parameters
-            new_child = self._insert(child, key, value)
-            if not new_child:
-                return None
-            # Get the index of the child node in the node's children list
-            i = node.children.index(child)
-            # Insert the popped key from new_child at the i-th index of the node's keys list
-            # Changed from popping key to just inserting it
-            node.keys.insert(i, new_child.keys[0])
-            # Insert new_child at the (i+1)th index of the node's children list
-            node.children.insert(i + 1, new_child)
-            if len(node.keys) < self.order:  # Check if node is not full
-                return None
-            # Call _split_internal_node method with node as parameter
-            return self._split_internal_node(node)
+            # Choose the next child node to traverse down
+            next_child = self._select_child(child, key)
+            self._insert(child, next_child, key, value)
 
-    def _split_leaf_node(self, node):
-        # Create a new node with the same order as the original node
-        new_node = Node(self.order)
+            # internal nodes may only have up to order
+            if len(child.keys) < self.order:
+                return child
 
-        # Determine the midpoint of the node's keys
+            # Order is violated
+            return self._split_internal(parent, child)
+
+    # Insert a new root node
+    def _insert_new_root(self, child: Node, key, value) -> Node:
+        # Create a new node and populate it with key and value
+        child = Node()
+        child.keys.append(key)
+        child.values[key] = []
+        child.values[key].append(value)
+
+        # Initialize head and tail pointers to child
+        self.head = child
+        self.tail = child
+
+        # Return child as the root
+        return child
+
+    def _insert_at_leaf(self, child: Node, key, value) -> Node:
+        # Check if the temperature already exists in tree
+        if key not in child.keys:
+            child.keys.append(key)
+            child.keys.sort()
+
+        # Add day obj into the dict
+        if key not in child.values:
+            child.values[key] = []
+
+        # Duplicates will be added into the list
+        child.values[key].append(value)
+
+    # Transfers the keys between split nodes and returns new_right_child
+    def _transferKeys(self, node: Node) -> Node:
+        new_right_child = Node()
         midpoint = len(node.keys) // 2
 
-        # Move the second half of the keys to the new node
-        new_node.keys = node.keys[midpoint:]
-
-        # Remove the second half of the keys from the original node
+        # Transfer keys
+        new_right_child.keys = node.keys[midpoint:]
         node.keys = node.keys[:midpoint]
 
-        # Return the new node
-        return new_node
+        return new_right_child
 
-    def _split_internal_node(self, node):
-        # Create a new node with the same order as the original node
-        new_node = Node(self.order)
+    # Returns the parent of the split leaf nodes
+    def _split_leaf(self, parent: Node, child: Node) -> Node:
+        new_right_child: Node = self._transferKeys(child)
 
-        # Determine the midpoint of the node's keys
-        midpoint = len(node.keys) // 2
+        # Transfer values
+        for key in new_right_child.keys:
+            new_right_child.values[key] = child.values.pop(key)
 
-        # Move the second half of the keys and children to the new node
-        # Changed the midpoint + 1 to just midpoint
-        new_node.keys = node.keys[midpoint:]
-        new_node.children = node.children[midpoint + 1:]
+        # Connect leaf nodes in linked list
+        self._connectLeafNode(child, new_right_child)
 
-        # Remove the second half of the keys and children from the original node
-        # Changed the midpoint + 1 to just midpoint
-        node.keys = node.keys[:midpoint]
-        node.children = node.children[:midpoint + 1]
+        # Check if the leaf node is a root
+        if parent is None:
+            new_root = Node()
+            new_root.children.extend([child, new_right_child])
+            new_root.keys.append(new_right_child.keys[0])
+            return new_root
+        else:
+            # parent exists
+            parent.children.extend([new_right_child])
 
-        # Return the new node
-        return new_node
+            # # Sort the children by the first key value that the have
+            parent.children.sort(key=lambda child: child.keys[0])
+            parent.keys.append(new_right_child.keys[0])
+            parent.keys.sort()
+            return parent
 
-    def _search(self, node, key):
+    # Connect the leaf child to the right child
+    def _connectLeafNode(self, left_child: Node, right_child: Node) -> None:
+        # Only two general cases, since we will never add a new head
+
+        # Insert new tail
+        if left_child is self.tail:
+            right_child.prev = left_child
+            right_child.next = left_child.next
+            left_child.next = right_child
+            self.tail = right_child
+        else:  # Insert in middle
+            right_child.prev = left_child
+            right_child.next = left_child.next
+            left_child.next.prev = right_child
+            left_child.next = right_child
+
+    # Returns the parent of split internal nodes
+    def _split_internal(self, parent: Node, child: Node) -> Node:
+
+        new_right_child = self._transferKeys(child)
+
+        # Change pointers for children node
+        midpoint = len(child.children) // 2
+        for _ in range(0, midpoint):
+            new_right_child.children.append(child.children.pop(midpoint))
+
+        # Internal node is the root
+        if parent is None:
+            new_root = Node()
+            new_root.children.extend([child, new_right_child])
+            new_root.keys.append(new_right_child.keys.pop(0))
+            return new_root
+        else:
+            # parent exists
+            parent.children.extend([new_right_child])
+
+            # Sort children by the first key that they have
+            parent.children.sort(key=lambda child: child.keys[0])
+            parent.keys.append(new_right_child.keys.pop(0))
+            parent.keys.sort()
+            return parent
+
+    # Copied from Khai, selects next child to be traversed
+    def _select_child(self, parent: Node, key) -> Node:
+        # Iterate through the node's keys to find the appropriate child node for the key
+        for i, k in enumerate(parent.keys):
+            if key < k:
+                return parent.children[i]
+        # If the key is greater than all of the node's keys, return the last child node
+        return parent.children[-1]
+
+    def search(self, temp) -> list[Node]:
+        return self._search(self.root, temp)
+
+    def _search(self, node: Node, key) -> list[Node]:
         # If the node is a leaf, search for the key in its keys
         if node.is_leaf():
-            for k, v in node.keys:
-                if k == key:
-                    return v
-            # If the key is not found, return None
-            return None
+            if node is self.head and node is self.tail:
+                return [None, node.values, None]
+            if node is self.head:
+                return [None, node.values, node.next.values]
+            if node is self.tail:
+                return [node.prev.values, node.values, None]
+            return [node.prev.values, node.values, node.next.values]
+
         # If the node is not a leaf, recursively search for the key in the appropriate child node
         else:
             child = self._select_child(node, key)
             return self._search(child, key)
 
-    def _select_child(self, node, key):
-        # Iterate through the node's keys to find the appropriate child node for the key
-        # Bug here
-        for i, k in enumerate(node.keys):
-            if key < k[0]:
-                return node.children[i]
-        # If the key is greater than all of the node's keys, return the last child node
-        return node.children[-1]
+    # When given a new array of days rebuild the tree
+    def rebuild(self, days=[], order=3) -> None:
+        self._reset()
+        self.__init__(days, order)
 
-    def _get_temperature(self, coordinates, api_key):
-        lat, lon = coordinates
-        url = f"http://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}&units=imperial"
-        response = requests.get(url)
-        data = response.json()
+    def _reset(self) -> None:
+        # Delete tree via automatic garbage collection
+        self.root = None
 
-        if data["cod"] != 200:
-            print(f"Error fetching temperature data: {data['message']}")
-            return None
+        # Delete the linked list
+        while self.head.next is not None:
+            self.head = self.head.next
+            self.head.prev = None
+        self.head = None
+        self.tail = None
 
-        temperature = data["main"]["temp"]
-        return temperature
+    def forward_traverse_leafs(self) -> None:
+        curr_node = self.head
+        while curr_node is not None:
+            print(curr_node.keys)
+            curr_node = curr_node.next
 
-    def dbg_search(self, temp):
-        result_day = self._search(self.root, temp)
-        if result_day:
-            print(result_day)
-        else:
-            print("Temperature Not Found")
-            return None
+    def backward_traverse_leafs(self) -> None:
+        curr_node = self.tail
+        while curr_node is not None:
+            print(curr_node.keys)
+            curr_node = curr_node.prev
 
 
-def fetch_cities(search_term, api_key):
-    url = f"http://api.openweathermap.org/geo/1.0/direct?q={search_term}&limit=5&appid={api_key}"
-    response = requests.get(url)
-    data = response.json()
-
-    if not data:
-        print(f"No cities found with the search term: {search_term}")
-        return []
-
-    cities = [{"name": city["name"], "coord": {
-        "lat": city["lat"], "lon": city["lon"]}} for city in data]
-    return cities
+# ============= Test =========== #
 
 
-# Example usage
-bplus_tree = BPlusTree(order=5)
-api_key = "22a4a6b8c95cae3bd78f317a1094c245"
+def testMain():
+    #     apiKey = '11d1d9e83f342ffd3863eec2bdabe3a8'
+    #     # date = 1618525688
+    #     date = 1572687311
+    #     lat = '33.44'
+    #     lon = '-94.04'
+    #
+    #     # Checking if API call works
+    #     # url = 'https://api.openweathermap.org/data/3.0/onecall?lat=' + \
+    #     #    lat + '&lon=' + lon + '&appid=' + apiKey
+    #     # https: // api.openweathermap.org/data/3.0/onecall/timemachine?lat = 39.099724 & lon = -94.578331 & dt = 1643803200 & appid = {API key}
+    #
+    #     days = [{'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+    #              'data': [{'dt': 1644062400, 'sunrise': 1644066553, 'sunset': 1644105068, 'temp': 269.44, 'feels_like': 267.09,
+    #                        'pressure': 1035, 'humidity': 83, 'dew_point': 267.26, 'clouds': 0, 'visibility': 10000, 'wind_speed': 1.54,
+    #                        'wind_deg': 240,
+    #                            'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01n'}]}]},
+    #
+    #             {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+    #              'data': [{'dt': 1644321600, 'sunrise': 1644325606, 'sunset': 1644364441, 'temp': 274.04, 'feels_like': 272.35,
+    #                        'pressure': 1025, 'humidity': 75, 'dew_point': 270.47, 'clouds': 0, 'visibility': 10000, 'wind_speed': 1.54,
+    #                        'wind_deg': 200,
+    #                            'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01n'}]}]},
+    #
+    #             {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+    #              'data': [{'dt': 1643889600, 'sunrise': 1643893845, 'sunset': 1643932152, 'temp': 274.7, 'feels_like': 270.1,
+    #                        'pressure': 1014, 'humidity': 95, 'dew_point': 273.99, 'clouds': 100, 'visibility': 10000, 'wind_speed': 5.14,
+    #                        'wind_deg': 30,
+    #                        'weather': [{'id': 501, 'main': 'Rain', 'description': 'moderate rain', 'icon': '10n'}], 'rain': {'1h': 1.98}}]},
+    #
+    #             {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+    #              'data': [{'dt': 1644667200, 'sunrise': 1644670990, 'sunset': 1644710268, 'temp': 284.66, 'feels_like': 283.15,
+    #                        'pressure': 1022, 'humidity': 49, 'dew_point': 274.33, 'clouds': 100, 'visibility': 10000, 'wind_speed': 4.63,
+    #                        'wind_deg': 20, 'wind_gust': 7.72,
+    #                        'weather': [{'id': 500, 'main': 'Rain', 'description': 'light rain', 'icon': '10n'}], 'rain': {'1h': 0.21}}]},
+    #
+    #             {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+    #              'data': [{'dt': 1643803200, 'sunrise': 1643807488, 'sunset': 1643845693, 'temp': 287.67, 'feels_like': 287.63,
+    #                        'pressure': 1009, 'humidity': 94, 'dew_point': 286.72, 'clouds': 100, 'visibility': 10000, 'wind_speed': 4.12,
+    #                        'wind_deg': 210,
+    #                        'weather': [{'id': 804, 'main': 'Clouds', 'description': 'overcast clouds', 'icon': '04n'}]}]}
+    #             ]
+    #
+    #     days2 = [{'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+    #               'data': [{'dt': 1572773711, 'sunrise': 45385, 'sunset': 84177, 'temp': 275.88, 'feels_like': 274.75,
+    #                         'pressure': 1026, 'humidity': 89, 'dew_point': 274.25, 'clouds': 0, 'visibility': 10000,
+    #                         'wind_speed': 1.34, 'wind_deg': 60, 'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky',
+    #                                                                          'icon': '01n'}]}]},
+    #              {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+    #              'data': [{'dt': 1572860111, 'sunrise': 45439, 'sunset': 84125, 'temp': 283.26, 'feels_like': 282.05, 'pressure': 1019,
+    #                        'humidity': 66, 'dew_point': 277.2, 'clouds': 0, 'visibility': 10000, 'wind_speed': 3.58,
+    #                        'wind_deg': 180, 'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01n'}]}]},
+    #              {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+    #              'data': [{'dt': 1572946511, 'sunrise': 45494, 'sunset': 84074, 'temp': 288.17, 'feels_like': 288.05, 'pressure': 1020,
+    #                        'humidity': 89, 'dew_point': 286.37, 'clouds': 100, 'visibility': 10000, 'wind_speed': 0.89,
+    #                        'wind_deg': 45, 'wind_gust': 0, 'weather': [{'id': 500, 'main': 'Rain', 'description': 'light rain', 'icon': '10n'}],
+    #                        'rain': {'1h': 0.11}}]},
+    #              {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+    #              'data': [{'dt': 1573032911, 'sunrise': 45549, 'sunset': 84025, 'temp': 285.82, 'feels_like': 285.47,
+    #                        'pressure': 1025, 'humidity': 89, 'dew_point': 284.06, 'clouds': 75, 'visibility': 10000,
+    #                        'wind_speed': 2.1, 'wind_deg': 80,
+    #                        'weather': [{'id': 803, 'main': 'Clouds', 'description': 'broken clouds', 'icon': '04n'}]}]},
+    #              {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+    #              'data': [{'dt': 1573119311, 'sunrise': 45604, 'sunset': 83977, 'temp': 289.46, 'feels_like': 289.24,
+    #                        'pressure': 1019, 'humidity': 80, 'dew_point': 286.01, 'clouds': 40, 'visibility': 10000,
+    #                        'wind_speed': 1.34, 'wind_deg': 180,
+    #                        'weather': [{'id': 802, 'main': 'Clouds', 'description': 'scattered clouds', 'icon': '03n'}]}]},
+    #              {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+    #              'data': [{'dt': 1573205711, 'sunrise': 45660, 'sunset': 83931, 'temp': 276.94, 'feels_like': 272.43, 'pressure': 1030,
+    #                        'humidity': 75, 'dew_point': 272.95, 'clouds': 0, 'visibility': 10000, 'wind_speed': 6.2,
+    #                        'wind_deg': 50, 'wind_gust': 9.3,
+    #                        'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01n'}]}]},
+    #              {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+    #              'data': [{'dt': 1573292111, 'sunrise': 45715, 'sunset': 83886, 'temp': 273.08, 'feels_like': 273.08,
+    #                        'pressure': 1026, 'humidity': 93, 'dew_point': 272.2, 'clouds': 0, 'visibility': 10000, 'wind_speed': 0,
+    #                        'wind_deg': 0,
+    #                        'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01n'}]}]},
+    #              {'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
+    #              'data': [{'dt': 1573378511, 'sunrise': 45771, 'sunset': 83843, 'temp': 280.14, 'feels_like': 277.67, 'pressure': 1021,
+    #                        'humidity': 83, 'dew_point': 277.45, 'clouds': 0, 'visibility': 10000, 'wind_speed': 3.6, 'wind_deg': 200,
+    #                        'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky', 'icon': '01n'}]}]}]
+    #
+    #     # days3 = []
+    #     # for i in range(10):
+    #     #     # The next day is date + 86400
+    #     #     date += 86400
+    #     #     url = 'https://api.openweathermap.org/data/3.0/onecall/timemachine?lat=' + \
+    #     #         lat + '&lon=' + lon + '&dt=' + str(date) + '&appid=' + apiKey
+    #     #     payload = {}
+    #     #     headers = {}
+    #     #     response = requests.request("GET", url, headers=headers, data=payload)
+    #     #     weatherDict = json.loads(response.text)
+    #     #     sunrise = weatherDict['data'][0]['sunrise'] % 86400
+    #     #     sunset = weatherDict['data'][0]['sunset'] % 86400
+    #     #     weatherDict['data'][0]['sunrise'] = sunrise
+    #     #     weatherDict['data'][0]['sunset'] = sunset
+    #     #     days3.append(weatherDict)
+    #
+    #     tree = BPlusTree(days, 4)
+    #     tree.forward_traverse_leafs()
+    #     print("")
+    #     print(tree.root.keys)
+    #     print("")
+    #
+    #     tree.rebuild(days2, 4)
+    #     tree.forward_traverse_leafs()
+    #
+    #     print("")
+    #     print(tree.root.keys)
+    #
+    days = [{'id': 3, 'widget_title': 'top_result', 'date': 1578384000, 'location_id': 2, 'average_temp': 10, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 4, 'widget_title': 'top_result', 'date': 1578384000, 'location_id': 2, 'average_temp': 10, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 40, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 13, 'widget_title': 'top_result', 'date': 1679609699, 'location_id': 2, 'average_temp': 10, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 14, 'widget_title': 'search_results', 'date': 1677194099, 'location_id': 2, 'average_temp': 10, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 15, 'widget_title': 'search_results', 'date': 1674515699, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 16, 'widget_title': 'search_results', 'date': 1697494499, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {
+        'id': 17, 'widget_title': 'search_results', 'date': 1697321699, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 18, 'widget_title': 'search_results', 'date': 1694729699, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 19, 'widget_title': 'search_results', 'date': 1692051299, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 20, 'widget_title': 'search_results', 'date': 1689372899, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 21, 'widget_title': 'search_results', 'date': 1686780899, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 22, 'widget_title': 'search_results', 'date': 1684102499, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}]
+    tree = BPlusTree(days)
+    tree.forward_traverse_leafs()
+    tree.backward_traverse_leafs()
 
-# Fetch cities using a search term and insert them into the B+ tree
-search_term = "Austin"
-cities = fetch_cities(search_term, api_key)
 
-for city in cities:
-    bplus_tree.insert(city["name"].lower(),
-                      (city["coord"]["lat"], city["coord"]["lon"]))
-
-# Search for a city and display its temperature
-city_name = "Austin"
-temperature = bplus_tree.search(city_name.lower(), api_key)
-
-if temperature:
-    print(f"Temperature in {city_name}: {temperature} F")
-else:
-    print(f"City '{city_name}' not found in the B+ tree.")
+testMain()

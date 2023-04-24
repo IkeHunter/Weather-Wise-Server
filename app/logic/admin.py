@@ -1,8 +1,9 @@
 from django.contrib import admin
-from .models import Summary, ConditionsList, Forecast, ForecastRow, ForecastTable
+from .models import Page, Conditions, Forecast, ForecastRow, ForecastTable
 
-class ConditionsListInline(admin.TabularInline):
-    model = ConditionsList
+class ConditionsInline(admin.StackedInline):
+    model = Conditions
+    save_as = True
 
 class ForecastRowInline(admin.TabularInline):
     model = ForecastRow
@@ -10,15 +11,21 @@ class ForecastRowInline(admin.TabularInline):
 class ForecastTableInline(admin.TabularInline):
     model = ForecastTable
 
-@admin.register(Summary)
+
+@admin.register(Page)
 class SummaryAdmin(admin.ModelAdmin):
-    inlines = [ ConditionsListInline ]
+    inlines = [ ConditionsInline ]
 
 @admin.register(ForecastTable)
 class ForecastTableAdmin(admin.ModelAdmin):
     inlines = [ ForecastRowInline ]
+    save_as = True
 
 @admin.register(Forecast)
 class ForecastAdmin(admin.ModelAdmin):
     inlines = [ ForecastTableInline ]
+
+# @admin.register(SearchResults)
+# class SearchResultsAdmin(admin.ModelAdmin):
+#     inlines = [ ConditionsInline ]
 
