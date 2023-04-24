@@ -179,21 +179,6 @@ class WeatherHeap:
         self._reset()
         self.__init__(weather, param)
 
-    # def getKLargest(k):
-    #     tempHeap = WeatherHeap()
-    #     for i in range(k):
-    #         pass
-
-    # def insert(self, day):
-    #     self.days.append(day)
-    #     self.size += 1
-    #     self.heapifyUp(self.size - 1)
-
-    # def heapifyUp(self, i):
-    #     if (i == 0):
-    #         return
-    #     parent = int((i - 1) / 2)
-
 
 # # Testing Purposes
 
