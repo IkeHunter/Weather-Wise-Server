@@ -230,7 +230,25 @@ class BPlusTree:
         else:
             child = self._select_child(node, key)
             return self._search(child, key)
+##---------------------------------------------------------------------##
+    def search_by_humidity(self, target_humidity: int) -> list:   #that takes a specific humidity value (integer) as an input:
+        result = []
+        for day in self.get_all_data():
+            if 'humidity' in day:
+                result.append((day, (target_humidity - day['humidity']) ** 2))
 
+        result.sort(key=lambda x: x[1])
+        return [day for day, _ in result]
+
+    def search_by_precipitation(self, target_precipitation: float) -> list: #that takes a specific precipitation value (float) as an input:
+        result = []
+        for day in self.get_all_data():
+            if 'precipitation' in day:
+                result.append((day, (target_precipitation - day['precipitation']) ** 2))
+
+        result.sort(key=lambda x: x[1])
+        return [day for day, _ in result]
+##################################################
     # When given a new array of days rebuild the tree
     def rebuild(self, days=[], order=3) -> None:
         self._reset()
@@ -258,7 +276,7 @@ class BPlusTree:
         while curr_node is not None:
             print(curr_node.keys)
             curr_node = curr_node.prev
-
+  
 
 # ============= Test =========== #
 
