@@ -3,6 +3,11 @@ Weather API models
 """
 from django.db import models
 
+class SearchLog(models.Model):
+    location = models.IntegerField(primary_key=True)
+    archive_end = models.BigIntegerField(default=0)
+    archive_start = models.BigIntegerField(default=0)
+    last_updated = models.DateTimeField(auto_now=True)
 
 class Page(models.Model):
     """Primary model for summary endpoint"""

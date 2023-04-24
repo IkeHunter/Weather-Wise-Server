@@ -2,6 +2,7 @@
 Views for Logic api
 """
 # from django.shortcuts import render
+from django.http import HttpResponse
 from rest_framework import viewsets
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
@@ -10,21 +11,37 @@ from .serializers import PageSerializer, SearchResultsSerializer
 from .models import Conditions, Page
 from django.db.models import Q
 
+from .api import Summary
+from .data import Archive
+
 # from weather import bPlusTree
 # from weather import heap
 
 # tree = bPlusTree.BPlusTree()
 # heap = heap.Heap()
 
+summary = Summary()
+archive = Archive()
+
+def Initialize(request):
+    latitude = request.GET.get('lat')
+    longitude = request.GET.get('long')
+    summary.set_location(latitude, longitude)
+    
+    summary.create_summary()
+    archive.create_archive()
+    return HttpResponse("Initialized")
+
+
 class SummaryViewSet(viewsets.ModelViewSet):
     # queryset = Page.objects.all().order_by('location')
-    # yearDays = loadApi()  // Isaac
-    # allDays = loadAllDays()  // Isaac
+    # allDays = loadAllDays()  # Isaac
+    yearDays = summary.get_past_year()
 
-    # convetModels(yearDays, allDays) // Isaac
+    # convetModels(yearDays, allDays) # Isaac
 
     # make api call to get data
-    # heap.create(yearDays) // Kevin
+    # heap.create(yearDays) # Kevin
 
     queryset = Page.objects.filter(
         page_title="summary"

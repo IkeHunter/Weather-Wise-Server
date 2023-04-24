@@ -1,0 +1,35 @@
+{
+    "city_name":"Custom location",
+    "lat":51.485927,
+    "lon":0.24995,
+    "main":{
+      "temp":277.72,
+      "temp_min":275.632,
+      "temp_max":279.15,
+      "feels_like":273.99,
+      "pressure":1029,
+      "humidity":75,
+      "dew_point" : 280.33
+      },
+    "wind":{
+      "speed":2.6,
+      "deg":10,
+      "gust": 5.8
+      },
+    "rain":{
+      "3h":1
+      },
+    "clouds":{
+      "all":75
+      },
+    "weather":[{
+      "id":500,
+      "main":"Rain",
+      "description":"light rain",
+      "icon":"10n"
+      }],
+    "visibility":10000,
+    "dt":1585612800,
+    "dt_iso":"2020-03-31 00:00:00 +0000 UTC",
+    "timezone":3600
+ }

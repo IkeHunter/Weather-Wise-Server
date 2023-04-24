@@ -24,7 +24,6 @@ class mainTest:
 def main():
     # main.py works
     print("weather works")
-<<<<<<< HEAD
     print("testing git flow")
     days = [{'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
              'data': [{'dt': 1644062400, 'sunrise': 1644066553, 'sunset': 1644105068, 'temp': 269.44, 'feels_like': 267.09,
@@ -63,10 +62,8 @@ def main():
     tree.dbg_search(274.7)
     tree.dbg_search(284.66)
     tree.dbg_search(287.67)
-=======
     heap = WeatherHeap()
     tree = BPlusTree()
->>>>>>> 8e2c36b2e77119a238fd6ba0a68c033459de419a
 
 
 if __name__ == "__main__":

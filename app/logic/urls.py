@@ -11,7 +11,7 @@ router.register(r'search', views.ResultsViewSet, basename='search')
 
 urlpatterns = [
     path('', include(router.urls)),
-    # path('search', views.post_search, name='post_search'),
+    path(r'initialize', views.Initialize, name='initialize'),
     path('api-auth/',
          include('rest_framework.urls', namespace='weather_framework')),
 ]
