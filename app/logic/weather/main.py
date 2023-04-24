@@ -1,5 +1,6 @@
 # Remember to pip install requests if you are getting an error for import requests
 from bPlusTree import BPlusTree
+from weatherHeap import WeatherHeap
 
 
 class mainTest:
@@ -16,15 +17,15 @@ class mainTest:
 
 # Connect API
 
-
-def get_date(element):
-    return element['data'][0]
+# list of days within range, temp, prec, humid
+# list of days, Paramater enum
 
 
 def main():
     # main.py works
     print("weather works")
-#    print("testing git flow")
+<<<<<<< HEAD
+    print("testing git flow")
     days = [{'lat': 33.44, 'lon': -94.04, 'timezone': 'America/Chicago', 'timezone_offset': -21600,
              'data': [{'dt': 1644062400, 'sunrise': 1644066553, 'sunset': 1644105068, 'temp': 269.44, 'feels_like': 267.09,
                        'pressure': 1035, 'humidity': 83, 'dew_point': 267.26, 'clouds': 0, 'visibility': 10000, 'wind_speed': 1.54,
@@ -55,6 +56,17 @@ def main():
                       'wind_deg': 210,
                       'weather': [{'id': 804, 'main': 'Clouds', 'description': 'overcast clouds', 'icon': '04n'}]}]}
             ]
+
+    tree = BPlusTree(days)
+    tree.dbg_search(269.44)
+    tree.dbg_search(274.04)
+    tree.dbg_search(274.7)
+    tree.dbg_search(284.66)
+    tree.dbg_search(287.67)
+=======
+    heap = WeatherHeap()
+    tree = BPlusTree()
+>>>>>>> 8e2c36b2e77119a238fd6ba0a68c033459de419a
 
 
 if __name__ == "__main__":
