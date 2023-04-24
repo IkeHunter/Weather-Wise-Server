@@ -36,12 +36,6 @@ class ResultsViewSet(viewsets.ModelViewSet):
             page_title="search"
         ).order_by('location')
     serializer_class = SearchResultsSerializer
-    def list(self, request):
-        queryset = Page.objects.filter(
-            page_title="search"
-        ).order_by('location')
-        serializer_class = SearchResultsSerializer
-        return Response(serializer_class.data)
 
     def create(self, request, *args, **kwargs):
         # test: http://localhost:8000/api/docs - POST - /weather/results/
@@ -63,11 +57,6 @@ class ResultsViewSet(viewsets.ModelViewSet):
         print(queryset)
         serializer_class = SearchResultsSerializer
         return Response(queryset)
-
-# @csrf_exempt
-# def post_search(request, Pk=None):
-#     if request.method == "POST":
-#         print("POST")
 
 def get_list_of_days(request):
     # request: todate, fromdate, temperature, precipitation, humidity

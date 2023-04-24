@@ -7,7 +7,7 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register(r'summary', views.SummaryViewSet)
-router.register(r'results', views.ResultsViewSet, basename='results')
+router.register(r'search', views.ResultsViewSet, basename='search')
 
 urlpatterns = [
     path('', include(router.urls)),
