@@ -56,7 +56,7 @@ class PageSerializer(serializers.ModelSerializer):
     def get_forecast(self, obj: Page):
         forecast: QuerySet = Forecast.objects.filter(
             location_id=obj.id,
-        ).values()[0]
+        ).values().first()
 
         return ForecastSerializer(instance=forecast, many=False).data
 
@@ -64,14 +64,14 @@ class PageSerializer(serializers.ModelSerializer):
         current_conditions: QuerySet = Conditions.objects.filter(
             location_id=obj.id,
             widget_title="current_conditions"
-        ).values()
-        return current_conditions[0]
+        ).values().first()
+        return current_conditions
     def get_last_year(self, obj: Page) -> QuerySet:
         last_year: QuerySet = Conditions.objects.filter(
             location_id=obj.id,
             widget_title="last_year"
-        ).values()
-        return last_year[0]
+        ).values().first()
+        return last_year
     def get_widgets(self, obj: Page) -> QuerySet:
         widgets: QuerySet = Conditions.objects.filter(
             ~Q(widget_title="current_conditions") & ~Q(widget_title="last_year"),

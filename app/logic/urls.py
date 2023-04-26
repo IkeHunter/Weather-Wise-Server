@@ -8,10 +8,11 @@ from . import views
 router = routers.DefaultRouter()
 router.register(r'summary', views.SummaryViewSet)
 router.register(r'search', views.ResultsViewSet, basename='search')
+# router.register(r'initialize', views.Initialize, basename='initialize')
 
 urlpatterns = [
     path('', include(router.urls)),
-    path(r'initialize', views.Initialize, name='initialize'),
+    path(f'initialize/', views.Initialize, name='initialize'),
     path('api-auth/',
          include('rest_framework.urls', namespace='weather_framework')),
 ]

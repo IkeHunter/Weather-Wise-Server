@@ -73,6 +73,7 @@ class WeatherHeap:
 
         index = i
         curr_data = self.days[index]
+        # print(parameter)
 
         # Find node with smallest value within context
         match parameter:
@@ -169,7 +170,7 @@ class WeatherHeap:
     # Destroys current heap and creates new heap
     def rebuildHeap(self, weather, param: Parameter) -> None:
         self._reset()
-        self.size = len(weather)
+        self.size = 0 if not weather else len(weather)
         self.param = param
 
         # This ensures we are actually maintaining a copy of the value

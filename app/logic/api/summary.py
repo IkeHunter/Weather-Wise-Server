@@ -15,7 +15,7 @@ class Summary:
         self.long = 0
         self.key = env('API_KEY')
         self.maps_key = env('MAPS_KEY')
-        self.summary: Page
+        self.summary: Page = None
         self.forecast_limit = 12
         self.postal_code = 0
         # self.widget_period = 28944000
@@ -32,7 +32,7 @@ class Summary:
         hourlyUrl = "https://pro.openweathermap.org/data/2.5/forecast"
 
         data = self._request(url)
-        hourly = self.request(hourlyUrl)
+        hourly = self._request(hourlyUrl)
 
         current_conditions = Conditions(
             location = self.summary,
@@ -49,7 +49,7 @@ class Summary:
             sunset = data["sys"]["sunset"],
         )
         current_conditions.save()
-        print(data)
+        # print(data)
 
     def _fetch_last_year(self):
         pass
@@ -122,25 +122,25 @@ class Summary:
             hour = forecast_hourly_list[i]
             forecast_h_temp_row = ForecastRow(
                 value = hour["main"]["temp"],
-                forecast_table = forecast_h_temp,
+                forecastTable = forecast_h_temp,
                 time = hour["dt"],
             )
             forecast_h_temp_row.save()
             forecast_h_pop_row = ForecastRow(
                 value = hour["pop"],
-                forecast_table = forecast_h_pop,
+                forecastTable = forecast_h_pop,
                 time = hour["dt"],
             )
             forecast_h_pop_row.save()
             forecast_h_wind_row = ForecastRow(
                 value = hour["wind"]["speed"],
-                forecast_table = forecast_h_wind,
+                forecastTable = forecast_h_wind,
                 time = hour["dt"],
             )
             forecast_h_wind_row.save()
             forecast_h_humidity_row = ForecastRow(
                 value = hour["main"]["humidity"],
-                forecast_table = forecast_h_humidity,
+                forecastTable = forecast_h_humidity,
                 time = hour["dt"],
             )
             forecast_h_humidity_row.save()
@@ -150,6 +150,7 @@ class Summary:
         forecastDaily = self._request(url, params)
 
         forecastDailyList = forecastDaily["list"]
+        # print(forecastDailyList)
 
         forecast_d_temp = ForecastTable(
             forecast = forecast,
@@ -178,27 +179,28 @@ class Summary:
 
         for i in range(self.forecast_limit):
             day = forecastDailyList[i]
+            print(day)
             forecast_d_temp_row = ForecastRow(
                 value = day["temp"]["day"],
-                forecast_table = forecast_d_temp,
+                forecastTable = forecast_d_temp,
                 time = day["dt"],
             )
             forecast_d_temp_row.save()
             forecast_d_pop_row = ForecastRow(
                 value = day["pop"],
-                forecast_table = forecast_d_pop,
+                forecastTable = forecast_d_pop,
                 time = day["dt"],
             )
             forecast_d_pop_row.save()
             forecast_d_wind_row = ForecastRow(
-                value = day["wind"]["speed"],
-                forecast_table = forecast_d_wind,
+                value = day["speed"],
+                forecastTable = forecast_d_wind,
                 time = day["dt"],
             )
             forecast_d_wind_row.save()
             forecast_d_humidity_row = ForecastRow(
                 value = day["humidity"],
-                forecast_table = forecast_d_humidity,
+                forecastTable = forecast_d_humidity,
                 time = day["dt"],
             )
             forecast_d_humidity_row.save()
@@ -215,6 +217,7 @@ class Summary:
         payload={}
         headers = {}
         response = requests.request("GET", url, headers=headers, data=payload)
+        # print(response.json())
         self.postal_code = response.json()["results"][0]["address_components"][6]["long_name"]
         return self.postal_code
 
@@ -243,7 +246,28 @@ class Summary:
     def get_location(self):
         return self.summary
     def get_past_year(self):
-        pass
+        url = "https://history.openweathermap.org/data/2.5/aggregated/year"
+        data = self._request(url)
+        result = []
+        for i in range(len(data["result"])):
+            result.append({
+                "date": 0,
+                "average_temp": data["result"][i]["temp"]["record_max"],
+                "humidity": data["result"][i]["humidity"]["max"],
+                "pressure": data["result"][i]["pressure"]["max"],
+                "wind_speed": data["result"][i]["wind"]["max"],
+                "pop": data["result"][i]["precipitation"]["mean"],
+                "rain_levels": data["result"][i]["precipitation"]["max"],
+                "weather_name": "",
+                "icon": "",
+                "feels_like": data["result"][i]["temp"]["mean"],
+                "sunrise": 0,
+                "sunset": 0,
+            })
+
+
+        return result
+
     def get_postal_code(self):
         return self.postal_code
 

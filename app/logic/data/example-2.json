@@ -1,0 +1,2695 @@
+[
+  {
+    "dt": 283996800,
+    "dt_iso": "1979-01-01 00:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 291.85,
+      "temp_min": 291.65,
+      "temp_max": 292.05,
+      "feels_like": 291.66,
+      "pressure": 1024,
+      "humidity": 72,
+      "dew_point": 286.7
+    },
+    "clouds": { "all": 87 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04n"
+      }
+    ],
+    "wind": { "speed": 2.77, "deg": 89 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284000400,
+    "dt_iso": "1979-01-01 01:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 291.57,
+      "temp_min": 291.3,
+      "temp_max": 291.83,
+      "feels_like": 291.4,
+      "pressure": 1025,
+      "humidity": 74,
+      "dew_point": 286.86
+    },
+    "clouds": { "all": 100 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04n"
+      }
+    ],
+    "wind": { "speed": 3.14, "deg": 94 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284004000,
+    "dt_iso": "1979-01-01 02:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 291.7,
+      "temp_min": 291.45,
+      "temp_max": 291.95,
+      "feels_like": 291.54,
+      "pressure": 1024,
+      "humidity": 74,
+      "dew_point": 286.98
+    },
+    "clouds": { "all": 100 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04n"
+      }
+    ],
+    "wind": { "speed": 3.18, "deg": 100 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284007600,
+    "dt_iso": "1979-01-01 03:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 288.22,
+      "temp_min": 288.13,
+      "temp_max": 288.31,
+      "feels_like": 288.11,
+      "pressure": 1025,
+      "humidity": 89,
+      "dew_point": 286.42
+    },
+    "clouds": { "all": 20 },
+    "weather": [
+      {
+        "id": 801,
+        "main": "Clouds",
+        "description": "few clouds",
+        "icon": "02n"
+      }
+    ],
+    "visibility": 10000,
+    "wind": { "speed": 0, "deg": 0 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284011200,
+    "dt_iso": "1979-01-01 04:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 288.01,
+      "temp_min": 287.9,
+      "temp_max": 288.12,
+      "feels_like": 287.9,
+      "pressure": 1024,
+      "humidity": 90,
+      "dew_point": 286.39
+    },
+    "clouds": { "all": 97 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04n"
+      }
+    ],
+    "wind": { "speed": 3.12, "deg": 109 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284014800,
+    "dt_iso": "1979-01-01 05:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 287.9,
+      "temp_min": 287.78,
+      "temp_max": 288,
+      "feels_like": 287.81,
+      "pressure": 1023,
+      "humidity": 91,
+      "dew_point": 286.45
+    },
+    "clouds": { "all": 86 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04n"
+      }
+    ],
+    "wind": { "speed": 3.16, "deg": 112 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284018400,
+    "dt_iso": "1979-01-01 06:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 287.77,
+      "temp_min": 287.57,
+      "temp_max": 287.87,
+      "feels_like": 287.72,
+      "pressure": 1024,
+      "humidity": 93,
+      "dew_point": 286.65
+    },
+    "clouds": { "all": 20 },
+    "weather": [
+      {
+        "id": 801,
+        "main": "Clouds",
+        "description": "few clouds",
+        "icon": "02n"
+      }
+    ],
+    "visibility": 10000,
+    "wind": { "speed": 1.5, "deg": 10 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284022000,
+    "dt_iso": "1979-01-01 07:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 287.65,
+      "temp_min": 287.58,
+      "temp_max": 287.71,
+      "feels_like": 287.58,
+      "pressure": 1023,
+      "humidity": 93,
+      "dew_point": 286.53
+    },
+    "clouds": { "all": 57 },
+    "weather": [
+      {
+        "id": 803,
+        "main": "Clouds",
+        "description": "broken clouds",
+        "icon": "04n"
+      }
+    ],
+    "wind": { "speed": 3.34, "deg": 120 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284025600,
+    "dt_iso": "1979-01-01 08:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 287.47,
+      "temp_min": 287.43,
+      "temp_max": 287.5,
+      "feels_like": 287.41,
+      "pressure": 1022,
+      "humidity": 94,
+      "dew_point": 286.52
+    },
+    "clouds": { "all": 48 },
+    "weather": [
+      {
+        "id": 802,
+        "main": "Clouds",
+        "description": "scattered clouds",
+        "icon": "03n"
+      }
+    ],
+    "wind": { "speed": 3.34, "deg": 123 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284029200,
+    "dt_iso": "1979-01-01 09:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 288.12,
+      "temp_min": 287.57,
+      "temp_max": 288.39,
+      "feels_like": 288.18,
+      "pressure": 1022,
+      "humidity": 96,
+      "dew_point": 287.49
+    },
+    "clouds": { "all": 0 },
+    "weather": [
+      {
+        "id": 800,
+        "main": "Clear",
+        "description": "sky is clear",
+        "icon": "01n"
+      }
+    ],
+    "visibility": 10000,
+    "wind": { "speed": 2, "deg": 120 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284032800,
+    "dt_iso": "1979-01-01 10:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 288.41,
+      "temp_min": 286.47,
+      "temp_max": 288.72,
+      "feels_like": 288.5,
+      "pressure": 1022,
+      "humidity": 96,
+      "dew_point": 287.78
+    },
+    "clouds": { "all": 0 },
+    "weather": [
+      {
+        "id": 800,
+        "main": "Clear",
+        "description": "sky is clear",
+        "icon": "01n"
+      }
+    ],
+    "visibility": 10000,
+    "wind": { "speed": 0, "deg": 0 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284036400,
+    "dt_iso": "1979-01-01 11:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 288.57,
+      "temp_min": 288.51,
+      "temp_max": 288.68,
+      "feels_like": 288.65,
+      "pressure": 1021,
+      "humidity": 95,
+      "dew_point": 287.77
+    },
+    "clouds": { "all": 72 },
+    "weather": [
+      {
+        "id": 803,
+        "main": "Clouds",
+        "description": "broken clouds",
+        "icon": "04n"
+      }
+    ],
+    "wind": { "speed": 2, "deg": 130 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284040000,
+    "dt_iso": "1979-01-01 12:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 288.23,
+      "temp_min": 285.97,
+      "temp_max": 288.75,
+      "feels_like": 288.4,
+      "pressure": 1022,
+      "humidity": 100,
+      "dew_point": 288.23
+    },
+    "clouds": { "all": 75 },
+    "weather": [
+      {
+        "id": 803,
+        "main": "Clouds",
+        "description": "broken clouds",
+        "icon": "04n"
+      }
+    ],
+    "visibility": 10000,
+    "wind": { "speed": 0, "deg": 0 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284043600,
+    "dt_iso": "1979-01-01 13:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 288.41,
+      "temp_min": 288.29,
+      "temp_max": 288.58,
+      "feels_like": 288.5,
+      "pressure": 1022,
+      "humidity": 96,
+      "dew_point": 287.78
+    },
+    "clouds": { "all": 93 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04d"
+      }
+    ],
+    "wind": { "speed": 2.8, "deg": 121 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284047200,
+    "dt_iso": "1979-01-01 14:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 288.85,
+      "temp_min": 288.78,
+      "temp_max": 288.94,
+      "feels_like": 288.93,
+      "pressure": 1022,
+      "humidity": 94,
+      "dew_point": 287.89
+    },
+    "clouds": { "all": 82 },
+    "weather": [
+      {
+        "id": 803,
+        "main": "Clouds",
+        "description": "broken clouds",
+        "icon": "04d"
+      }
+    ],
+    "wind": { "speed": 2.89, "deg": 125 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284050800,
+    "dt_iso": "1979-01-01 15:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 297.13,
+      "temp_min": 297.03,
+      "temp_max": 297.22,
+      "feels_like": 297.46,
+      "pressure": 1022,
+      "humidity": 72,
+      "dew_point": 291.77
+    },
+    "clouds": { "all": 83 },
+    "weather": [
+      {
+        "id": 803,
+        "main": "Clouds",
+        "description": "broken clouds",
+        "icon": "04d"
+      }
+    ],
+    "wind": { "speed": 2.75, "deg": 132 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284054400,
+    "dt_iso": "1979-01-01 16:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 297.66,
+      "temp_min": 297.57,
+      "temp_max": 297.71,
+      "feels_like": 297.97,
+      "pressure": 1022,
+      "humidity": 69,
+      "dew_point": 291.6
+    },
+    "clouds": { "all": 99 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04d"
+      }
+    ],
+    "wind": { "speed": 2.99, "deg": 143 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284058000,
+    "dt_iso": "1979-01-01 17:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 298.14,
+      "temp_min": 298.11,
+      "temp_max": 298.17,
+      "feels_like": 298.42,
+      "pressure": 1021,
+      "humidity": 66,
+      "dew_point": 291.35
+    },
+    "clouds": { "all": 92 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04d"
+      }
+    ],
+    "wind": { "speed": 3.29, "deg": 156 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284061600,
+    "dt_iso": "1979-01-01 18:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 298.52,
+      "temp_min": 298.37,
+      "temp_max": 298.77,
+      "feels_like": 298.6,
+      "pressure": 1020,
+      "humidity": 57,
+      "dew_point": 289.39
+    },
+    "clouds": { "all": 20 },
+    "weather": [
+      {
+        "id": 801,
+        "main": "Clouds",
+        "description": "few clouds",
+        "icon": "02d"
+      }
+    ],
+    "visibility": 10000,
+    "wind": { "speed": 5.1, "deg": 190, "gust": 10.2 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284065200,
+    "dt_iso": "1979-01-01 19:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 298.62,
+      "temp_min": 298.55,
+      "temp_max": 298.67,
+      "feels_like": 298.79,
+      "pressure": 1019,
+      "humidity": 60,
+      "dew_point": 290.29
+    },
+    "clouds": { "all": 99 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04d"
+      }
+    ],
+    "wind": { "speed": 3.86, "deg": 180 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284068800,
+    "dt_iso": "1979-01-01 20:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 298.41,
+      "temp_min": 298.26,
+      "temp_max": 298.5,
+      "feels_like": 298.61,
+      "pressure": 1018,
+      "humidity": 62,
+      "dew_point": 290.61
+    },
+    "clouds": { "all": 97 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04d"
+      }
+    ],
+    "wind": { "speed": 3.47, "deg": 183 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284072400,
+    "dt_iso": "1979-01-01 21:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 296.82,
+      "temp_min": 296.46,
+      "temp_max": 298.77,
+      "feels_like": 296.68,
+      "pressure": 1018,
+      "humidity": 55,
+      "dew_point": 287.25
+    },
+    "clouds": { "all": 75 },
+    "weather": [
+      {
+        "id": 803,
+        "main": "Clouds",
+        "description": "broken clouds",
+        "icon": "04d"
+      }
+    ],
+    "visibility": 10000,
+    "wind": { "speed": 4.1, "deg": 160 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284076000,
+    "dt_iso": "1979-01-01 22:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 294.87,
+      "temp_min": 294.81,
+      "temp_max": 294.96,
+      "feels_like": 295.19,
+      "pressure": 1018,
+      "humidity": 80,
+      "dew_point": 291.27
+    },
+    "clouds": { "all": 100 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04d"
+      }
+    ],
+    "wind": { "speed": 1.61, "deg": 168 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284079600,
+    "dt_iso": "1979-01-01 23:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 293.84,
+      "temp_min": 293.47,
+      "temp_max": 294.09,
+      "feels_like": 294.21,
+      "pressure": 1017,
+      "humidity": 86,
+      "dew_point": 291.42
+    },
+    "clouds": { "all": 100 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04n"
+      }
+    ],
+    "wind": { "speed": 1.71, "deg": 166 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284083200,
+    "dt_iso": "1979-01-02 00:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 294.87,
+      "temp_min": 294.4,
+      "temp_max": 295.97,
+      "feels_like": 294.93,
+      "pressure": 1018,
+      "humidity": 70,
+      "dew_point": 289.16
+    },
+    "clouds": { "all": 100 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04n"
+      }
+    ],
+    "visibility": 10000,
+    "wind": { "speed": 3, "deg": 180 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284086800,
+    "dt_iso": "1979-01-02 01:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 295.04,
+      "temp_min": 294.66,
+      "temp_max": 295.31,
+      "feels_like": 295.4,
+      "pressure": 1018,
+      "humidity": 81,
+      "dew_point": 291.63
+    },
+    "clouds": { "all": 100 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04n"
+      }
+    ],
+    "wind": { "speed": 2.43, "deg": 204 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284090400,
+    "dt_iso": "1979-01-02 02:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 294.86,
+      "temp_min": 293.77,
+      "temp_max": 295.07,
+      "feels_like": 295.41,
+      "pressure": 1018,
+      "humidity": 89,
+      "dew_point": 292.97
+    },
+    "clouds": { "all": 100 },
+    "weather": [
+      { "id": 500, "main": "Rain", "description": "light rain", "icon": "10n" },
+      {
+        "id": 300,
+        "main": "Drizzle",
+        "description": "light intensity drizzle",
+        "icon": "09n"
+      }
+    ],
+    "rain": { "1h": 0.11 },
+    "visibility": 8000,
+    "wind": { "speed": 2, "deg": 200 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284094000,
+    "dt_iso": "1979-01-02 03:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 293.16,
+      "temp_min": 292.87,
+      "temp_max": 293.43,
+      "feels_like": 293.62,
+      "pressure": 1017,
+      "humidity": 92,
+      "dew_point": 291.82
+    },
+    "clouds": { "all": 100 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04n"
+      }
+    ],
+    "wind": { "speed": 2.13, "deg": 173 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284097600,
+    "dt_iso": "1979-01-02 04:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 293.06,
+      "temp_min": 292.71,
+      "temp_max": 293.44,
+      "feels_like": 293.51,
+      "pressure": 1017,
+      "humidity": 92,
+      "dew_point": 291.72
+    },
+    "clouds": { "all": 90 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04n"
+      }
+    ],
+    "wind": { "speed": 2.66, "deg": 160 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284101200,
+    "dt_iso": "1979-01-02 05:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 293.28,
+      "temp_min": 292.95,
+      "temp_max": 293.61,
+      "feels_like": 293.67,
+      "pressure": 1017,
+      "humidity": 89,
+      "dew_point": 291.41
+    },
+    "clouds": { "all": 100 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04n"
+      }
+    ],
+    "wind": { "speed": 3.18, "deg": 164 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284104800,
+    "dt_iso": "1979-01-02 06:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 293.46,
+      "temp_min": 293.17,
+      "temp_max": 293.61,
+      "feels_like": 294.05,
+      "pressure": 1016,
+      "humidity": 96,
+      "dew_point": 292.8
+    },
+    "clouds": { "all": 75 },
+    "weather": [
+      {
+        "id": 803,
+        "main": "Clouds",
+        "description": "broken clouds",
+        "icon": "04n"
+      }
+    ],
+    "visibility": 10000,
+    "wind": { "speed": 4.6, "deg": 180 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284108400,
+    "dt_iso": "1979-01-02 07:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 293.39,
+      "temp_min": 293.3,
+      "temp_max": 293.48,
+      "feels_like": 293.77,
+      "pressure": 1016,
+      "humidity": 88,
+      "dew_point": 291.34
+    },
+    "clouds": { "all": 99 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04n"
+      }
+    ],
+    "wind": { "speed": 4.23, "deg": 174 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284112000,
+    "dt_iso": "1979-01-02 08:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 293.27,
+      "temp_min": 293.17,
+      "temp_max": 293.34,
+      "feels_like": 293.66,
+      "pressure": 1015,
+      "humidity": 89,
+      "dew_point": 291.4
+    },
+    "clouds": { "all": 100 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04n"
+      }
+    ],
+    "wind": { "speed": 4.37, "deg": 175 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284115600,
+    "dt_iso": "1979-01-02 09:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 293.01,
+      "temp_min": 292.89,
+      "temp_max": 293.13,
+      "feels_like": 293.38,
+      "pressure": 1015,
+      "humidity": 89,
+      "dew_point": 291.14
+    },
+    "clouds": { "all": 94 },
+    "weather": [
+      { "id": 500, "main": "Rain", "description": "light rain", "icon": "10n" }
+    ],
+    "rain": { "1h": 0.1 },
+    "wind": { "speed": 4.43, "deg": 178 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284119200,
+    "dt_iso": "1979-01-02 10:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 292.41,
+      "temp_min": 292.37,
+      "temp_max": 292.5,
+      "feels_like": 292.77,
+      "pressure": 1015,
+      "humidity": 91,
+      "dew_point": 290.9
+    },
+    "clouds": { "all": 99 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04n"
+      }
+    ],
+    "wind": { "speed": 4.34, "deg": 184 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284122800,
+    "dt_iso": "1979-01-02 11:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 292.84,
+      "temp_min": 292.61,
+      "temp_max": 294.27,
+      "feels_like": 293.21,
+      "pressure": 1014,
+      "humidity": 90,
+      "dew_point": 291.15
+    },
+    "clouds": { "all": 100 },
+    "weather": [
+      { "id": 500, "main": "Rain", "description": "light rain", "icon": "10n" }
+    ],
+    "rain": { "1h": 0.1 },
+    "visibility": 10000,
+    "wind": { "speed": 4.6, "deg": 210 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284126400,
+    "dt_iso": "1979-01-02 12:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 293,
+      "temp_min": 292.81,
+      "temp_max": 294.27,
+      "feels_like": 293.39,
+      "pressure": 1014,
+      "humidity": 90,
+      "dew_point": 291.31
+    },
+    "clouds": { "all": 100 },
+    "weather": [
+      { "id": 500, "main": "Rain", "description": "light rain", "icon": "10n" }
+    ],
+    "rain": { "1h": 0.4 },
+    "visibility": 10000,
+    "wind": { "speed": 4.6, "deg": 210 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284130000,
+    "dt_iso": "1979-01-02 13:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 292.48,
+      "temp_min": 292.45,
+      "temp_max": 292.54,
+      "feels_like": 292.98,
+      "pressure": 1014,
+      "humidity": 96,
+      "dew_point": 291.83
+    },
+    "clouds": { "all": 100 },
+    "weather": [
+      { "id": 500, "main": "Rain", "description": "light rain", "icon": "10d" }
+    ],
+    "rain": { "1h": 0.96 },
+    "wind": { "speed": 5.58, "deg": 181 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284133600,
+    "dt_iso": "1979-01-02 14:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 292.75,
+      "temp_min": 292.56,
+      "temp_max": 293.17,
+      "feels_like": 293.38,
+      "pressure": 1014,
+      "humidity": 100,
+      "dew_point": 292.75
+    },
+    "clouds": { "all": 100 },
+    "weather": [
+      { "id": 741, "main": "Fog", "description": "fog", "icon": "50d" },
+      { "id": 500, "main": "Rain", "description": "light rain", "icon": "10d" }
+    ],
+    "rain": { "1h": 0.99 },
+    "visibility": 4000,
+    "wind": { "speed": 4.1, "deg": 190 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284137200,
+    "dt_iso": "1979-01-02 15:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 288.62,
+      "temp_min": 288.42,
+      "temp_max": 288.79,
+      "feels_like": 288.76,
+      "pressure": 1015,
+      "humidity": 97,
+      "dew_point": 288.15
+    },
+    "clouds": { "all": 100 },
+    "weather": [
+      {
+        "id": 501,
+        "main": "Rain",
+        "description": "moderate rain",
+        "icon": "10d"
+      }
+    ],
+    "rain": { "1h": 1.89 },
+    "wind": { "speed": 4.95, "deg": 220 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284140800,
+    "dt_iso": "1979-01-02 16:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 289.19,
+      "temp_min": 289.13,
+      "temp_max": 289.25,
+      "feels_like": 289.41,
+      "pressure": 1016,
+      "humidity": 98,
+      "dew_point": 288.87
+    },
+    "clouds": { "all": 100 },
+    "weather": [
+      {
+        "id": 501,
+        "main": "Rain",
+        "description": "moderate rain",
+        "icon": "10d"
+      }
+    ],
+    "rain": { "1h": 1.75 },
+    "wind": { "speed": 5.58, "deg": 285 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284144400,
+    "dt_iso": "1979-01-02 17:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 290.2,
+      "temp_min": 290.07,
+      "temp_max": 290.39,
+      "feels_like": 290.52,
+      "pressure": 1017,
+      "humidity": 98,
+      "dew_point": 289.88
+    },
+    "clouds": { "all": 100 },
+    "weather": [
+      {
+        "id": 501,
+        "main": "Rain",
+        "description": "moderate rain",
+        "icon": "10d"
+      }
+    ],
+    "rain": { "1h": 2.47 },
+    "wind": { "speed": 5.51, "deg": 311 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284148000,
+    "dt_iso": "1979-01-02 18:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 288.16,
+      "temp_min": 285.55,
+      "temp_max": 290.44,
+      "feels_like": 288.28,
+      "pressure": 1018,
+      "humidity": 98,
+      "dew_point": 287.85
+    },
+    "clouds": { "all": 100 },
+    "weather": [
+      {
+        "id": 502,
+        "main": "Rain",
+        "description": "heavy intensity rain",
+        "icon": "10d"
+      }
+    ],
+    "rain": { "1h": 5.66 },
+    "wind": { "speed": 5.11, "deg": 304 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284151600,
+    "dt_iso": "1979-01-02 19:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 284.23,
+      "temp_min": 283.41,
+      "temp_max": 285.27,
+      "feels_like": 283.93,
+      "pressure": 1018,
+      "humidity": 97,
+      "dew_point": 283.77
+    },
+    "clouds": { "all": 100 },
+    "weather": [
+      { "id": 500, "main": "Rain", "description": "light rain", "icon": "10d" }
+    ],
+    "rain": { "1h": 0.8 },
+    "wind": { "speed": 4.34, "deg": 298 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284155200,
+    "dt_iso": "1979-01-02 20:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 284.35,
+      "temp_min": 283.97,
+      "temp_max": 284.66,
+      "feels_like": 284.08,
+      "pressure": 1018,
+      "humidity": 98,
+      "dew_point": 284.05
+    },
+    "clouds": { "all": 100 },
+    "weather": [
+      { "id": 500, "main": "Rain", "description": "light rain", "icon": "10d" }
+    ],
+    "rain": { "1h": 0.37 },
+    "wind": { "speed": 4.13, "deg": 297 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284158800,
+    "dt_iso": "1979-01-02 21:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 282.3,
+      "temp_min": 281.61,
+      "temp_max": 282.79,
+      "feels_like": 279.28,
+      "pressure": 1019,
+      "humidity": 92,
+      "dew_point": 281.07
+    },
+    "clouds": { "all": 100 },
+    "weather": [
+      { "id": 500, "main": "Rain", "description": "light rain", "icon": "10d" }
+    ],
+    "rain": { "1h": 0.44 },
+    "visibility": 10000,
+    "wind": { "speed": 6.1, "deg": 300, "gust": 10.8 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284162400,
+    "dt_iso": "1979-01-02 22:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 277.52,
+      "temp_min": 276.29,
+      "temp_max": 279.27,
+      "feels_like": 272.78,
+      "pressure": 1022,
+      "humidity": 85,
+      "dew_point": 275.22
+    },
+    "clouds": { "all": 100 },
+    "weather": [
+      { "id": 500, "main": "Rain", "description": "light rain", "icon": "10d" }
+    ],
+    "rain": { "1h": 0.42 },
+    "visibility": 10000,
+    "wind": { "speed": 7.2, "deg": 300, "gust": 14.4 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284166000,
+    "dt_iso": "1979-01-02 23:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 276.04,
+      "temp_min": 275.37,
+      "temp_max": 276.76,
+      "feels_like": 271.24,
+      "pressure": 1024,
+      "humidity": 95,
+      "dew_point": 275.32
+    },
+    "clouds": { "all": 97 },
+    "weather": [
+      { "id": 500, "main": "Rain", "description": "light rain", "icon": "10n" }
+    ],
+    "rain": { "1h": 0.41 },
+    "wind": { "speed": 6.3, "deg": 307 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284169600,
+    "dt_iso": "1979-01-03 00:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 275.65,
+      "temp_min": 275.32,
+      "temp_max": 275.98,
+      "feels_like": 271.05,
+      "pressure": 1025,
+      "humidity": 93,
+      "dew_point": 274.63
+    },
+    "clouds": { "all": 86 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04n"
+      }
+    ],
+    "wind": { "speed": 5.62, "deg": 309 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284173200,
+    "dt_iso": "1979-01-03 01:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 275.74,
+      "temp_min": 275.46,
+      "temp_max": 276,
+      "feels_like": 271.13,
+      "pressure": 1026,
+      "humidity": 89,
+      "dew_point": 274.11
+    },
+    "clouds": { "all": 28 },
+    "weather": [
+      {
+        "id": 802,
+        "main": "Clouds",
+        "description": "scattered clouds",
+        "icon": "03n"
+      }
+    ],
+    "wind": { "speed": 5.69, "deg": 309 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284176800,
+    "dt_iso": "1979-01-03 02:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 276.07,
+      "temp_min": 275.75,
+      "temp_max": 276.34,
+      "feels_like": 271.48,
+      "pressure": 1027,
+      "humidity": 76,
+      "dew_point": 272.37
+    },
+    "clouds": { "all": 4 },
+    "weather": [
+      {
+        "id": 800,
+        "main": "Clear",
+        "description": "sky is clear",
+        "icon": "01n"
+      }
+    ],
+    "wind": { "speed": 5.84, "deg": 311 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284180400,
+    "dt_iso": "1979-01-03 03:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 272.08,
+      "temp_min": 271.7,
+      "temp_max": 272.67,
+      "feels_like": 266.84,
+      "pressure": 1029,
+      "humidity": 66,
+      "dew_point": 267.17
+    },
+    "clouds": { "all": 0 },
+    "weather": [
+      {
+        "id": 800,
+        "main": "Clear",
+        "description": "sky is clear",
+        "icon": "01n"
+      }
+    ],
+    "visibility": 10000,
+    "wind": { "speed": 5.1, "deg": 310 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284184000,
+    "dt_iso": "1979-01-03 04:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 271.76,
+      "temp_min": 271.46,
+      "temp_max": 272.02,
+      "feels_like": 266.24,
+      "pressure": 1029,
+      "humidity": 51,
+      "dew_point": 263.9
+    },
+    "clouds": { "all": 0 },
+    "weather": [
+      {
+        "id": 800,
+        "main": "Clear",
+        "description": "sky is clear",
+        "icon": "01n"
+      }
+    ],
+    "wind": { "speed": 5.43, "deg": 316 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284187600,
+    "dt_iso": "1979-01-03 05:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 271.59,
+      "temp_min": 271.38,
+      "temp_max": 271.79,
+      "feels_like": 266.16,
+      "pressure": 1030,
+      "humidity": 50,
+      "dew_point": 263.52
+    },
+    "clouds": { "all": 0 },
+    "weather": [
+      {
+        "id": 800,
+        "main": "Clear",
+        "description": "sky is clear",
+        "icon": "01n"
+      }
+    ],
+    "wind": { "speed": 5.2, "deg": 319 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284191200,
+    "dt_iso": "1979-01-03 06:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 271.56,
+      "temp_min": 271.36,
+      "temp_max": 271.75,
+      "feels_like": 266.38,
+      "pressure": 1031,
+      "humidity": 50,
+      "dew_point": 263.49
+    },
+    "clouds": { "all": 0 },
+    "weather": [
+      {
+        "id": 800,
+        "main": "Clear",
+        "description": "sky is clear",
+        "icon": "01n"
+      }
+    ],
+    "wind": { "speed": 4.79, "deg": 322 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284194800,
+    "dt_iso": "1979-01-03 07:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 271.58,
+      "temp_min": 271.37,
+      "temp_max": 271.76,
+      "feels_like": 266.99,
+      "pressure": 1031,
+      "humidity": 50,
+      "dew_point": 263.51
+    },
+    "clouds": { "all": 0 },
+    "weather": [
+      {
+        "id": 800,
+        "main": "Clear",
+        "description": "sky is clear",
+        "icon": "01n"
+      }
+    ],
+    "wind": { "speed": 3.93, "deg": 330 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284198400,
+    "dt_iso": "1979-01-03 08:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 271.62,
+      "temp_min": 271.4,
+      "temp_max": 271.81,
+      "feels_like": 267.36,
+      "pressure": 1030,
+      "humidity": 50,
+      "dew_point": 263.55
+    },
+    "clouds": { "all": 0 },
+    "weather": [
+      {
+        "id": 800,
+        "main": "Clear",
+        "description": "sky is clear",
+        "icon": "01n"
+      }
+    ],
+    "wind": { "speed": 3.52, "deg": 335 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284202000,
+    "dt_iso": "1979-01-03 09:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 272.06,
+      "temp_min": 271.85,
+      "temp_max": 272.23,
+      "feels_like": 267.59,
+      "pressure": 1031,
+      "humidity": 35,
+      "dew_point": 259.98
+    },
+    "clouds": { "all": 0 },
+    "weather": [
+      {
+        "id": 800,
+        "main": "Clear",
+        "description": "sky is clear",
+        "icon": "01n"
+      }
+    ],
+    "wind": { "speed": 3.91, "deg": 332 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284205600,
+    "dt_iso": "1979-01-03 10:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 267.95,
+      "temp_min": 267.7,
+      "temp_max": 268.15,
+      "feels_like": 262.74,
+      "pressure": 1033,
+      "humidity": 53,
+      "dew_point": 260.74
+    },
+    "clouds": { "all": 0 },
+    "weather": [
+      {
+        "id": 800,
+        "main": "Clear",
+        "description": "sky is clear",
+        "icon": "01n"
+      }
+    ],
+    "wind": { "speed": 3.69, "deg": 332 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284209200,
+    "dt_iso": "1979-01-03 11:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 267.9,
+      "temp_min": 267.63,
+      "temp_max": 268.11,
+      "feels_like": 262.94,
+      "pressure": 1034,
+      "humidity": 53,
+      "dew_point": 260.69
+    },
+    "clouds": { "all": 0 },
+    "weather": [
+      {
+        "id": 800,
+        "main": "Clear",
+        "description": "sky is clear",
+        "icon": "01n"
+      }
+    ],
+    "wind": { "speed": 3.41, "deg": 329 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284212800,
+    "dt_iso": "1979-01-03 12:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 267.84,
+      "temp_min": 267.61,
+      "temp_max": 268.02,
+      "feels_like": 262.83,
+      "pressure": 1035,
+      "humidity": 54,
+      "dew_point": 260.84
+    },
+    "clouds": { "all": 31 },
+    "weather": [
+      {
+        "id": 802,
+        "main": "Clouds",
+        "description": "scattered clouds",
+        "icon": "03n"
+      }
+    ],
+    "wind": { "speed": 3.45, "deg": 329 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284216400,
+    "dt_iso": "1979-01-03 13:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 267.91,
+      "temp_min": 267.74,
+      "temp_max": 268.12,
+      "feels_like": 262.76,
+      "pressure": 1036,
+      "humidity": 56,
+      "dew_point": 261.31
+    },
+    "clouds": { "all": 42 },
+    "weather": [
+      {
+        "id": 802,
+        "main": "Clouds",
+        "description": "scattered clouds",
+        "icon": "03d"
+      }
+    ],
+    "wind": { "speed": 3.61, "deg": 326 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284220000,
+    "dt_iso": "1979-01-03 14:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 268.18,
+      "temp_min": 268,
+      "temp_max": 268.38,
+      "feels_like": 262.45,
+      "pressure": 1037,
+      "humidity": 56,
+      "dew_point": 261.56
+    },
+    "clouds": { "all": 21 },
+    "weather": [
+      {
+        "id": 801,
+        "main": "Clouds",
+        "description": "few clouds",
+        "icon": "02d"
+      }
+    ],
+    "wind": { "speed": 4.39, "deg": 333 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284223600,
+    "dt_iso": "1979-01-03 15:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 274.26,
+      "temp_min": 272.67,
+      "temp_max": 274.65,
+      "feels_like": 269.06,
+      "pressure": 1037,
+      "humidity": 55,
+      "dew_point": 267.01
+    },
+    "clouds": { "all": 20 },
+    "weather": [
+      {
+        "id": 801,
+        "main": "Clouds",
+        "description": "few clouds",
+        "icon": "02d"
+      }
+    ],
+    "visibility": 10000,
+    "wind": { "speed": 6.1, "deg": 320, "gust": 10.8 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284227200,
+    "dt_iso": "1979-01-03 16:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 274.48,
+      "temp_min": 273.17,
+      "temp_max": 274.89,
+      "feels_like": 269.34,
+      "pressure": 1038,
+      "humidity": 53,
+      "dew_point": 266.76
+    },
+    "clouds": { "all": 20 },
+    "weather": [
+      {
+        "id": 801,
+        "main": "Clouds",
+        "description": "few clouds",
+        "icon": "02d"
+      }
+    ],
+    "visibility": 10000,
+    "wind": { "speed": 6.1, "deg": 100 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284230800,
+    "dt_iso": "1979-01-03 17:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 274.99,
+      "temp_min": 274.74,
+      "temp_max": 275.24,
+      "feels_like": 270.75,
+      "pressure": 1037,
+      "humidity": 43,
+      "dew_point": 264.78
+    },
+    "clouds": { "all": 0 },
+    "weather": [
+      {
+        "id": 800,
+        "main": "Clear",
+        "description": "sky is clear",
+        "icon": "01d"
+      }
+    ],
+    "wind": { "speed": 4.61, "deg": 342 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284234400,
+    "dt_iso": "1979-01-03 18:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 275.3,
+      "temp_min": 275.06,
+      "temp_max": 275.53,
+      "feels_like": 271.06,
+      "pressure": 1036,
+      "humidity": 43,
+      "dew_point": 265.03
+    },
+    "clouds": { "all": 29 },
+    "weather": [
+      {
+        "id": 802,
+        "main": "Clouds",
+        "description": "scattered clouds",
+        "icon": "03d"
+      }
+    ],
+    "wind": { "speed": 4.75, "deg": 344 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284238000,
+    "dt_iso": "1979-01-03 19:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 275.53,
+      "temp_min": 275.27,
+      "temp_max": 275.78,
+      "feels_like": 271.45,
+      "pressure": 1035,
+      "humidity": 43,
+      "dew_point": 265.22
+    },
+    "clouds": { "all": 22 },
+    "weather": [
+      {
+        "id": 801,
+        "main": "Clouds",
+        "description": "few clouds",
+        "icon": "02d"
+      }
+    ],
+    "wind": { "speed": 4.57, "deg": 348 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284241600,
+    "dt_iso": "1979-01-03 20:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 275.96,
+      "temp_min": 275.24,
+      "temp_max": 279.27,
+      "feels_like": 271.7,
+      "pressure": 1035,
+      "humidity": 33,
+      "dew_point": 262.57
+    },
+    "clouds": { "all": 75 },
+    "weather": [
+      {
+        "id": 803,
+        "main": "Clouds",
+        "description": "broken clouds",
+        "icon": "04d"
+      }
+    ],
+    "visibility": 10000,
+    "wind": { "speed": 5.1, "deg": 360 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284245200,
+    "dt_iso": "1979-01-03 21:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 277.77,
+      "temp_min": 277.45,
+      "temp_max": 278.17,
+      "feels_like": 274.79,
+      "pressure": 1035,
+      "humidity": 44,
+      "dew_point": 267.31
+    },
+    "clouds": { "all": 20 },
+    "weather": [
+      {
+        "id": 801,
+        "main": "Clouds",
+        "description": "few clouds",
+        "icon": "02d"
+      }
+    ],
+    "visibility": 10000,
+    "wind": { "speed": 3.6, "deg": 340 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284248800,
+    "dt_iso": "1979-01-03 22:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 274.62,
+      "temp_min": 274.4,
+      "temp_max": 274.83,
+      "feels_like": 271.37,
+      "pressure": 1035,
+      "humidity": 49,
+      "dew_point": 265.97
+    },
+    "clouds": { "all": 88 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04d"
+      }
+    ],
+    "wind": { "speed": 3.06, "deg": 360 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284252400,
+    "dt_iso": "1979-01-03 23:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 274.07,
+      "temp_min": 273.88,
+      "temp_max": 274.17,
+      "feels_like": 271.41,
+      "pressure": 1035,
+      "humidity": 49,
+      "dew_point": 265.52
+    },
+    "clouds": { "all": 45 },
+    "weather": [
+      {
+        "id": 802,
+        "main": "Clouds",
+        "description": "scattered clouds",
+        "icon": "03n"
+      }
+    ],
+    "wind": { "speed": 2.31, "deg": 358 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284256000,
+    "dt_iso": "1979-01-04 00:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 273.85,
+      "temp_min": 273.69,
+      "temp_max": 273.99,
+      "feels_like": 270.96,
+      "pressure": 1036,
+      "humidity": 49,
+      "dew_point": 265.34
+    },
+    "clouds": { "all": 5 },
+    "weather": [
+      {
+        "id": 800,
+        "main": "Clear",
+        "description": "sky is clear",
+        "icon": "01n"
+      }
+    ],
+    "wind": { "speed": 2.5, "deg": 1 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284259600,
+    "dt_iso": "1979-01-04 01:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 273.83,
+      "temp_min": 273.71,
+      "temp_max": 274,
+      "feels_like": 270.66,
+      "pressure": 1037,
+      "humidity": 48,
+      "dew_point": 265.09
+    },
+    "clouds": { "all": 0 },
+    "weather": [
+      {
+        "id": 800,
+        "main": "Clear",
+        "description": "sky is clear",
+        "icon": "01n"
+      }
+    ],
+    "wind": { "speed": 2.78, "deg": 3 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284263200,
+    "dt_iso": "1979-01-04 02:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 273.79,
+      "temp_min": 273.53,
+      "temp_max": 273.93,
+      "feels_like": 270.48,
+      "pressure": 1037,
+      "humidity": 47,
+      "dew_point": 264.81
+    },
+    "clouds": { "all": 0 },
+    "weather": [
+      {
+        "id": 800,
+        "main": "Clear",
+        "description": "sky is clear",
+        "icon": "01n"
+      }
+    ],
+    "wind": { "speed": 2.93, "deg": 4 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284266800,
+    "dt_iso": "1979-01-04 03:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 271.55,
+      "temp_min": 271.07,
+      "temp_max": 272.67,
+      "feels_like": 267.21,
+      "pressure": 1037,
+      "humidity": 68,
+      "dew_point": 267
+    },
+    "clouds": { "all": 20 },
+    "weather": [
+      {
+        "id": 801,
+        "main": "Clouds",
+        "description": "few clouds",
+        "icon": "02n"
+      }
+    ],
+    "visibility": 10000,
+    "wind": { "speed": 3.6, "deg": 20 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284270400,
+    "dt_iso": "1979-01-04 04:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 271.15,
+      "temp_min": 270.81,
+      "temp_max": 271.36,
+      "feels_like": 267.34,
+      "pressure": 1038,
+      "humidity": 60,
+      "dew_point": 265.17
+    },
+    "clouds": { "all": 0 },
+    "weather": [
+      {
+        "id": 800,
+        "main": "Clear",
+        "description": "sky is clear",
+        "icon": "01n"
+      }
+    ],
+    "wind": { "speed": 2.9, "deg": 8 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284274000,
+    "dt_iso": "1979-01-04 05:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 270.95,
+      "temp_min": 270.69,
+      "temp_max": 271.1,
+      "feels_like": 267.07,
+      "pressure": 1038,
+      "humidity": 60,
+      "dew_point": 264.98
+    },
+    "clouds": { "all": 6 },
+    "weather": [
+      {
+        "id": 800,
+        "main": "Clear",
+        "description": "sky is clear",
+        "icon": "01n"
+      }
+    ],
+    "wind": { "speed": 2.93, "deg": 8 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284277600,
+    "dt_iso": "1979-01-04 06:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 270.96,
+      "temp_min": 270.64,
+      "temp_max": 272.17,
+      "feels_like": 267.02,
+      "pressure": 1038,
+      "humidity": 84,
+      "dew_point": 268.89
+    },
+    "clouds": { "all": 0 },
+    "weather": [
+      {
+        "id": 800,
+        "main": "Clear",
+        "description": "sky is clear",
+        "icon": "01n"
+      }
+    ],
+    "visibility": 10000,
+    "wind": { "speed": 3, "deg": 20 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284281200,
+    "dt_iso": "1979-01-04 07:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 270.66,
+      "temp_min": 270.55,
+      "temp_max": 270.83,
+      "feels_like": 266.29,
+      "pressure": 1037,
+      "humidity": 61,
+      "dew_point": 264.89
+    },
+    "clouds": { "all": 80 },
+    "weather": [
+      {
+        "id": 803,
+        "main": "Clouds",
+        "description": "broken clouds",
+        "icon": "04n"
+      }
+    ],
+    "wind": { "speed": 3.4, "deg": 13 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284284800,
+    "dt_iso": "1979-01-04 08:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 270.63,
+      "temp_min": 270.51,
+      "temp_max": 270.82,
+      "feels_like": 266.4,
+      "pressure": 1037,
+      "humidity": 61,
+      "dew_point": 264.87
+    },
+    "clouds": { "all": 92 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04n"
+      }
+    ],
+    "wind": { "speed": 3.24, "deg": 17 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284288400,
+    "dt_iso": "1979-01-04 09:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 271.32,
+      "temp_min": 271.14,
+      "temp_max": 271.57,
+      "feels_like": 267.24,
+      "pressure": 1037,
+      "humidity": 57,
+      "dew_point": 264.75
+    },
+    "clouds": { "all": 95 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04n"
+      }
+    ],
+    "wind": { "speed": 3.23, "deg": 18 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284292000,
+    "dt_iso": "1979-01-04 10:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 270.39,
+      "temp_min": 270.2,
+      "temp_max": 270.62,
+      "feels_like": 266.11,
+      "pressure": 1037,
+      "humidity": 59,
+      "dew_point": 264.26
+    },
+    "clouds": { "all": 97 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04n"
+      }
+    ],
+    "wind": { "speed": 3.24, "deg": 14 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284295600,
+    "dt_iso": "1979-01-04 11:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 270.31,
+      "temp_min": 270.12,
+      "temp_max": 270.54,
+      "feels_like": 265.98,
+      "pressure": 1039,
+      "humidity": 58,
+      "dew_point": 263.99
+    },
+    "clouds": { "all": 98 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04n"
+      }
+    ],
+    "wind": { "speed": 3.27, "deg": 12 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284299200,
+    "dt_iso": "1979-01-04 12:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 270.55,
+      "temp_min": 270.22,
+      "temp_max": 271.57,
+      "feels_like": 265.6,
+      "pressure": 1038,
+      "humidity": 74,
+      "dew_point": 267.01
+    },
+    "clouds": { "all": 75 },
+    "weather": [
+      {
+        "id": 803,
+        "main": "Clouds",
+        "description": "broken clouds",
+        "icon": "04n"
+      }
+    ],
+    "visibility": 10000,
+    "wind": { "speed": 4.1, "deg": 40 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284302800,
+    "dt_iso": "1979-01-04 13:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 270.34,
+      "temp_min": 270.18,
+      "temp_max": 270.52,
+      "feels_like": 265.75,
+      "pressure": 1039,
+      "humidity": 58,
+      "dew_point": 264.02
+    },
+    "clouds": { "all": 83 },
+    "weather": [
+      {
+        "id": 803,
+        "main": "Clouds",
+        "description": "broken clouds",
+        "icon": "04d"
+      }
+    ],
+    "wind": { "speed": 3.58, "deg": 22 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284306400,
+    "dt_iso": "1979-01-04 14:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 270.6,
+      "temp_min": 270.48,
+      "temp_max": 270.72,
+      "feels_like": 265.93,
+      "pressure": 1039,
+      "humidity": 59,
+      "dew_point": 264.46
+    },
+    "clouds": { "all": 96 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04d"
+      }
+    ],
+    "wind": { "speed": 3.75, "deg": 27 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284310000,
+    "dt_iso": "1979-01-04 15:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 278.15,
+      "temp_min": 275.37,
+      "temp_max": 278.82,
+      "feels_like": 275.25,
+      "pressure": 1040,
+      "humidity": 67,
+      "dew_point": 272.61
+    },
+    "clouds": { "all": 75 },
+    "weather": [
+      {
+        "id": 803,
+        "main": "Clouds",
+        "description": "broken clouds",
+        "icon": "04d"
+      }
+    ],
+    "visibility": 10000,
+    "wind": { "speed": 3.6, "deg": 60 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284313600,
+    "dt_iso": "1979-01-04 16:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 280.66,
+      "temp_min": 280.33,
+      "temp_max": 281.06,
+      "feels_like": 278.34,
+      "pressure": 1040,
+      "humidity": 38,
+      "dew_point": 267.93
+    },
+    "clouds": { "all": 98 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04d"
+      }
+    ],
+    "wind": { "speed": 3.55, "deg": 33 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284317200,
+    "dt_iso": "1979-01-04 17:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 281.15,
+      "temp_min": 280.67,
+      "temp_max": 281.67,
+      "feels_like": 279.04,
+      "pressure": 1039,
+      "humidity": 39,
+      "dew_point": 268.63
+    },
+    "clouds": { "all": 100 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04d"
+      }
+    ],
+    "wind": { "speed": 3.36, "deg": 39 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284320800,
+    "dt_iso": "1979-01-04 18:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 281.33,
+      "temp_min": 280.83,
+      "temp_max": 281.97,
+      "feels_like": 278.42,
+      "pressure": 1038,
+      "humidity": 43,
+      "dew_point": 269.92
+    },
+    "clouds": { "all": 75 },
+    "weather": [
+      {
+        "id": 803,
+        "main": "Clouds",
+        "description": "broken clouds",
+        "icon": "04d"
+      }
+    ],
+    "visibility": 10000,
+    "wind": { "speed": 5.1, "deg": 40 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284324400,
+    "dt_iso": "1979-01-04 19:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 281.44,
+      "temp_min": 280.84,
+      "temp_max": 282.07,
+      "feels_like": 279.28,
+      "pressure": 1037,
+      "humidity": 41,
+      "dew_point": 269.45
+    },
+    "clouds": { "all": 100 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04d"
+      }
+    ],
+    "wind": { "speed": 3.56, "deg": 42 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284328000,
+    "dt_iso": "1979-01-04 20:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 281.46,
+      "temp_min": 280.83,
+      "temp_max": 282.11,
+      "feels_like": 279.24,
+      "pressure": 1036,
+      "humidity": 43,
+      "dew_point": 270.03
+    },
+    "clouds": { "all": 98 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04d"
+      }
+    ],
+    "wind": { "speed": 3.68, "deg": 43 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284331600,
+    "dt_iso": "1979-01-04 21:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 280.61,
+      "temp_min": 280.03,
+      "temp_max": 281.19,
+      "feels_like": 278.21,
+      "pressure": 1036,
+      "humidity": 56,
+      "dew_point": 272.5
+    },
+    "clouds": { "all": 83 },
+    "weather": [
+      {
+        "id": 803,
+        "main": "Clouds",
+        "description": "broken clouds",
+        "icon": "04d"
+      }
+    ],
+    "wind": { "speed": 3.66, "deg": 48 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284335200,
+    "dt_iso": "1979-01-04 22:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 280.1,
+      "temp_min": 279.51,
+      "temp_max": 280.71,
+      "feels_like": 278.05,
+      "pressure": 1036,
+      "humidity": 62,
+      "dew_point": 273.33
+    },
+    "clouds": { "all": 88 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04d"
+      }
+    ],
+    "wind": { "speed": 2.93, "deg": 39 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284338800,
+    "dt_iso": "1979-01-04 23:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 279.86,
+      "temp_min": 279.14,
+      "temp_max": 280.61,
+      "feels_like": 277.68,
+      "pressure": 1036,
+      "humidity": 65,
+      "dew_point": 273.75
+    },
+    "clouds": { "all": 89 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04n"
+      }
+    ],
+    "wind": { "speed": 3.05, "deg": 24 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284342400,
+    "dt_iso": "1979-01-05 00:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 279.91,
+      "temp_min": 279.27,
+      "temp_max": 280.63,
+      "feels_like": 277.77,
+      "pressure": 1036,
+      "humidity": 67,
+      "dew_point": 274.22
+    },
+    "clouds": { "all": 100 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04n"
+      }
+    ],
+    "visibility": 10000,
+    "wind": { "speed": 3, "deg": 40 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284346000,
+    "dt_iso": "1979-01-05 01:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 280.24,
+      "temp_min": 279.63,
+      "temp_max": 280.87,
+      "feels_like": 277.68,
+      "pressure": 1037,
+      "humidity": 65,
+      "dew_point": 274.11
+    },
+    "clouds": { "all": 96 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04n"
+      }
+    ],
+    "wind": { "speed": 3.8, "deg": 23 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284349600,
+    "dt_iso": "1979-01-05 02:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 279.98,
+      "temp_min": 279.25,
+      "temp_max": 280.7,
+      "feels_like": 277.33,
+      "pressure": 1037,
+      "humidity": 65,
+      "dew_point": 273.87
+    },
+    "clouds": { "all": 93 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04n"
+      }
+    ],
+    "wind": { "speed": 3.87, "deg": 20 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  },
+  {
+    "dt": 284353200,
+    "dt_iso": "1979-01-05 03:00:00 +0000 UTC",
+    "timezone": -18000,
+    "main": {
+      "temp": 277.14,
+      "temp_min": 276.45,
+      "temp_max": 277.82,
+      "feels_like": 273.83,
+      "pressure": 1037,
+      "humidity": 77,
+      "dew_point": 273.48
+    },
+    "clouds": { "all": 100 },
+    "weather": [
+      {
+        "id": 804,
+        "main": "Clouds",
+        "description": "overcast clouds",
+        "icon": "04n"
+      }
+    ],
+    "wind": { "speed": 3.9, "deg": 23 },
+    "lat": 29.651634,
+    "city_name": "Gainesville",
+    "lon": -82.324826
+  }
+]

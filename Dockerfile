@@ -1,4 +1,5 @@
-FROM python:3.9-alpine3.13
+# FROM python:3.9-alpine3.13
+FROM python:3.10-alpine3.13
 # use alpine version of python, lightweight image of python
 # apline package manager is called 'apk'
 
