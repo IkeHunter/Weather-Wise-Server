@@ -48,6 +48,7 @@ class WeatherHeap:
     # Order the heap by specified parameter
     def orderHeap(self, parameter: Parameter) -> None:
         self.size = len(self.days)
+        self.param = parameter
         for i in range(int(self.size / 2), -1, -1):
             self.heapifyDown(parameter, i)
 
@@ -72,7 +73,6 @@ class WeatherHeap:
             return
 
         index = i
-        curr_data = self.days[index]
 
         # Find node with smallest value within context
         match parameter:
@@ -84,10 +84,10 @@ class WeatherHeap:
                                         index, 'humidity', Comp.GREATER)
             case Parameter.HOT:
                 index = self.comparator(float('-inf'), left_child, right_child,
-                                        index, 'average_temp', Comp.GREATER)
+                                        index, "average_temp", Comp.GREATER)
             case Parameter.COLD:
                 index = self.comparator(float('inf'), left_child, right_child,
-                                        index, 'average_temp', Comp.LESSER)
+                                        index, "average_temp", Comp.LESSER)
             case Parameter.SUNR:
                 index = self.comparator(0, left_child, right_child,
                                         index, 'sunrise', Comp.GREATER)
@@ -95,12 +95,12 @@ class WeatherHeap:
                 index = self.comparator(86400, left_child, right_child,
                                         index, 'sunset', Comp.LESSER)
 
-        if index == i:
+        if index is i:
             return
 
         self.days[i], self.days[index] = self.days[index], self.days[i]
 
-        self.heapifyDown(parameter, i)
+        self.heapifyDown(parameter, index)
 
     # Compare values and returns an index of the element that satisfies the conditions given
     # comp will determine if we are checking for a max or min value
@@ -118,37 +118,38 @@ class WeatherHeap:
         match comp:
             case Comp.GREATER:
                 if param in left_data:
-                    if param is Parameter.SUNR:
+                    if self.param is Parameter.SUNR:
                         if start < left_data[param] % 86400:
                             start = left_data[param] % 86400
                             index = left
-                    elif start < left_data[param]:
+                    if left_data[param] > start:
                         start = left_data[param]
                         index = left
 
-                if param in right_data:
-                    if param is Parameter.SUNR:
+                if right < self.size and param in right_data:
+                    if self.param is Parameter.SUNR:
                         if start < right_data[param] % 86400:
                             start = right_data[param] % 86400
                             index = right
-                    elif start < right_data[param]:
+                    if right_data[param] > start:
                         index = right
+
             case Comp.LESSER:
                 if param in left_data:
-                    if param is Parameter.SUNS:
+                    if self.param is Parameter.SUNS:
                         if start > left_data[param] % 86400:
                             start = left_data[param] % 86400
                             index = left
-                    elif start > left_data[param]:
+                    if start > left_data[param]:
                         start = left_data[param]
                         index = left
 
-                if param in right_data:
+                if right < self.size and param in right_data:
                     if param is Parameter.SUNS:
                         if start > right_data[param] % 86400:
                             start = right_data[param] % 86400
                             index = right
-                    elif start > right_data[param]:
+                    if start > right_data[param]:
                         index = right
 
         return index
@@ -178,47 +179,3 @@ class WeatherHeap:
             self.days.append(weather[i])
 
         self.orderHeap(param)
-
-
-# # Testing Purposes
-
-days = [{'id': 3, 'widget_title': 'top_result', 'date': 1578384000, 'location_id': 2, 'average_temp': 10, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 4, 'widget_title': 'top_result', 'date': 1578384000, 'location_id': 2, 'average_temp': 10, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 40, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 13, 'widget_title': 'top_result', 'date': 1679609699, 'location_id': 2, 'average_temp': 10, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 14, 'widget_title': 'search_results', 'date': 1677194099, 'location_id': 2, 'average_temp': 10, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 15, 'widget_title': 'search_results', 'date': 1674515699, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 16, 'widget_title': 'search_results', 'date': 1697494499, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {
-    'id': 17, 'widget_title': 'search_results', 'date': 1697321699, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 18, 'widget_title': 'search_results', 'date': 1694729699, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 19, 'widget_title': 'search_results', 'date': 1692051299, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 20, 'widget_title': 'search_results', 'date': 1689372899, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 21, 'widget_title': 'search_results', 'date': 1686780899, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}, {'id': 22, 'widget_title': 'search_results', 'date': 1684102499, 'location_id': 2, 'average_temp': 0, 'feels_like': 1, 'pressure': 2, 'humidity': 3, 'wind_speed': 4, 'pop': 5, 'rain_levels': 6, 'sunrise': 1684059299, 'sunset': 1684106099, 'weather_name': 'Rain', 'icon': '10n'}]
-#
-#
-# apiKey = '11d1d9e83f342ffd3863eec2bdabe3a8'
-# date = 1618525688
-# lat = '33.44'
-# lon = '-94.04'
-
-# Checking if API call works
-# url = 'https://api.openweathermap.org/data/3.0/onecall?lat=' + \
-#    lat + '&lon=' + lon + '&appid=' + apiKey
-# https: // api.openweathermap.org/data/3.0/onecall/timemachine?lat = 39.099724 & lon = -94.578331 & dt = 1643803200 & appid = {API key}
-
-# days = []
-# for i in range(50):
-#     # The next day is date + 86400
-#     date += 86400
-#     url = 'https://api.openweathermap.org/data/3.0/onecall/timemachine?lat=' + \
-#         lat + '&lon=' + lon + '&dt=' + str(date) + '&appid=' + apiKey
-#     payload = {}
-#     headers = {}
-#     response = requests.request("GET", url, headers=headers, data=payload)
-#     weatherDict = json.loads(response.text)
-#     sunrise = weatherDict['data'][0]['sunrise'] % 86400
-#     sunset = weatherDict['data'][0]['sunset'] % 86400
-#     weatherDict['data'][0]['sunrise'] = sunrise
-#     weatherDict['data'][0]['sunset'] = sunset
-#     days.append(weatherDict)
-
-# heap = WeatherHeap(days, Parameter.SUNR)
-# print("\nSORTED BY LOCAL SUNRISE\n")
-# heap.print()
-#
-# print("\n Top 5 Day\n")
-# print(heap.top(5))
-#
-# print("\n Reset Heap \n")
-# heap.orderHeap(Parameter.HOT)
-# heap.print()
