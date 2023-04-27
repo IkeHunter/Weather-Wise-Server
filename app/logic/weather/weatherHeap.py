@@ -56,7 +56,8 @@ class WeatherHeap:
     def pop(self):
         top = self.days[0]
         # Switch the first and last elements of the list
-        self.days[0], self.days[-1] = self.days[-1], self.days[0]
+        self.days[0], self.days[self.size -
+                                1] = self.days[self.size - 1], self.days[0]
         self.size = self.size - 1
         self.heapifyDown(self.param, 0)
 
