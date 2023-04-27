@@ -14,6 +14,7 @@ class Page(models.Model):
     location = models.IntegerField(default=32608)
     user = models.IntegerField(default=0)
     page_title = models.CharField(max_length=64, default='Summary')
+    city = models.CharField(max_length=64, default='Gainesville')
 
     def __str__(self):
         return self.page_title + " for " + str(self.location)

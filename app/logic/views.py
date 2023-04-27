@@ -1,7 +1,7 @@
 """
 Views for Logic api
 """
-# from django.shortcuts import render
+
 import json
 from django.http import HttpResponse
 from rest_framework import viewsets
@@ -16,37 +16,32 @@ from .api import Summary
 from .data import Archive
 
 from .weather import BPlusTree, WeatherHeap, Parameter as heap_type
-# from .weather import heap
+
 
 ORDER = 30
 
 summary = Summary()
 archive = Archive()
-# heap = WeatherHeap()
 btree = BPlusTree()
 
 def Initialize(request):
     latitude = request.GET.get('lat')
     longitude = request.GET.get('long')
-    # print(request.GET)
-    # print(latitude, " ", longitude)
+
     summary.set_location(latitude, longitude)
     postal_code = summary.get_postal_code()
-    if not SearchLog.objects.filter(location=summary.get_postal_code()).exists():
+    print("initializing for " + str(postal_code))
+    if not SearchLog.objects.filter(location=postal_code).exists():
+        print("Creating new SearchLog for " + str(postal_code))
         summary.create_summary()
         yearDays = summary.get_past_year()
         create_mini_widgets(yearDays)
 
-
-
-    archive.create_archive()
     package = {
         "success": "true",
         "postal_code": summary.get_postal_code(),
     }
     return HttpResponse(json.dumps(package), content_type="application/json")
-    # return Response(package.json())
-
 
 class SummaryViewSet(viewsets.ModelViewSet):
     """
@@ -56,12 +51,10 @@ class SummaryViewSet(viewsets.ModelViewSet):
     # TODO: create model for widgets from json result
     """
 
-    # yearDays = summary.get_past_year()
-
-
     queryset = Page.objects.filter(
         page_title="summary"
     ).order_by('location')
+    # print(queryset)
     serializer_class = PageSerializer
 
 class ResultsViewSet(viewsets.ModelViewSet):
@@ -82,33 +75,17 @@ class ResultsViewSet(viewsets.ModelViewSet):
         @param request: start, end, temperature, precipitation, humidity, location
         @return: list of days
         """
-        # allDays = archive.get_all_days()
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
-        # content = body['content']
+
         content = body
-        print(content)
         allDays = archive.get_time_period(start=content["start"], end=content["end"])
         btree.create(allDays, ORDER)
 
         results: json = btree.find(average_temp=int(content["temperature"]), precipitation=int(content["precipitation"]), humidity=int(content["humidity"]))
         results = json.dumps(results)
-        # queryset = Conditions.objects.filter(
-        #     Q(widget_title="top_result") | Q(widget_title="search_results"),
-        # ).order_by('location').values()  # returns json
 
-        # serializer_class = SearchResultsSerializer
-        # return Response(results)
         return HttpResponse(results, content_type="application/json")
-
-def get_list_of_days(request):
-    # request: todate, fromdate, temperature, precipitation, humidity
-    # functionality: take
-
-    # days = bPlusTree.get_list_of_days(todate=request.data["todate"], fromdate=request.data["fromdate"], temperature=request.data["temperature"], precipitation=request.data["precipitation"], humidity=request.data["humidity"])
-
-    # returns: dict of days
-    pass
 
 def create_mini_widgets(yearDays):
     """
@@ -117,7 +94,7 @@ def create_mini_widgets(yearDays):
         muggiest_day, earliest_sunrise, latest_sunset, earliest_sunset
     """
     heap = WeatherHeap()
-    # print(yearDays)
+
     heap.create(yearDays=yearDays, param=heap_type.HOT)
     widgets = {
         "hottest_day": json,
@@ -125,10 +102,7 @@ def create_mini_widgets(yearDays):
         "rainiest_day": json,
         "latest_sunrise": json,
         "muggiest_day": json,
-        # "earliest_sunset": json,
-        # "latest_sunrise": json,
     }
-
 
     widgets["hottest_day"] = heap.find(1)
     heap.orderHeap(heap_type.COLD)
@@ -139,15 +113,10 @@ def create_mini_widgets(yearDays):
     widgets["latest_sunrise"] = heap.find(1)
     heap.orderHeap(heap_type.HUMID)
     widgets["muggiest_day"] = heap.find(1)
-    # heap.orderHeap(heap_type.SUNS)
-    # widgets["earliest_sunset"] = heap.find(1)
-    # heap.orderHeap(heap_type.SUNR)
-    # widgets["latest_sunrise"] = heap.find(1)
 
     for [widget, data] in widgets.items():
-        # print("data: ")
-        # data = json.dumps(data)
         data = json.loads(data)[0]
+        # print(data)
 
         condition = Conditions.objects.create(
             widget_title=widget,
@@ -164,6 +133,7 @@ def create_mini_widgets(yearDays):
             icon=data["icon"],
         )
         condition.save()
+        # print(condition)
 
 
 

@@ -8,7 +8,6 @@ from . import views
 router = routers.DefaultRouter()
 router.register(r'summary', views.SummaryViewSet)
 router.register(r'search', views.ResultsViewSet, basename='search')
-# router.register(r'initialize', views.Initialize, basename='initialize')
 
 urlpatterns = [
     path('', include(router.urls)),

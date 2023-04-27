@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Page, Conditions, Forecast, ForecastRow, ForecastTable
+from .models import Page, Conditions, Forecast, ForecastRow, ForecastTable, SearchLog
 
 class ConditionsInline(admin.StackedInline):
     model = Conditions
@@ -25,7 +25,6 @@ class ForecastTableAdmin(admin.ModelAdmin):
 class ForecastAdmin(admin.ModelAdmin):
     inlines = [ ForecastTableInline ]
 
-# @admin.register(SearchResults)
-# class SearchResultsAdmin(admin.ModelAdmin):
-#     inlines = [ ConditionsInline ]
+
+admin.site.register(SearchLog)
 
