@@ -89,6 +89,15 @@ CORS_ALLOWED_ORIGINS = [
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# CSFR_TRUSTED_ORIGINS = [
+#     'http://localhost:4200',
+#     'https://localhost:4200',
+#     'https://weatherwise.cloud'
+# ]
+# CSRF_COOKIE_SECURE = False
+# CSRF_COOKIE_HTTPONLY = False
+# SESSION_COOKIE_SECURE = False
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',

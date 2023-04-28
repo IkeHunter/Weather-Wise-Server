@@ -42,8 +42,10 @@ class Conditions(models.Model):
     pressure = models.IntegerField(default=2)
     humidity = models.IntegerField(default=3)
     wind_speed = models.IntegerField(default=4)
-    pop = models.IntegerField(default=5)
-    rain_levels = models.IntegerField(default=6)
+    # pop = models.IntegerField(default=5)
+    pop = models.DecimalField(max_digits=3, decimal_places=2, default=0.0)
+    # rain_levels = models.IntegerField(default=6)
+    rain_levels = models.DecimalField(max_digits=3, decimal_places=2, default=0.0)
 
     sunrise = models.BigIntegerField(default=1684059299)
     sunset = models.BigIntegerField(default=1684106099)
@@ -69,7 +71,8 @@ class ForecastTable(models.Model):
 
 class ForecastRow(models.Model):
     """Row model for forecast table"""
-    value = models.IntegerField()
+    # value = models.IntegerField()
+    value = models.FloatField(default=0.0)
     time = models.BigIntegerField()
     forecastTable = models.ForeignKey(ForecastTable, on_delete=models.CASCADE)
 

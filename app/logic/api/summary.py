@@ -20,6 +20,16 @@ class Summary:
         self.postal_code = 0
         # self.widget_period = 28944000
 
+    def _get_rain_levels(self, data):
+        if "rain" in data:
+            if "3h" in data["rain"]:
+                return data["rain"]["3h"]
+            elif "1h" in data["rain"]:
+                return data["rain"]["1h"]
+            # return data["rain"]["3h"]
+        else:
+            return 0
+
     def _request(self, url, params="") -> json:
         url = url + f"?lat={self.lat}&lon={self.long}{params}&appid={self.key}"
         payload={}
@@ -33,6 +43,7 @@ class Summary:
 
         data = self._request(url)
         hourly = self._request(hourlyUrl)
+        print("rain: ", hourly["list"][0]["pop"])
 
         current_conditions = Conditions(
             location = self.summary,
@@ -44,7 +55,7 @@ class Summary:
             humidity = data["main"]["humidity"],
             wind_speed = data["wind"]["speed"],
             pop = hourly["list"][0]["pop"],
-            rain_levels = -1,
+            rain_levels = 0 if "rain" not in hourly["list"][0] else hourly["list"][0]["rain"]["3h"],
             sunrise = data["sys"]["sunrise"],
             sunset = data["sys"]["sunset"],
         )
@@ -68,7 +79,8 @@ class Summary:
             humidity = data["list"][0]["main"]["humidity"],
             wind_speed = data["list"][0]["wind"]["speed"],
             pop = -1,
-            rain_levels = 0 if "rain" not in data["list"][0] else data["list"][0]["rain"]["1h"],
+            # rain_levels = 0 if "rain" not in data["list"][0] else data["list"][0]["rain"]["1h"],
+            rain_levels = self._get_rain_levels(data["list"][0]),
             sunrise = 0,
             sunset = 0,
             weather_name = data["list"][0]["weather"][0]["main"],
@@ -96,12 +108,14 @@ class Summary:
                 "humidity": day["main"]["humidity"],
                 "wind_speed": day["wind"]["speed"],
                 "pop": -1,
-                "rain_levels": 0 if "rain" not in data["list"][0] else data["list"][0]["rain"]["1h"],
+                # "rain_levels": 0 if "rain" not in data["list"][0] else data["list"][0]["rain"]["1h"],
+                "rain_levels": self._get_rain_levels(data["list"][0]),
                 "sunrise": 0,
                 "sunset": 0,
                 "weather_name": day["weather"][0]["main"],
                 "icon": day["weather"][0]["icon"],
             })
+        print("feels like", result[0]["feels_like"])
 
         return result
         # url = "https://history.openweathermap.org/data/2.5/aggregated/year"
@@ -269,11 +283,14 @@ class Summary:
         response = requests.request("GET", url, headers=headers, data=payload)
         # print(response.json())
         self.postal_code = response.json()["results"][0]["address_components"][6]["long_name"]
+        self.city_name = response.json()["results"][0]["address_components"][2]["long_name"]
         return self.postal_code
+
 
     def set_location(self, lat, long):
         self.lat = lat
         self.long = long
+        self._get_postal_code()
         # self.summary = Page(
         #     location = self._get_postal_code(),
         #     page_title="summary"
@@ -289,7 +306,8 @@ class Summary:
         #     return
         self.summary = Page(
             location = self._get_postal_code(),
-            page_title="summary"
+            page_title="summary",
+            city = self.city_name,
         )
         self.summary.save()
         self._fetch_current_conditions()
@@ -328,5 +346,21 @@ class Summary:
 
     def get_postal_code(self):
         return self.postal_code
+    def get_lat(self):
+        return self.lat
+    def get_long(self):
+        return self.long
+
+    def set_location_postal(self, postal):
+        url = f"http://api.openweathermap.org/geo/1.0/zip?zip={postal}&appid={self.key}"
+        payload={}
+        headers = {}
+        response = requests.request("GET", url, headers=headers, data=payload)
+        # print(response.json())
+        # self.postal_code = response.json()["results"][0]["address_components"][6]["long_name"]
+        self.lat = response.json()["lat"]
+        self.long = response.json()["lon"]
+        self.postal_code = postal
+        # return self.postal_code
 
 

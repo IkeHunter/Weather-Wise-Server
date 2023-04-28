@@ -20,11 +20,12 @@ from .weather import BPlusTree, WeatherHeap, Parameter as heap_type
 
 ORDER = 30
 
-summary = Summary()
+# summary = Summary()
 archive = Archive()
 btree = BPlusTree()
 
 def Initialize(request):
+    summary = Summary()
     latitude = request.GET.get('lat')
     longitude = request.GET.get('long')
 
@@ -35,10 +36,27 @@ def Initialize(request):
         print("Creating new SearchLog for " + str(postal_code))
         summary.create_summary()
         yearDays = summary.get_past_year()
-        create_mini_widgets(yearDays)
+        create_mini_widgets(yearDays, summary)
 
     package = {
         "success": "true",
+        "postal_code": summary.get_postal_code(),
+    }
+    return HttpResponse(json.dumps(package), content_type="application/json")
+
+def ChangeLocation(request):
+    postal_code = request.GET.get('postal-code')
+    summary = Summary()
+    summary.set_location_postal(postal_code)
+    if not SearchLog.objects.filter(location=postal_code).exists():
+        print("Creating new SearchLog for " + str(postal_code))
+        summary.create_summary()
+        yearDays = summary.get_past_year()
+        create_mini_widgets(yearDays, summary)
+    package = {
+        "success": "true",
+        "latitude": summary.get_lat(),
+        "longitude": summary.get_long(),
         "postal_code": summary.get_postal_code(),
     }
     return HttpResponse(json.dumps(package), content_type="application/json")
@@ -87,13 +105,14 @@ class ResultsViewSet(viewsets.ModelViewSet):
 
         return HttpResponse(results, content_type="application/json")
 
-def create_mini_widgets(yearDays):
+def create_mini_widgets(yearDays, summary: Summary):
     """
     Widgets:
         hottest_day, coldest_day, rainiest_day, latest_sunrise,
         muggiest_day, earliest_sunrise, latest_sunset, earliest_sunset
     """
     heap = WeatherHeap()
+    print("year days: " + str(len(yearDays)))
 
     heap.create(yearDays=yearDays, param=heap_type.HOT)
     widgets = {
@@ -123,6 +142,7 @@ def create_mini_widgets(yearDays):
             location=summary.get_location(),
             date=int(data["date"]),
             average_temp=int(data["average_temp"]),
+            feels_like=int(data["feels_like"]),
             pop=int(data["pop"]),
             humidity=int(data["humidity"]),
             sunrise=int(data["sunrise"]),
