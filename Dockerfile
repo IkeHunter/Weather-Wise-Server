@@ -11,6 +11,7 @@ ENV PYTHONUNBUFFERED 1
 
 COPY ./requirements.txt /tmp/requirements.txt
 COPY ./requirements.dev.txt /tmp/requirements.dev.txt
+COPY ./scripts /scripts
 COPY ./app /app
 WORKDIR /app
 EXPOSE 8000
@@ -24,7 +25,7 @@ RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
     apk add --update --no-cache postgresql-client && \
     apk add --update --no-cache --virtual .tmp-build-deps \
-        postgresql-dev gcc python3-dev musl-dev && \
+        postgresql-dev gcc python3-dev musl-dev linux-headers && \
     /py/bin/pip install -r /tmp/requirements.txt && \
     if [ $DEV = "true" ]; \
         then /py/bin/pip install -r /tmp/requirements.dev.txt ; \
@@ -34,7 +35,12 @@ RUN python -m venv /py && \
     adduser \
         -D \
         -H \
-        django-user
+        django-user && \
+    mkdir -p /vol/web/media && \
+    mkdir -p /vol/web/static && \
+    chown -R django-user:django-user /vol && \
+    chmod -R 755 /vol && \
+    chmod -R +x /scripts
 # creates a new image layer with multiple commands
 # 1. create virtual env
 # 2. install and upgrade pip inside virtual env
@@ -50,8 +56,10 @@ RUN python -m venv /py && \
     # 7b. no need to make new home directory for user, keep lightweight
     # 7c. name the user, can name it anything
 
-ENV PATH="/py/bin:$PATH"
+ENV PATH="/scripts:/py/bin:$PATH"
 # updates env variable with PATH
 
 USER django-user
 # specifies user to switch to, switches from root user to new django-user
+
+CMD ["run.sh"]
